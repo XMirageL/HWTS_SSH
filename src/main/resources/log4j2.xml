@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <!--输出到控制台-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <!--输出到文件-->
+        <File name="File_Trace" fileName="${sys:catalina.home}/log/Trace.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <!--制定输出com包中的logger-->
+        <Logger name="sys_out" level="debug">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!--忽略hibernate等第三方包的日志-->
+        <Root level="OFF">
+        </Root>
+
+    </Loggers>
+</Configuration>

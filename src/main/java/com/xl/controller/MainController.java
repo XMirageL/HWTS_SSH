@@ -1,27 +1,15 @@
 package com.xl.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.xl.dao.MainDao;
-import com.xl.dao.MainDaoImpl;
-import com.xl.service.MainService;
-import com.xl.utils.ExcelUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /***
  * 本类主要是用来查询数据再显示视图的，任何需要显示视图的页面都需要通过本类显示，不可以直接跳转过去
@@ -29,13 +17,10 @@ import java.util.Map;
  */
 @Controller
 public class MainController {
-
-    @Autowired
-    private MainService mainService;
+    private Logger logger = LogManager.getLogger("sys_out");
 
     /***
      * 显示首页
-     * @return
      */
     @GetMapping(value = "")
     public String index() {
@@ -57,15 +42,15 @@ public class MainController {
 
         // 遍历数组,获得具体的Cookie
         if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                // 获得具体的Cookie
-                Cookie cookie = cookies[i];
+            for (Cookie cookie:cookies
+                 ) {
                 // 获得Cookie的名称
                 String name = cookie.getName();
                 String value = cookie.getValue();
                 if(name.equals("userType")){
                     userType = value;
                     flag = true;
+                    logger.debug("用户自动登录成功 UserType:"+userType);
                 }
                 session.setAttribute(name,value);
             }
@@ -89,9 +74,8 @@ public class MainController {
     public String loginOut(HttpSession httpSession,HttpServletRequest request,HttpServletResponse response) {
         // 获得当前路径以及"直接父路径"的所有Cookie对象,如果没有任何Cookie的话,则返回null
         Cookie[] cookies = request.getCookies();
-        for (int i = 0; i < cookies.length; i++) {
-            // 获得具体的Cookie
-            Cookie cookie = cookies[i];
+        for (Cookie cookie:cookies
+             ) {
             // 获得Cookie的名称
 //            String name = cookie.getName();
 //            String value = cookie.getValue();
@@ -106,7 +90,6 @@ public class MainController {
     /**
      * 根据用户类型返回相应的界面
      *
-     * @return
      */
     @GetMapping(value = "/taskInfo")
     public String taskInfo(HttpSession session) {
@@ -123,7 +106,6 @@ public class MainController {
     /**
      * 404页面
      *
-     * @return
      */
     @GetMapping(value = "/404")
     public String Error404(HttpSession session) {
@@ -135,7 +117,6 @@ public class MainController {
     /**
      * TEST测试
      *
-     * @return
      */
     @GetMapping(value = "/test")
     public String testNew(HttpSession session) {

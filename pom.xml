@@ -4,41 +4,6 @@
   <groupId>hwts_ssh</groupId>
   <artifactId>hwts_ssh</artifactId>
   <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>hwts_ssh</name>
-  <url>http://maven.apache.org</url>
-
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <!-- poi版本号 -->
-    <poi.version>3.12</poi.version>
-    <!-- spring版本号 -->
-    <spring.version>4.3.1.RELEASE</spring.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.8</java.version>
-    <springVersion>4.3.1.RELEASE</springVersion>
-    <hibernateVersion>5.2.15.Final</hibernateVersion>
-    <jstlVersion>1.2</jstlVersion>
-    <taglibVersion>1.1.2</taglibVersion>
-    <servletVersion>3.0-alpha-1</servletVersion>
-    <jsonVersion>1.9.13</jsonVersion>
-    <jacksonVersion>2.5.0</jacksonVersion>
-    <mysqlVersion>6.0.6</mysqlVersion>
-    <c3p0Version>0.9.1.2</c3p0Version>
-    <log4jVersion>1.2.17</log4jVersion>
-    <fileuploadVersion>1.3.1</fileuploadVersion>
-    <lombokVersion>1.16.10</lombokVersion>
-  </properties>
-
-
-  <!--   依赖从这开始
-   <dependencies>是所有依赖包的父级标签
-   其中每添加一个依赖包，就加一个<dependency>标签
-   这里已经默认添加了一个测试包，我们需要把所有用到的依赖全部进来
-   (用到每个包的依赖信息需要自己找，下面是这个demo需要的依赖包)
-   -->
-  <!--项目依赖 -->
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -116,10 +81,12 @@
 
     <!-- log4j配置, 视情况添加-->
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
       <version>${log4jVersion}</version>
     </dependency>
+
+
 
     <!--文件 上传-->
     <dependency>
@@ -217,6 +184,41 @@
 
 
   </dependencies>
+  <version>1.0-SNAPSHOT</version>
+  <name>hwts_ssh</name>
+
+  <url>http://maven.apache.org</url>
+
+
+  <!--   依赖从这开始
+   <dependencies>是所有依赖包的父级标签
+   其中每添加一个依赖包，就加一个<dependency>标签
+   这里已经默认添加了一个测试包，我们需要把所有用到的依赖全部进来
+   (用到每个包的依赖信息需要自己找，下面是这个demo需要的依赖包)
+   -->
+  <!--项目依赖 -->
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <!-- poi版本号 -->
+    <poi.version>3.12</poi.version>
+    <!-- spring版本号 -->
+    <spring.version>4.3.1.RELEASE</spring.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+    <springVersion>4.3.1.RELEASE</springVersion>
+    <hibernateVersion>5.2.15.Final</hibernateVersion>
+    <jstlVersion>1.2</jstlVersion>
+    <taglibVersion>1.1.2</taglibVersion>
+    <servletVersion>3.0-alpha-1</servletVersion>
+    <jsonVersion>1.9.13</jsonVersion>
+    <jacksonVersion>2.5.0</jacksonVersion>
+    <mysqlVersion>6.0.6</mysqlVersion>
+    <c3p0Version>0.9.1.2</c3p0Version>
+    <log4jVersion>2.11.0</log4jVersion>
+    <fileuploadVersion>1.3.1</fileuploadVersion>
+    <lombokVersion>1.16.10</lombokVersion>
+  </properties>
 
   <build>
     <finalName>hwts_ssh</finalName>
