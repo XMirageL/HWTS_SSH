@@ -63,4 +63,9 @@ public class MainRepositoryImpl implements MainRepository{
         long l =(long)getSession().save(o);
         return l;
     }
+
+    @Override
+    public void update(Object o) {
+        getSession().update(o);
+    }
 }

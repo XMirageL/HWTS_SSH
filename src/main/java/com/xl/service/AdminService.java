@@ -1,5 +1,6 @@
 package com.xl.service;
 
+import com.xl.entity.THngyWorkTask;
 import org.springframework.http.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,6 @@ public interface AdminService {
      * @param workText 任务详情
      * @param teacher 管理员指定的多个教师,以","隔开
      * @param qq 发布任务的管理员的qq
-     * @return
      */
     String saveTaskTeacherLinkInfo(String workName, String teacher, String workText, String qq);
 
@@ -65,4 +65,10 @@ public interface AdminService {
      * @return json数据
      */
     String getTaskInfoForAdmin(long id);
+
+    /**
+     * 编辑保存任务，更新任务的数据
+     * @return 状态码
+     */
+    String updateTask(THngyWorkTask workTask);
 }

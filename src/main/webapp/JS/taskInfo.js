@@ -86,7 +86,7 @@ $("#saveInfo").click(function () {
             }, function () {
                 $.ajax({
                     type: "POST",
-                    url: "/editSaveTask",
+                    url: "/updateTask",
                     error: function () {
                         //服务器返回失败调用的方法
                         alert("服务器错误");

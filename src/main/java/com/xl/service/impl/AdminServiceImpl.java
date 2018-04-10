@@ -243,5 +243,17 @@ public class AdminServiceImpl implements AdminService {
         String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(listWork));
         return json;
     }
+
+    /**
+     * 编辑保存任务，更新任务的数据
+     *
+     * @param workTask
+     * @return 状态码
+     */
+    @Override
+    public String updateTask(THngyWorkTask workTask) {
+        mainRepository.update(workTask);
+        return "100";
+    }
 }
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -43,11 +42,11 @@ public class AdminAjaxController {
     @ResponseBody
     public String modifyAdminInfo(HttpSession session, String email, String qq, String pwd) {
         String code = Config.Code201;
-        if(email.length()>0&&qq.length()>0){
+        if (email.length() > 0 && qq.length() > 0) {
             String id = String.valueOf(session.getAttribute("id"));
-            code = adminService.updateAdminInfo(id,email,qq,pwd);
+            code = adminService.updateAdminInfo(id, email, qq, pwd);
         }
-        return  code;
+        return code;
     }
 
     /**
@@ -64,11 +63,11 @@ public class AdminAjaxController {
     public String insertIssueTasks(String workName, String teacher, String workText, String qq) {
         String statusCode = Config.Code201;
         String taskId = "";
-        if(workName.length()>0 && teacher.length() > 0 && workText.length()>0 && qq.length()>0){
-            taskId = adminService.saveTaskTeacherLinkInfo(workName,teacher,workText,qq);
+        if (workName.length() > 0 && teacher.length() > 0 && workText.length() > 0 && qq.length() > 0) {
+            taskId = adminService.saveTaskTeacherLinkInfo(workName, teacher, workText, qq);
             statusCode = Config.Code200;
         }
-        String json = "{\"sCode\":\""+statusCode+"\",\"taskId\":\""+taskId+"\"}";
+        String json = "{\"sCode\":\"" + statusCode + "\",\"taskId\":\"" + taskId + "\"}";
         System.out.println(json);
         return json;
     }
@@ -83,29 +82,31 @@ public class AdminAjaxController {
      * @param workState 工作状态
      * @return
      */
-    @RequestMapping(value = "/editSaveTask")
+    @RequestMapping(value = "/updateTask")
     @ResponseBody
-    public String editSaveTask(String workId, String workName, String workText, String qq, String workState, String workTime) {
-        MainDao dao = new MainDaoImpl();
+    public String updateTask(String workId, String workName, String workText, String qq, String workState, String workTime) {
+        if (workId.length() > 0 || workName.length() > 0 && workText.length() > 0 && qq.length() > 0
+                && workState.length() > 0 && workTime.length() > 0) {
+            System.out.println(workName + "\n" + workText + "\n" + qq + "\n" + workState + "\n");
+            THngyWorkTask tHngyWorkTask = new THngyWorkTask();
+            tHngyWorkTask.setWorkTaskId(Long.parseLong(workId));
+            tHngyWorkTask.setWorkTaskName(workName);
+            tHngyWorkTask.setWorkTaskText(workText);
+            tHngyWorkTask.setWorkTaskSchedule(workState);
+            tHngyWorkTask.setQq(qq);
+            tHngyWorkTask.setWorkTaskTime(java.sql.Date.valueOf(workTime));
+            int M = Integer.parseInt(workTime.substring(5, 7));
+            if (M < 2 && M > 8)//上学期
+            {
+                tHngyWorkTask.setWorkTaskTerm("上学期");
+            } else//下学期
+            {
+                tHngyWorkTask.setWorkTaskTerm("下学期");
+            }
 
-        System.out.println(workName + "\n" + workText + "\n" + qq + "\n" + workState + "\n");
-        THngyWorkTask tHngyWorkTask = new THngyWorkTask();
-        tHngyWorkTask.setWorkTaskId(Long.parseLong(workId));
-        tHngyWorkTask.setWorkTaskName(workName);
-        tHngyWorkTask.setWorkTaskText(workText);
-        tHngyWorkTask.setWorkTaskSchedule(workState);
-        tHngyWorkTask.setQq(qq);
-        tHngyWorkTask.setWorkTaskTime(java.sql.Date.valueOf(workTime));
-        int M = Integer.parseInt(workTime.substring(5, 7));
-        if (M < 2 && M > 8)//上学期
-        {
-            tHngyWorkTask.setWorkTaskTerm("上学期");
-        } else//下学期
-        {
-            tHngyWorkTask.setWorkTaskTerm("下学期");
+            return adminService.updateTask(tHngyWorkTask);
         }
-
-        return dao.updataTask(tHngyWorkTask);
+        return "101";
     }
 
     /***
