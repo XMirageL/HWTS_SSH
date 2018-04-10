@@ -3,6 +3,7 @@
 
 制作团队:湖南工院软件协会移软团队<br>
 HNGYWorkTaskSystem_SSH
+Spring+Spring-mvc+Hibernate
 
 ![HNGY](http://cdn.dkfirst.cn/taskinfo.png "教师任务分发系统 beta")  
 
