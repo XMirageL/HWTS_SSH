@@ -4,6 +4,8 @@ import com.xl.entity.THngyWorkTask;
 import org.springframework.http.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +40,10 @@ public interface AdminService {
 
 
     /***
-     * 获取全部教师当前学期工作状态
-     * 将List放入request中,前台调用
+     * 根据时间获取教师工作状态(查询时间内完成任务数)
+     * @return 报表
      */
-    void getTeacherWrokStatus(HttpServletRequest req);
+    List<Map<String, Object>> teacherReportsQuery(Date date1,Date date2);
 
     /***
      * Excel批量注册 教师信息
@@ -71,4 +73,15 @@ public interface AdminService {
      * @return 状态码
      */
     String updateTask(THngyWorkTask workTask);
+
+    /**
+     * 根据时间查询工作报表
+     * @return 表单集合
+     */
+    List<Map<String, Object>> taskReportsQuery(Date date1,Date date2);
+
+    /**
+     * 根据时间查询工作报表
+     */
+    void downloadReports(HttpServletResponse response,List<Map<String, Object>> list, String fileName, String columnNames[], String keys[]);
 }

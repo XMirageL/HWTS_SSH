@@ -125,16 +125,35 @@ public class AdminAjaxController {
      * @param hyear 学期
      * @return
      */
+    @RequestMapping(value = "taskQuery",produces="text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String taskQuery(String year,String hyear){
+        String dateStr1 = year+("上学期".equals(hyear)?"-02-01":"-08-01");
+        String dateStr2 = ("上学期".equals(hyear)?year+"-08-01":String.valueOf(Integer.parseInt(year)+1)+"-02-01");
+        java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
+        java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
+        //输出
+        System.out.println(date1+"\n"+date2);
+        String json = JSONArray.toJSONString(adminService.taskReportsQuery(date1,date2));
+        System.out.println(json);
+        return json;
+    }
+
+    /***
+     * 根据时间查询用户工作报表
+     * @param year 年
+     * @param hyear 学期
+     * @return
+     */
     @RequestMapping(value = "teacherQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
     public String teacherQuery(String year, String hyear) {
-        MainDao dao = new MainDaoImpl();
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
         String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) + "-02-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         System.out.println(date1 + "\n" + date2);
-        List<Map<String, Object>> list = dao.QueryUserID_Name_WorkCount(date1, date2);
+        List<Map<String, Object>> list = adminService.teacherReportsQuery(date1,date2);
         if (list == null) {
             return "101";
         }

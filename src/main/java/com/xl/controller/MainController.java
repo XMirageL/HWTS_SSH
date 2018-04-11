@@ -94,7 +94,6 @@ public class MainController {
     @GetMapping(value = "/taskInfo")
     public String taskInfo(HttpSession session) {
         String userType = (String) session.getAttribute("userType");
-        System.out.println(userType);
 
         if (userType.equals("0")) {
             return "taskInfo_admin";

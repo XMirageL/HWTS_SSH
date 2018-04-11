@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -115,33 +115,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /***
-     * 获取全部教师当前学期工作状态
-     * 将List放入request中,前台调用
-     * @param req
+     * 根据时间获取教师工作状态(查询时间内完成任务数)
+     * @return 报表
      */
     @Override
-    public void getTeacherWrokStatus(HttpServletRequest req) {
-        //获取当前时间
-        String time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        int M = Integer.parseInt((String) time.subSequence(5, 7));
-        int Y = Integer.parseInt((String) time.subSequence(0, 4));
-        String dateStr1 = null;
-        String dateStr2 = null;
-        if (M < 2 && M > 8)//下学期
-        {
-            dateStr1 = String.valueOf(Y) + "-08-01";
-            dateStr2 = String.valueOf(Y + 1) + "-02-01";
-        } else//上学期
-        {
-            dateStr1 = String.valueOf(Y) + "-02-01";
-            dateStr2 = String.valueOf(Y) + "-08-01";
-
-        }
-        //将字符串转为数据库能识别的时间
-        java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
-        java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
-        System.out.println(date1 + "\n" + date2);
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    public List<Map<String, Object>> teacherReportsQuery(java.sql.Date date1, java.sql.Date date2) {
+        List<Map<String, Object>> list = new ArrayList<>();
 
         //查没有任务的
         String hql = "select teacher.teacherId,teacher.teacherName from THngyTeacherInfo as teacher where teacher.teacherId not in (select link.teacherId from THngyLink as link,THngyWorkTask as work where link.workTaskId=work.workTaskId and work.workTaskTime>=? and work.workTaskTime<=?)";
@@ -167,7 +146,7 @@ public class AdminServiceImpl implements AdminService {
             map.put("unfinished", object1[3]);
             list.add(map);
         }
-        req.setAttribute("allTeacherInfo", list);
+        return list;
     }
 
     /***
@@ -239,7 +218,7 @@ public class AdminServiceImpl implements AdminService {
     public String getTaskInfoForAdmin(long id) {
         String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work.workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = teacher.teacherId and work.workTaskId = ? order by work.workTaskTime desc";
         Object[] objects = {id};
-        List<Object[]> listWork = mainRepository.complexQuery(objects,hql);
+        List<Object[]> listWork = mainRepository.complexQuery(objects, hql);
         String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(listWork));
         return json;
     }
@@ -254,6 +233,62 @@ public class AdminServiceImpl implements AdminService {
     public String updateTask(THngyWorkTask workTask) {
         mainRepository.update(workTask);
         return "100";
+    }
+
+    /**
+     * 根据时间查询工作报表
+     *
+     * @param date1
+     * @param date2
+     * @return 表单集合
+     */
+    @Override
+    public List<Map<String, Object>> taskReportsQuery(java.sql.Date date1, java.sql.Date date2) {
+        String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work.workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = teacher.teacherId and work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskTime desc";
+        List<Map<String, Object>> list = MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1, date2, hql));
+        return list;
+    }
+
+    /**
+     * 根据时间查询工作报表
+     *
+     * @param response
+     * @param list
+     * @param fileName
+     * @param columnNames
+     * @param keys
+     */
+    @Override
+    public void downloadReports(HttpServletResponse response, List<Map<String, Object>> list, String fileName, String[] columnNames, String[] keys) {
+        try {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            //调用工具类创建excel工作簿
+            ExcelUtil.createWorkbook(list, keys, columnNames)
+                    .write(os);
+            byte[] content = os.toByteArray();
+            InputStream is = new ByteArrayInputStream(content);
+
+            // 设置response参数，可以打开下载页面
+            response.reset();
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String((fileName + ".xlsx").getBytes(), "iso-8859-1"));
+            OutputStream out = response.getOutputStream();
+            //下载传输
+            byte[] b = new byte[2048];
+            int length;
+            while ((length = is.read(b)) > 0) {
+                out.write(b, 0, length);
+            }
+
+            // 关闭
+            os.flush();
+            os.close();
+            is.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

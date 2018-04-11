@@ -1,6 +1,7 @@
 package com.xl.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.xl.entity.THngyTeacherInfo;
 import com.xl.repository.MainRepository;
 import com.xl.repository.TeacherRepository;
 import com.xl.service.MainService;
@@ -25,7 +26,7 @@ public class MainServiceImpl implements MainService{
     @Autowired
     private TeacherRepository teacherRepository;
 
-
+    //返回数据库中用户数量和任务数量
     @Override
     public String QueryTeacherNumAndWorkNum() {
         List<Long> list = new ArrayList<>();
@@ -101,5 +102,17 @@ public class MainServiceImpl implements MainService{
             httpSession.setAttribute("userType", userType);//0为管理员
         }
         return code;
+    }
+
+    /**
+     * 根据id获取用户数据
+     * @param id 用户id
+     * @return json
+     */
+    @Override
+    public String getTeacherInfo(Long id) {
+        THngyTeacherInfo teacherInfo =  teacherRepository.get(id);
+        String json = JSONArray.toJSONString(teacherInfo);
+        return json;
     }
 }

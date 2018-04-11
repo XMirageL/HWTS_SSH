@@ -1,21 +1,12 @@
 package com.xl.controller;
 
-import com.xl.dao.MainDao;
-import com.xl.dao.MainDaoImpl;
-import com.alibaba.fastjson.JSONArray;
 import com.xl.service.MainService;
-import com.xl.utils.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.Cookie;
-
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.*;
 
 
 /***
@@ -57,5 +48,16 @@ public class AjaxController {
         return mainService.VerificationLogin(inputEmail, inputPassword, autoLogin, httpSession, response);
     }
 
-
+    /**
+     * 根据id获取用户数据
+     * @param id 用户id
+     * @return json
+     */
+    @RequestMapping(value = "getTeacherInfo",produces="text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getTeacherInfo(String id) {
+        String json = mainService.getTeacherInfo(Long.valueOf(id));
+        System.out.println(json);
+        return json;
+    }
 }
