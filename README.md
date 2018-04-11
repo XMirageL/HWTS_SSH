@@ -2,8 +2,8 @@
 # 教师任务分发系统 beta
 
 制作团队:湖南工院软件协会移软团队<br>
-HNGYWorkTaskSystem_SSH
-Spring+Spring-mvc+Hibernate
+HNGYWorkTaskSystem_SSH<br>
+Spring+Spring-mvc+Hibernate<br>
 
 ![HNGY](http://cdn.dkfirst.cn/taskinfo.png "教师任务分发系统 beta")  
 
