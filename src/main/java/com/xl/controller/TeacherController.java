@@ -1,24 +1,20 @@
 package com.xl.controller;
 
 
-import com.alibaba.fastjson.JSONArray;
-import com.xl.dao.MainDao;
 import com.xl.dao.MainDaoImpl;
+import com.xl.service.impl.TeacherSeviceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class TeacherController {
 
+    @Autowired
+    TeacherSeviceImpl teacherSevice;
     @GetMapping(value = "/teacherInfo")
     public String teacherInfo() {
         return "teacherInfo";
@@ -30,22 +26,8 @@ public class TeacherController {
      */
     @GetMapping(value = "/user")
     public ModelAndView user(HttpSession httpSession) {
-        String email = (String) httpSession.getAttribute("inputEmail");
         String id = String.valueOf(httpSession.getAttribute("id"));
-        MainDaoImpl mainDao = new MainDaoImpl();
-        Object[] objects = mainDao.QueryPersonalHomepageInformation(id);
-        String notic = mainDao.QueryNotice();
-        ModelAndView modelAndView = new ModelAndView("user");
-        modelAndView.addObject("email", email);
-        modelAndView.addObject("time", new SimpleDateFormat("yyyy年 MM月 dd日").format(new Date()));
-        modelAndView.addObject("name", objects[0]);
-        modelAndView.addObject("staffRoom", objects[1]);
-        modelAndView.addObject("department", objects[2]);
-        modelAndView.addObject("countWork", objects[3]);
-        modelAndView.addObject("OKWork", objects[4]);
-        modelAndView.addObject("NOWork", objects[5]);
-        modelAndView.addObject("notice", notic);
-        return modelAndView;
+        return teacherSevice.getUserHomePageInfo(Long.valueOf(id));
     }
 
     /***

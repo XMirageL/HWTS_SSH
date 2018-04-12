@@ -21,12 +21,12 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 
     @Override
     public THngyTeacherInfo load(Long id) {
-        return (THngyTeacherInfo) getSession().get(THngyTeacherInfo.class,id);
+        return getSession().get(THngyTeacherInfo.class, id);
     }
 
     @Override
     public THngyTeacherInfo get(Long id) {
-        return (THngyTeacherInfo) getSession().get(THngyTeacherInfo.class,id);
+        return getSession().get(THngyTeacherInfo.class, id);
     }
 
     @Override
@@ -41,12 +41,12 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 
     @Override
     public Long save(THngyTeacherInfo entity) {
-        return null;
+        return (Long) getSession().save(entity);
     }
 
     @Override
     public void saveOrUpdate(THngyTeacherInfo entity) {
-
+        saveOrUpdate(entity);
     }
 
     @Override
