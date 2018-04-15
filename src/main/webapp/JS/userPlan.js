@@ -6,7 +6,6 @@ $(document).ready(function () {
     if (now_month <= 8&&now_month>=2) {
         hyear = "上学期"
         $("#xueqi").text(now_year+"年"+"上学期");
-        alert($("#xueqi").text());
     } else {
         hyear = "下学期";
         if(now_month <2){

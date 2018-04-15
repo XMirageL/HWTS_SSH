@@ -1,7 +1,6 @@
 package com.xl.controller;
 
 
-import com.xl.dao.MainDaoImpl;
 import com.xl.service.impl.TeacherSeviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,14 +37,7 @@ public class TeacherController {
     @GetMapping(value = "/userinfo")
     public ModelAndView userinfo(HttpSession httpSession) {
         String id = String.valueOf(httpSession.getAttribute("id"));
-        ModelAndView modelAndView = new ModelAndView("userinfo");
-        MainDaoImpl mainDao = new MainDaoImpl();
-        Object[] objects = mainDao.QueryUserInfo(id);
-        modelAndView.addObject("id", id);
-        modelAndView.addObject("email", objects[2]);
-        modelAndView.addObject("name", objects[0]);
-        modelAndView.addObject("phone", objects[1]);
-        return modelAndView;
+        return teacherSevice.getUserInfo(Long.valueOf(id));
     }
 
     /**
@@ -56,7 +48,6 @@ public class TeacherController {
     @GetMapping(value = "/userplan")
     public ModelAndView userplan() {
         ModelAndView modelAndView = new ModelAndView("userplan");
-
         return modelAndView;
     }
 

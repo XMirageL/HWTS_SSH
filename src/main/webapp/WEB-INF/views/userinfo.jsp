@@ -253,7 +253,7 @@
 <!-- END Page Wrapper -->
 
 
-<script src="./JS/user.js"></script>
+<script src="./JS/userinfo.js"></script>
 <script src="./JS/app.js"></script>
 </body>
 </html>

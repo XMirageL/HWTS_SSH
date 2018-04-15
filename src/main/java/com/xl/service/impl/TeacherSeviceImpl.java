@@ -1,10 +1,12 @@
 package com.xl.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.xl.entity.THngyNotice;
 import com.xl.entity.THngyTeacherInfo;
 import com.xl.repository.impl.MainRepositoryImpl;
 import com.xl.repository.impl.TeacherRepositoryImpl;
 import com.xl.service.TeacherService;
+import com.xl.utils.MainUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,5 +54,54 @@ public class TeacherSeviceImpl implements TeacherService {
         modelAndView.addObject("NOWork", NO);
         modelAndView.addObject("notice", notice.getNoticeText());
         return modelAndView;
+    }
+
+    /**
+     * 返回用户个人信息
+     *
+     * @param id HttpSession中的id
+     * @return 返回ModelAndView数据
+     */
+    @Override
+    public ModelAndView getUserInfo(Long id) {
+        ModelAndView modelAndView = new ModelAndView("userinfo");
+        THngyTeacherInfo teacherInfo = teacherRepository.get(id);
+        modelAndView.addObject("id", id);
+        modelAndView.addObject("email", teacherInfo.getTeacherEmail());
+        modelAndView.addObject("name", teacherInfo.getTeacherName());
+        modelAndView.addObject("phone", teacherInfo.getTeacherPhone());
+        return modelAndView;
+    }
+
+    /**
+     * 修改用户个人信息
+     *
+     * @param id    HttpSession中的id
+     * @param email
+     * @param phone
+     * @param pwd
+     * @return 返回状态码
+     */
+    @Override
+    public String updateUserInfo(Long id, String email, String phone, String pwd) {
+        THngyTeacherInfo teacherInfo = teacherRepository.get(id);
+        teacherInfo.setTeacherEmail(email);
+        teacherInfo.setTeacherPhone(phone);
+        teacherInfo.setTeacherPassword(pwd.length()>0?pwd:teacherInfo.getTeacherPassword());
+        return "201";
+    }
+
+    /***
+     * 根据时间和用户session中的用户ID查询任务报表
+     * @param id 用户id
+     * @param date1 开始时间
+     * @param date2 结束时间
+     * @return json格式数据
+     */
+    @Override
+    public String getUserTask(Long id, java.sql.Date date1, java.sql.Date date2) {
+        String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work.workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = teacher.teacherId and  teacher.teacherId ="+id+" and work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskTime desc";
+        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1,date2,hql)));
+        return json;
     }
 }
