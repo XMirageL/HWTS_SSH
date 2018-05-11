@@ -1,9 +1,10 @@
 package com.xl.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_Department", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_Department", schema = "HNGY", catalog = "")
 public class THngyDepartment {
     private long departmentId;
     private String departmentName;
@@ -13,7 +14,6 @@ public class THngyDepartment {
     private String spare4;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Department_ID")
     public long getDepartmentId() {
         return departmentId;
@@ -77,28 +77,18 @@ public class THngyDepartment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyDepartment that = (THngyDepartment) o;
-
-        if (departmentId != that.departmentId) return false;
-        if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
-            return false;
-        if (spare1 != null ? !spare1.equals(that.spare1) : that.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(that.spare2) : that.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(that.spare3) : that.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(that.spare4) : that.spare4 != null) return false;
-
-        return true;
+        return departmentId == that.departmentId &&
+                Objects.equals(departmentName, that.departmentName) &&
+                Objects.equals(spare1, that.spare1) &&
+                Objects.equals(spare2, that.spare2) &&
+                Objects.equals(spare3, that.spare3) &&
+                Objects.equals(spare4, that.spare4);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (departmentId ^ (departmentId >>> 32));
-        result = 31 * result + (departmentName != null ? departmentName.hashCode() : 0);
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        return result;
+
+        return Objects.hash(departmentId, departmentName, spare1, spare2, spare3, spare4);
     }
 }

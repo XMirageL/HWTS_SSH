@@ -1,14 +1,11 @@
-<%@ page import="java.util.regex.Pattern" %>
-<%@ page import="java.util.regex.Matcher" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String real_url = null;
+    String real_url = "/login";
     String url = request.getParameter("tzurl");
-    if (url.equals("/404")) {
-        real_url = null;
-    } else {
-        real_url = url;
+    if (url != null && !url.equals("/404")) {
+        real_url = "/login?tzurl="+url;
     }
+
 %>
 <html>
 <head>
@@ -55,11 +52,7 @@
 <body>
 <div style="padding: 24px 48px;"><h1>:(</h1>
     <p> 未登录，正在跳回 登录页</p><span style="font-size:22px;">离<a href="
-                <% if (real_url == null) {%>
-                /login
-        <% } else { %>
-        /login?tzurl=<%= real_url%>
-        <% } %>">跳转</a>还有<span id="tiao">3</span>秒</span></div>
+                <%=real_url%>">跳转</a>还有<span id="tiao">3</span>秒</span></div>
 </body>
 </html>
 <script>
@@ -69,11 +62,7 @@
         setInterval(function () {
             $('#tiao').html(i--);
             if (i == -1) {
-                <% if (real_url == null) {%>
-                window.location = "/login";
-                <% } else { %>
-                window.location = "/login?tzurl=<%= real_url%>";
-                <% } %>
+                window.location = "<%=real_url%>"
             }
         }, 1000);
     });

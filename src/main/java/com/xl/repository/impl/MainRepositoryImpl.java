@@ -68,4 +68,9 @@ public class MainRepositoryImpl implements MainRepository{
     public void update(Object o) {
         getSession().update(o);
     }
+
+    public void hqltest(){
+        String hql = "select sAdminId from THngySAdminInfo where sAdminName = ? and sAdminPassWord= ?";
+        Query query = getSession().createQuery(hql);
+    }
 }

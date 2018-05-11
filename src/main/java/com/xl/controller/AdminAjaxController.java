@@ -92,7 +92,7 @@ public class AdminAjaxController {
             tHngyWorkTask.setWorkTaskText(workText);
             tHngyWorkTask.setWorkTaskSchedule(workState);
             tHngyWorkTask.setQq(qq);
-            tHngyWorkTask.setWorkTaskTime(java.sql.Date.valueOf(workTime));
+            tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(workTime));
             int M = Integer.parseInt(workTime.substring(5, 7));
             if (M < 2 && M > 8)//上学期
             {

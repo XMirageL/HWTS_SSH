@@ -1,9 +1,10 @@
 package com.xl.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_Link", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_Link", schema = "HNGY", catalog = "")
 public class THngyLink {
     private long linkId;
     private long workTaskId;
@@ -14,7 +15,6 @@ public class THngyLink {
     private String spare4;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Link_ID")
     public long getLinkId() {
         return linkId;
@@ -88,29 +88,19 @@ public class THngyLink {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyLink tHngyLink = (THngyLink) o;
-
-        if (linkId != tHngyLink.linkId) return false;
-        if (workTaskId != tHngyLink.workTaskId) return false;
-        if (teacherId != tHngyLink.teacherId) return false;
-        if (spare1 != null ? !spare1.equals(tHngyLink.spare1) : tHngyLink.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(tHngyLink.spare2) : tHngyLink.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(tHngyLink.spare3) : tHngyLink.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(tHngyLink.spare4) : tHngyLink.spare4 != null) return false;
-
-        return true;
+        return linkId == tHngyLink.linkId &&
+                workTaskId == tHngyLink.workTaskId &&
+                teacherId == tHngyLink.teacherId &&
+                Objects.equals(spare1, tHngyLink.spare1) &&
+                Objects.equals(spare2, tHngyLink.spare2) &&
+                Objects.equals(spare3, tHngyLink.spare3) &&
+                Objects.equals(spare4, tHngyLink.spare4);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (linkId ^ (linkId >>> 32));
-        result = 31 * result + (int) (workTaskId ^ (workTaskId >>> 32));
-        result = 31 * result + (int) (teacherId ^ (teacherId >>> 32));
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        return result;
+
+        return Objects.hash(linkId, workTaskId, teacherId, spare1, spare2, spare3, spare4);
     }
 }

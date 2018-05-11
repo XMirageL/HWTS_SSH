@@ -1,22 +1,24 @@
 package com.xl.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_AdminInfo", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_AdminInfo", schema = "HNGY", catalog = "")
 public class THngyAdminInfo {
     private long adminInfoId;
+    private long departmentId;
     private String adminInfoName;
     private String adminInfoPassWord;
     private String adminInfoEmail;
     private String adminInfoQq;
+    private String adminInfoPhone;
     private String spare1;
     private String spare2;
     private String spare3;
     private String spare4;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Admin_Info_ID")
     public long getAdminInfoId() {
         return adminInfoId;
@@ -24,6 +26,16 @@ public class THngyAdminInfo {
 
     public void setAdminInfoId(long adminInfoId) {
         this.adminInfoId = adminInfoId;
+    }
+
+    @Basic
+    @Column(name = "Department_ID")
+    public long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Basic
@@ -64,6 +76,16 @@ public class THngyAdminInfo {
 
     public void setAdminInfoQq(String adminInfoQq) {
         this.adminInfoQq = adminInfoQq;
+    }
+
+    @Basic
+    @Column(name = "Admin_Info_Phone")
+    public String getAdminInfoPhone() {
+        return adminInfoPhone;
+    }
+
+    public void setAdminInfoPhone(String adminInfoPhone) {
+        this.adminInfoPhone = adminInfoPhone;
     }
 
     @Basic
@@ -110,36 +132,23 @@ public class THngyAdminInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyAdminInfo that = (THngyAdminInfo) o;
-
-        if (adminInfoId != that.adminInfoId) return false;
-        if (adminInfoName != null ? !adminInfoName.equals(that.adminInfoName) : that.adminInfoName != null)
-            return false;
-        if (adminInfoPassWord != null ? !adminInfoPassWord.equals(that.adminInfoPassWord) : that.adminInfoPassWord != null)
-            return false;
-        if (adminInfoEmail != null ? !adminInfoEmail.equals(that.adminInfoEmail) : that.adminInfoEmail != null)
-            return false;
-        if (adminInfoQq != null ? !adminInfoQq.equals(that.adminInfoQq) : that.adminInfoQq != null) return false;
-        if (spare1 != null ? !spare1.equals(that.spare1) : that.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(that.spare2) : that.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(that.spare3) : that.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(that.spare4) : that.spare4 != null) return false;
-
-        return true;
+        return adminInfoId == that.adminInfoId &&
+                departmentId == that.departmentId &&
+                Objects.equals(adminInfoName, that.adminInfoName) &&
+                Objects.equals(adminInfoPassWord, that.adminInfoPassWord) &&
+                Objects.equals(adminInfoEmail, that.adminInfoEmail) &&
+                Objects.equals(adminInfoQq, that.adminInfoQq) &&
+                Objects.equals(adminInfoPhone, that.adminInfoPhone) &&
+                Objects.equals(spare1, that.spare1) &&
+                Objects.equals(spare2, that.spare2) &&
+                Objects.equals(spare3, that.spare3) &&
+                Objects.equals(spare4, that.spare4);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (adminInfoId ^ (adminInfoId >>> 32));
-        result = 31 * result + (adminInfoName != null ? adminInfoName.hashCode() : 0);
-        result = 31 * result + (adminInfoPassWord != null ? adminInfoPassWord.hashCode() : 0);
-        result = 31 * result + (adminInfoEmail != null ? adminInfoEmail.hashCode() : 0);
-        result = 31 * result + (adminInfoQq != null ? adminInfoQq.hashCode() : 0);
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        return result;
+
+        return Objects.hash(adminInfoId, departmentId, adminInfoName, adminInfoPassWord, adminInfoEmail, adminInfoQq, adminInfoPhone, spare1, spare2, spare3, spare4);
     }
 }

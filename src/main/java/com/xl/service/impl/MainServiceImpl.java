@@ -63,38 +63,49 @@ public class MainServiceImpl implements MainService{
         //默认返回登录失败代码
         String code = Config.Code101;
         String userType = "1";
-        String userid = null;
+        Object userid = null;
         //判断是不是管理员登录
         if (inputEmail.length() > 5){
             if (inputEmail.substring(0, 5).equals("admin")) {
                 String hql = "select adminInfoId from THngyAdminInfo  where adminInfoName = ? and adminInfoPassWord=?";
-                userid  = mainRepository.singleQuery(objects,hql).toString();
+                userid  = mainRepository.singleQuery(objects,hql);
                 if(userid !=null){
                     code = Config.Code103;
                     userType = "0";
                 }
             }
         } else if(inputEmail.length() > 2){
-            String hql = "select teacherId from THngyTeacherInfo where teacherName = ? and teacherPassword = ?";
-            userid  = mainRepository.singleQuery(objects,hql).toString();
-            if(userid !=null){
-                code = Config.Code100;
-                userType = "1";
+            if(inputEmail.equals("SAdmin")){
+                String hql = "select teacherId from THngyTeacherInfo where teacherName = ? and teacherPassword = ?";
+                userid = mainRepository.singleQuery(objects, hql);
+                if (userid != null) {
+                    code = Config.Code100;
+                    userType = "1";
+                }
+            }
+            else {
+                String hql = "select sAdminId from THngySAdminInfo where sAdminName = ? and sAdminPassWord= ?";
+                userid = mainRepository.singleQuery(objects, hql);
+                if (userid != null) {
+                    code = Config.Code103;
+                    userType = "9";
+                }
             }
         }
 
         //判断数据库是否有数据返回
         if(userid!=null){
             if (autoLogin.equals("1")) {
-                Cookie cookieId = new Cookie("id", userid);
-                Cookie cookieName = new Cookie("inputEmail", inputEmail);
+                Cookie cookieName = new Cookie("userName", inputEmail);
+                Cookie cookiePwd = new Cookie("userPwd", inputPassword);
                 Cookie cookieType = new Cookie("userType", userType);
-                cookieId.setMaxAge(60 * 60 * 24 * 7);
                 cookieName.setMaxAge(60 * 60 * 24 * 7);
+                cookiePwd.setMaxAge(60 * 60 * 24 * 7);
                 cookieType.setMaxAge(60 * 60 * 24 * 7);
-                response.addCookie(cookieId);
-                response.addCookie(cookieName);
                 response.addCookie(cookieType);
+                response.addCookie(cookieName);
+                response.addCookie(cookiePwd);
+
             }
             httpSession.setAttribute("id", userid);
             httpSession.setAttribute("inputEmail", inputEmail);

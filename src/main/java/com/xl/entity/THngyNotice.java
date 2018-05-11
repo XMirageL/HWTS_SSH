@@ -1,19 +1,20 @@
 package com.xl.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_Notice", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_Notice", schema = "HNGY", catalog = "")
 public class THngyNotice {
     private long noticeId;
     private String noticeText;
-    private String spare1;
+    private long departmentId;
     private String spare2;
     private String spare3;
     private String spare4;
+    private String spare1;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Notice_ID")
     public long getNoticeId() {
         return noticeId;
@@ -34,13 +35,13 @@ public class THngyNotice {
     }
 
     @Basic
-    @Column(name = "spare1")
-    public String getSpare1() {
-        return spare1;
+    @Column(name = "Department_ID")
+    public long getDepartmentId() {
+        return departmentId;
     }
 
-    public void setSpare1(String spare1) {
-        this.spare1 = spare1;
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Basic
@@ -73,31 +74,33 @@ public class THngyNotice {
         this.spare4 = spare4;
     }
 
+    @Basic
+    @Column(name = "spare1")
+    public String getSpare1() {
+        return spare1;
+    }
+
+    public void setSpare1(String spare1) {
+        this.spare1 = spare1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyNotice that = (THngyNotice) o;
-
-        if (noticeId != that.noticeId) return false;
-        if (noticeText != null ? !noticeText.equals(that.noticeText) : that.noticeText != null) return false;
-        if (spare1 != null ? !spare1.equals(that.spare1) : that.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(that.spare2) : that.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(that.spare3) : that.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(that.spare4) : that.spare4 != null) return false;
-
-        return true;
+        return noticeId == that.noticeId &&
+                departmentId == that.departmentId &&
+                Objects.equals(noticeText, that.noticeText) &&
+                Objects.equals(spare2, that.spare2) &&
+                Objects.equals(spare3, that.spare3) &&
+                Objects.equals(spare4, that.spare4) &&
+                Objects.equals(spare1, that.spare1);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (noticeId ^ (noticeId >>> 32));
-        result = 31 * result + (noticeText != null ? noticeText.hashCode() : 0);
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        return result;
+
+        return Objects.hash(noticeId, noticeText, departmentId, spare2, spare3, spare4, spare1);
     }
 }

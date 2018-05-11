@@ -92,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
         THngyAdminInfo admin = adminRepository.get(Long.parseLong(id));
         admin.setAdminInfoEmail(email);
         admin.setAdminInfoQq(qq);
-        if (pwd.length() > 6)
+        if (pwd.length() >= 6)
             admin.setAdminInfoPassWord(pwd);
         adminRepository.saveOrUpdate(admin);
         return Config.Code200;
@@ -182,7 +182,7 @@ public class AdminServiceImpl implements AdminService {
         String time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         int M = Integer.parseInt((String) time.subSequence(5, 7));
         THngyWorkTask tHngyWorkTask = new THngyWorkTask();
-        tHngyWorkTask.setWorkTaskTime(java.sql.Date.valueOf(time));
+        tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(time));
         tHngyWorkTask.setWorkTaskName(workName);
         tHngyWorkTask.setWorkTaskText(workText);
         tHngyWorkTask.setWorkTaskSchedule("未完成");

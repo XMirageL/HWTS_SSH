@@ -1,9 +1,10 @@
 package com.xl.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_TeacherInfo", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_TeacherInfo", schema = "HNGY", catalog = "")
 public class THngyTeacherInfo {
     private long teacherId;
     private String teacherName;
@@ -19,7 +20,6 @@ public class THngyTeacherInfo {
     private String spare6;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Teacher_ID")
     public long getTeacherId() {
         return teacherId;
@@ -143,40 +143,24 @@ public class THngyTeacherInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyTeacherInfo that = (THngyTeacherInfo) o;
-
-        if (teacherId != that.teacherId) return false;
-        if (staffRoomId != that.staffRoomId) return false;
-        if (teacherName != null ? !teacherName.equals(that.teacherName) : that.teacherName != null) return false;
-        if (teacherEmail != null ? !teacherEmail.equals(that.teacherEmail) : that.teacherEmail != null) return false;
-        if (teacherPhone != null ? !teacherPhone.equals(that.teacherPhone) : that.teacherPhone != null) return false;
-        if (teacherPassword != null ? !teacherPassword.equals(that.teacherPassword) : that.teacherPassword != null)
-            return false;
-        if (spare1 != null ? !spare1.equals(that.spare1) : that.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(that.spare2) : that.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(that.spare3) : that.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(that.spare4) : that.spare4 != null) return false;
-        if (spare5 != null ? !spare5.equals(that.spare5) : that.spare5 != null) return false;
-        if (spare6 != null ? !spare6.equals(that.spare6) : that.spare6 != null) return false;
-
-        return true;
+        return teacherId == that.teacherId &&
+                staffRoomId == that.staffRoomId &&
+                Objects.equals(teacherName, that.teacherName) &&
+                Objects.equals(teacherEmail, that.teacherEmail) &&
+                Objects.equals(teacherPhone, that.teacherPhone) &&
+                Objects.equals(teacherPassword, that.teacherPassword) &&
+                Objects.equals(spare1, that.spare1) &&
+                Objects.equals(spare2, that.spare2) &&
+                Objects.equals(spare3, that.spare3) &&
+                Objects.equals(spare4, that.spare4) &&
+                Objects.equals(spare5, that.spare5) &&
+                Objects.equals(spare6, that.spare6);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (teacherId ^ (teacherId >>> 32));
-        result = 31 * result + (teacherName != null ? teacherName.hashCode() : 0);
-        result = 31 * result + (int) (staffRoomId ^ (staffRoomId >>> 32));
-        result = 31 * result + (teacherEmail != null ? teacherEmail.hashCode() : 0);
-        result = 31 * result + (teacherPhone != null ? teacherPhone.hashCode() : 0);
-        result = 31 * result + (teacherPassword != null ? teacherPassword.hashCode() : 0);
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        result = 31 * result + (spare5 != null ? spare5.hashCode() : 0);
-        result = 31 * result + (spare6 != null ? spare6.hashCode() : 0);
-        return result;
+
+        return Objects.hash(teacherId, teacherName, staffRoomId, teacherEmail, teacherPhone, teacherPassword, spare1, spare2, spare3, spare4, spare5, spare6);
     }
 }

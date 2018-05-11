@@ -1,9 +1,10 @@
 package com.xl.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_StaffRoom", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_StaffRoom", schema = "HNGY", catalog = "")
 public class THngyStaffRoom {
     private long staffRoomId;
     private String staffRoomName;
@@ -14,7 +15,6 @@ public class THngyStaffRoom {
     private String spare4;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Staff_room_ID")
     public long getStaffRoomId() {
         return staffRoomId;
@@ -88,30 +88,19 @@ public class THngyStaffRoom {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyStaffRoom that = (THngyStaffRoom) o;
-
-        if (staffRoomId != that.staffRoomId) return false;
-        if (departmentId != that.departmentId) return false;
-        if (staffRoomName != null ? !staffRoomName.equals(that.staffRoomName) : that.staffRoomName != null)
-            return false;
-        if (spare1 != null ? !spare1.equals(that.spare1) : that.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(that.spare2) : that.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(that.spare3) : that.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(that.spare4) : that.spare4 != null) return false;
-
-        return true;
+        return staffRoomId == that.staffRoomId &&
+                departmentId == that.departmentId &&
+                Objects.equals(staffRoomName, that.staffRoomName) &&
+                Objects.equals(spare1, that.spare1) &&
+                Objects.equals(spare2, that.spare2) &&
+                Objects.equals(spare3, that.spare3) &&
+                Objects.equals(spare4, that.spare4);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (staffRoomId ^ (staffRoomId >>> 32));
-        result = 31 * result + (staffRoomName != null ? staffRoomName.hashCode() : 0);
-        result = 31 * result + (int) (departmentId ^ (departmentId >>> 32));
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        return result;
+
+        return Objects.hash(staffRoomId, staffRoomName, departmentId, spare1, spare2, spare3, spare4);
     }
 }

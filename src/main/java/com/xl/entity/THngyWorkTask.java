@@ -1,25 +1,26 @@
 package com.xl.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "T_HNGY_WorkTask", schema = "dbo", catalog = "HNGY")
+@Table(name = "T_HNGY_WorkTask", schema = "HNGY", catalog = "")
 public class THngyWorkTask {
     private long workTaskId;
     private String workTaskName;
     private String workTaskText;
-    private Date workTaskTime;
+    private Timestamp workTaskTime;
     private String workTaskTerm;
     private String workTaskSchedule;
     private String qq;
-    private String spare1;
+    private long departmentId;
     private String spare2;
     private String spare3;
     private String spare4;
+    private String spare1;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Work_task_ID")
     public long getWorkTaskId() {
         return workTaskId;
@@ -51,11 +52,11 @@ public class THngyWorkTask {
 
     @Basic
     @Column(name = "Work_task_TIME")
-    public Date getWorkTaskTime() {
+    public Timestamp getWorkTaskTime() {
         return workTaskTime;
     }
 
-    public void setWorkTaskTime(Date workTaskTime) {
+    public void setWorkTaskTime(Timestamp workTaskTime) {
         this.workTaskTime = workTaskTime;
     }
 
@@ -90,13 +91,13 @@ public class THngyWorkTask {
     }
 
     @Basic
-    @Column(name = "spare1")
-    public String getSpare1() {
-        return spare1;
+    @Column(name = "Department_ID")
+    public long getDepartmentId() {
+        return departmentId;
     }
 
-    public void setSpare1(String spare1) {
-        this.spare1 = spare1;
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Basic
@@ -129,42 +130,38 @@ public class THngyWorkTask {
         this.spare4 = spare4;
     }
 
+    @Basic
+    @Column(name = "spare1")
+    public String getSpare1() {
+        return spare1;
+    }
+
+    public void setSpare1(String spare1) {
+        this.spare1 = spare1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         THngyWorkTask that = (THngyWorkTask) o;
-
-        if (workTaskId != that.workTaskId) return false;
-        if (workTaskName != null ? !workTaskName.equals(that.workTaskName) : that.workTaskName != null) return false;
-        if (workTaskText != null ? !workTaskText.equals(that.workTaskText) : that.workTaskText != null) return false;
-        if (workTaskTime != null ? !workTaskTime.equals(that.workTaskTime) : that.workTaskTime != null) return false;
-        if (workTaskTerm != null ? !workTaskTerm.equals(that.workTaskTerm) : that.workTaskTerm != null) return false;
-        if (workTaskSchedule != null ? !workTaskSchedule.equals(that.workTaskSchedule) : that.workTaskSchedule != null)
-            return false;
-        if (qq != null ? !qq.equals(that.qq) : that.qq != null) return false;
-        if (spare1 != null ? !spare1.equals(that.spare1) : that.spare1 != null) return false;
-        if (spare2 != null ? !spare2.equals(that.spare2) : that.spare2 != null) return false;
-        if (spare3 != null ? !spare3.equals(that.spare3) : that.spare3 != null) return false;
-        if (spare4 != null ? !spare4.equals(that.spare4) : that.spare4 != null) return false;
-
-        return true;
+        return workTaskId == that.workTaskId &&
+                departmentId == that.departmentId &&
+                Objects.equals(workTaskName, that.workTaskName) &&
+                Objects.equals(workTaskText, that.workTaskText) &&
+                Objects.equals(workTaskTime, that.workTaskTime) &&
+                Objects.equals(workTaskTerm, that.workTaskTerm) &&
+                Objects.equals(workTaskSchedule, that.workTaskSchedule) &&
+                Objects.equals(qq, that.qq) &&
+                Objects.equals(spare2, that.spare2) &&
+                Objects.equals(spare3, that.spare3) &&
+                Objects.equals(spare4, that.spare4) &&
+                Objects.equals(spare1, that.spare1);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (workTaskId ^ (workTaskId >>> 32));
-        result = 31 * result + (workTaskName != null ? workTaskName.hashCode() : 0);
-        result = 31 * result + (workTaskText != null ? workTaskText.hashCode() : 0);
-        result = 31 * result + (workTaskTime != null ? workTaskTime.hashCode() : 0);
-        result = 31 * result + (workTaskTerm != null ? workTaskTerm.hashCode() : 0);
-        result = 31 * result + (workTaskSchedule != null ? workTaskSchedule.hashCode() : 0);
-        result = 31 * result + (qq != null ? qq.hashCode() : 0);
-        result = 31 * result + (spare1 != null ? spare1.hashCode() : 0);
-        result = 31 * result + (spare2 != null ? spare2.hashCode() : 0);
-        result = 31 * result + (spare3 != null ? spare3.hashCode() : 0);
-        result = 31 * result + (spare4 != null ? spare4.hashCode() : 0);
-        return result;
+
+        return Objects.hash(workTaskId, workTaskName, workTaskText, workTaskTime, workTaskTerm, workTaskSchedule, qq, departmentId, spare2, spare3, spare4, spare1);
     }
 }
