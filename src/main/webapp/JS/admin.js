@@ -93,7 +93,7 @@ $(document).ready(function () {
     var mydate = new Date();
     year = mydate.getFullYear();
     var now_month = mydate.getMonth() + 1;
-    if (now_month < 8&&now_month>2) {
+    if (now_month < 8 && now_month > 2) {
         hyear = "上学期"
     } else {
         hyear = "下学期";
@@ -120,7 +120,7 @@ $(document).ready(function () {
     function taskQueryResult(data) {
         var tableStr = " <div class=\"widget\">" +
             "                            <div class=\"widget-content themed-background text-light-op\">" +
-            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>最近任务</strong>&nbsp;"+
+            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>最近任务</strong>&nbsp;" +
             // "<a href=\"downloadTask?year="+year+"&hyear="+hyear+"\" class=\"btn btn-info btn-xs\">下载</a>" +
             "                                <div class=\"pull-right\">" +
             "                                    <i id=\"idown2\" class=\"fa fa-chevron-down sidebar-nav-indicator sidebar-nav-mini-hide  \"></i>" +
@@ -146,27 +146,27 @@ $(document).ready(function () {
             //获取状态
             var taskState = data[i].taskState;
             //获取任务名称和id
-            var taskName =  data[i].taskName;
+            var taskName = data[i].taskName;
             var taskId = data[i].taskId;
 
-            var taskStr = "<a href=\"/taskInfo?id="+taskId+"\">"+taskName+"</a>";
+            var taskStr = "<a href=\"/taskInfo?id=" + taskId + "\">" + taskName + "</a>";
             //获取所有教师并设置a标签的链接
             var tsStr = "";
             var teachers = data[i].teachers.split(",");
             var teachersId = data[i].teachersId.split(",");
-            for(var j = 0;j<teachers.length;j++){
-                tsStr+="<a href=\"teacherInfo?id="+teachersId[j]+"\">"+teachers[j]+"</a>,";
+            for (var j = 0; j < teachers.length; j++) {
+                tsStr += "<a href=\"teacherInfo?id=" + teachersId[j] + "\">" + teachers[j] + "</a>,";
             }
-            tsStr = tsStr.substring(0,tsStr.length-1);
+            tsStr = tsStr.substring(0, tsStr.length - 1);
 
-            tableStr +="<tr>" +
-                "<td align=\"center\">"+taskDate+"</td>" +
-                "<td align=\"center\">"+taskStr+"</td>" +
-                "<td align=\"center\">"+tsStr+"</td>" +
-                "<td align=\"center\"><span class=\"text-"+(taskState=="未完成"?"info":"success")+"\">"+(taskState=="未完成"?"未完成":"已完成")+"</span></td>" +
+            tableStr += "<tr>" +
+                "<td align=\"center\">" + taskDate + "</td>" +
+                "<td align=\"center\">" + taskStr + "</td>" +
+                "<td align=\"center\">" + tsStr + "</td>" +
+                "<td align=\"center\"><span class=\"text-" + (taskState == "未完成" ? "info" : "success") + "\">" + (taskState == "未完成" ? "未完成" : "已完成") + "</span></td>" +
                 "</tr>";
         }
-        tableStr+="</tbody>" +
+        tableStr += "</tbody>" +
             "                                    </table>" +
             "                                </div>" +
             "                            </div>" +
@@ -176,7 +176,7 @@ $(document).ready(function () {
 
         setTimeout(function () {
             $("#text2").slideDown();
-        },200);
+        }, 200);
     }
 
 });

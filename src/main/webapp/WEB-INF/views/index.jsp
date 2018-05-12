@@ -20,9 +20,12 @@
     <!--全局CSS-->
     <link href="./css/front.css" rel="stylesheet">
     <link rel="stylesheet" media="all" href="./css/application.css" data-turbolinks-track="reload">
+    <link rel="stylesheet" media="all" href="http://cdn.dkfirst.cn/Glyphicons.min.css">
 
     <!--导航栏下拉效果JS-->
     <script src="./JS/toggle.js" data-turbolinks-track="reload"></script>
+
+
 
 </head>
 <body>

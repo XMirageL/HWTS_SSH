@@ -63,13 +63,13 @@ var App = function() {
         $('[data-toggle="tabs"] a, .enable-tabs a').click(function(e){ e.preventDefault(); $(this).tab('show'); });
 
         // Initialize Tooltips
-        $('[data-toggle="tooltip"], .enable-tooltip').tooltip({container: 'body', animation: false});
+        // $('[data-toggle="tooltip"], .enable-tooltip').tooltip({container: 'body', animation: false});
 
         // Initialize Popovers
-        $('[data-toggle="popover"], .enable-popover').popover({container: 'body', animation: true});
+        // $('[data-toggle="popover"], .enable-popover').popover({container: 'body', animation: true});
 
         // Initialize Image Lightbox
-        $('[data-toggle="lightbox-image"]').magnificPopup({type: 'image', image: {titleSrc: 'title'}});
+        // $('[data-toggle="lightbox-image"]').magnificPopup({type: 'image', image: {titleSrc: 'title'}});
 
         // Initialize image gallery lightbox
         $('[data-toggle="lightbox-gallery"]').each(function(){
@@ -90,40 +90,40 @@ var App = function() {
 
         // Initialize Typeahead - Example with countries
         var exampleTypeheadData = ["Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","CΓ΄te d'Ivoire","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Congo","Cook Islands","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic","East Timor","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Faeroe Islands","Falkland Islands","Fiji","Finland","Former Yugoslav Republic of Macedonia","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Northern Marianas","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn Islands","Poland","Portugal","Puerto Rico","Qatar","RΓ©union","Romania","Russia","Rwanda","SΓ£o TomΓ© and PrΓ­ncipe","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","Saudi Arabia","Senegal","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia and the South Sandwich Islands","South Korea","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","The Bahamas","The Gambia","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","US Virgin Islands","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Wallis and Futuna","Western Sahara","Yemen","Yugoslavia","Zambia","Zimbabwe"];
-        $('.input-typeahead').typeahead({ source: exampleTypeheadData });
+        // $('.input-typeahead').typeahead({ source: exampleTypeheadData });
 
         // Initialize Chosen
-        $('.select-chosen').chosen({width: "100%"});
+        // $('.select-chosen').chosen({width: "100%"});
 
         // Initialize Select2
-        $('.select-select2').select2();
+        // $('.select-select2').select2();
 
         // Initialize Slider for Bootstrap
-        $('.input-slider').slider();
+        // $('.input-slider').slider();
 
         // Initialize Tags Input
-        $('.input-tags').tagsInput({ width: 'auto', height: 'auto'});
+        // $('.input-tags').tagsInput({ width: 'auto', height: 'auto'});
 
         // Initialize Timepicker
-        $('.input-timepicker').timepicker({minuteStep: 1,showSeconds: true,showMeridian: true});
-        $('.input-timepicker24').timepicker({minuteStep: 1,showSeconds: true,showMeridian: false});
+        // $('.input-timepicker').timepicker({minuteStep: 1,showSeconds: true,showMeridian: true});
+        // $('.input-timepicker24').timepicker({minuteStep: 1,showSeconds: true,showMeridian: false});
 
         // Initialize Datepicker
-        $('.input-datepicker, .input-daterange').datepicker({weekStart: 1}).on('changeDate', function(e){ $(this).datepicker('hide'); });
+        // $('.input-datepicker, .input-daterange').datepicker({weekStart: 1}).on('changeDate', function(e){ $(this).datepicker('hide'); });
 
         // Initialize Bootstrap Colorpicker
-        $('.input-colorpicker').colorpicker({format: 'hex'});
-        $('.input-colorpicker-rgba').colorpicker({format: 'rgba'});
+        // $('.input-colorpicker').colorpicker({format: 'hex'});
+        // $('.input-colorpicker-rgba').colorpicker({format: 'rgba'});
 
         // Easy Pie Chart
-        $('.pie-chart').easyPieChart({
-            barColor: $(this).data('bar-color') ? $(this).data('bar-color') : '#777777',
-            trackColor: $(this).data('track-color') ? $(this).data('track-color') : '#eeeeee',
-            lineWidth: $(this).data('line-width') ? $(this).data('line-width') : 3,
-            size: $(this).data('size') ? $(this).data('size') : '80',
-            animate: 800,
-            scaleColor: false
-        });
+        // $('.pie-chart').easyPieChart({
+        //     barColor: $(this).data('bar-color') ? $(this).data('bar-color') : '#777777',
+        //     trackColor: $(this).data('track-color') ? $(this).data('track-color') : '#eeeeee',
+        //     lineWidth: $(this).data('line-width') ? $(this).data('line-width') : 3,
+        //     size: $(this).data('size') ? $(this).data('size') : '80',
+        //     animate: 800,
+        //     scaleColor: false
+        // });
 
         // Toggles 'open' class on toggle menu
         $('.toggle-menu .submenu').on('click', function(){
@@ -133,7 +133,7 @@ var App = function() {
         });
 
         // Initialize Placeholder (for IE9)
-        $('input, textarea').placeholder();
+        // $('input, textarea').placeholder();
     };
 
     /* Page Loading functionality */

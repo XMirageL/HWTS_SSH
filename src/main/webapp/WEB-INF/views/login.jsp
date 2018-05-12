@@ -122,23 +122,21 @@
                         Ladda_l.stop();
                         if (data == "100") {
                             swal("登录成功", "", "success");
-                            <% if (real_url == null) {%>
                             window.location.href = "/user";
-                            <% } else { %>
-                            window.location.href = "<%= real_url%>";
-                            <% } %>
                         } else if (data == "101") {
                             swal("登录失败", "用户名或密码错误", "error");
                         } else if (data == "103") {
                             swal({title: "欢迎回来！", text: "管理员已登入", imageUrl: "css/admin.png", confirmButtonText: "确定",});
                             setTimeout(function () {
-                                <% if (real_url == null) {%>
                                 window.location.href = "/admin";
-                                <% } else { %>
-                                window.location.href = "<%= real_url%>";
-                                <% } %>
-                            }, 2000)
-
+                            }, 500)
+                        } else if (data == "104"){
+                            swal({title: "欢迎回来！", text: "超管已登入", imageUrl: "css/sadmin.png", confirmButtonText: "确定",});
+                            setTimeout(function () {
+                                window.location.href = "/sadmin";
+                            }, 500)
+                        } else {
+                            swal("网络错误", "请重新尝试","error")
                         }
                     });
             }

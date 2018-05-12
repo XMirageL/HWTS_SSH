@@ -20,6 +20,7 @@ public class Config
     public static final String Code100 = "100";//普通用户成功
     public static final String Code101 = "101";//用户名或密码错误或用户名不存在
     public static final String Code103 = "103";//管理员登录成功
+    public static final String Code104 = "104";//超级管理员登录成功
 
 
     /***
