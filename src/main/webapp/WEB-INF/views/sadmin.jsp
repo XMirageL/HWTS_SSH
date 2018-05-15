@@ -245,7 +245,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-offset-3 col-lg-8">
                                                 <input class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                                       id="modify-submit" type="button" value="保存修改"/>
+                                                       id="modify-submit" type="button" onclick="test11()" value="保存修改"/>
                                             </div>
                                         </div>
                                     </form>
@@ -286,31 +286,12 @@
                                                     <th>手机号</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td><input type="checkbox" name="checkbox" value="1"><b>1</b></td>
-                                                    <td><span>李俊成 </span></td>
-                                                    <td><span>信息工程</span></td>
-                                                    <td><span>123456</span></td>
-                                                    <td>1@dd.d</td>
-                                                    <td>123456789</td>
-                                                    <td>1234567899</td>
-                                                    <td><span class="btn btn-danger btn-xs">修改</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" name="checkbox" value="2"><b>1</b></td>
-                                                    <td><span>李俊成 </span></td>
-                                                    <td><span>信息工程</span></td>
-                                                    <td><span>123456</span></td>
-                                                    <td>1@dd.d</td>
-                                                    <td>123456789</td>
-                                                    <td>1234567899</td>
-                                                    <td><span class="btn btn-danger btn-xs">修改</span></td>
-                                                </tr>
+                                                <tbody id="tbod">
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <input name="chkAll1" onclick="checkAll(this.checked)" type="checkbox" id="chkAll1" value="checkbox">&nbsp;全选&nbsp;
+                                        <input name="chkAll1" onclick="checkAll(this.checked)" type="checkbox"
+                                               id="chkAll1" value="checkbox">&nbsp;全选&nbsp;
                                         <select class="table-responsive" name="status">
                                             <option selected="">操作订单</option>
                                             <option value="0">删除</option>
@@ -324,7 +305,6 @@
 
                 </div>
             </div>
-
             <div class="text-center push-bit-top-bottom visible-xs">
                 <small class="help-block">Made BY：<br>RJXH - 移软分部</small>
             </div>
@@ -337,17 +317,52 @@
 <!-- END Page Wrapper -->
 
 
-<script src="./JS/sadmin.js"></script>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改
+                </h4>
+            </div>
+            <div class="modal-body">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" onclick="meth()" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
+<script src="./JS/sadmin.js" type="application/javascript"></script>
 <script src="./JS/app.js"></script>
 <script>
-    function checkAll(checked)
-    {
-        var allCheckBoxs=document.getElementsByName("checkbox") ;
-        for (var i=0;i<allCheckBoxs.length ;i++){
-            if(allCheckBoxs[i].type=="checkbox"){
-                allCheckBoxs[i].checked=checked;
+    function meth() {
+        $('#modalEdit').modal('hide');
+    }
+    function checkAll(checked) {
+        var allCheckBoxs = document.getElementsByName("checkbox");
+        for (var i = 0; i < allCheckBoxs.length; i++) {
+            if (allCheckBoxs[i].type == "checkbox") {
+                allCheckBoxs[i].checked = checked;
             }
         }
+    }
+    function test11() {
+
     }
 </script>
 </body>

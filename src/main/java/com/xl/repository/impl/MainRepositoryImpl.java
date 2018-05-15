@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.List;
+
 @Repository
-public class MainRepositoryImpl implements MainRepository{
+public class MainRepositoryImpl implements MainRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -24,7 +25,7 @@ public class MainRepositoryImpl implements MainRepository{
     public Object singleQuery(Object[] objects, String hql) {
         Query query = getSession().createQuery(hql);
         for (int i = 0; i < objects.length; i++) {
-            query.setParameter(i,objects[i]);
+            query.setParameter(i, objects[i]);
         }
         return query.uniqueResult();
     }
@@ -37,10 +38,10 @@ public class MainRepositoryImpl implements MainRepository{
     @Override
     public List<Object> simpleQuery(Object[] objects, String hql) {
         Query query = getSession().createQuery(hql);
-        if(objects!=null)
-        for (int i = 0; i < objects.length; i++) {
-            query.setParameter(i,objects[i]);
-        }
+        if (objects != null)
+            for (int i = 0; i < objects.length; i++) {
+                query.setParameter(i, objects[i]);
+            }
         return query.list();
     }
 
@@ -48,19 +49,19 @@ public class MainRepositoryImpl implements MainRepository{
     public List<Object[]> complexQuery(Object[] objects, String hql) {
         Query query = getSession().createQuery(hql);
         for (int i = 0; i < objects.length; i++) {
-            query.setParameter(i,objects[i]);
+            query.setParameter(i, objects[i]);
         }
         return query.list();
     }
 
     @Override
     public List<Object[]> dateQuery(Date date1, Date date2, String hql) {
-        return getSession().createQuery(hql).setParameter(0,date1).setParameter(1,date2).list();
+        return getSession().createQuery(hql).setParameter(0, date1).setParameter(1, date2).list();
     }
 
     @Override
     public Long save(Object o) {
-        long l =(long)getSession().save(o);
+        long l = (long) getSession().save(o);
         return l;
     }
 
@@ -69,8 +70,11 @@ public class MainRepositoryImpl implements MainRepository{
         getSession().update(o);
     }
 
-    public void hqltest(){
-        String hql = "select sAdminId from THngySAdminInfo where sAdminName = ? and sAdminPassWord= ?";
+    public void hqltest() {
+        String hql = "SELECT a.departmentId,a.adminInfoName,b.departmentName,a.adminInfoPassWord,a.adminInfoEmail,a" +
+                ".adminInfoQq,a.adminInfoPhone FROM  THngyAdminInfo as a, THngyDepartment as b WHERE a" +
+                ".departmentId = b.departmentId";
+
         Query query = getSession().createQuery(hql);
     }
 }

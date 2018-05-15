@@ -9,6 +9,9 @@ import java.util.List;
  * On 11/16/2017.11:52 PM
  */
 public interface DomainRepository<T, PK extends Serializable> {
+
+
+
     //根据ID获取Entity
     T load(PK id);
 

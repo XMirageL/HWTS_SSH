@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 public class TeacherAjaxController {
     @Autowired
     TeacherSeviceImpl teacherSevice;
+
     /***
      * 修改用户的个人信息
      * @param email 用户邮箱
