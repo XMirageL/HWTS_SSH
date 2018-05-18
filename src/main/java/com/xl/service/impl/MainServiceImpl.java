@@ -1,6 +1,7 @@
 package com.xl.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.xl.entity.THngyTeacherInfo;
 import com.xl.repository.MainRepository;
 import com.xl.repository.TeacherRepository;
@@ -64,28 +65,39 @@ public class MainServiceImpl implements MainService {
         String code = Config.Code101;
         String userType = "1";
         Object userid = null;
+        String userdep = "0";
         //判断是不是管理员登录
         if (inputEmail.length() > 7) {
             if (inputEmail.substring(0, 5).equals("admin")) {
-                String hql = "select adminInfoId from THngyAdminInfo  where adminInfoName = ? and adminInfoPassWord=?";
-                userid = mainRepository.singleQuery(objects, hql);
+                String hql = "select adminInfoId,departmentId from THngyAdminInfo  where adminInfoName = ? and " +
+                        "adminInfoPassWord=?";
+                Object text = mainRepository.singleQuery(objects, hql);
+                JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(text));
+                userid = jsonArray.getString(0);
+                userdep = jsonArray.getString(1);
+//                System.out.println("ID" + userid.toString() + "部门" + userdep.toString());
                 if (userid != null) {
                     code = Config.Code103;
                     userType = "0";
                 }
             }
         } else if (inputEmail.length() > 2) {
-            if (inputEmail.equals("SAdmin")) {
-                String hql = "select sAdminId from THngySAdminInfo where sAdminName = ? and sAdminPassWord= ?";
-                userid = mainRepository.singleQuery(objects, hql);
-                System.out.println("自动登录111:" + userid);
-                if (userid != null) {
-                    code = Config.Code104;
-                    userType = "9";
+            if (inputEmail.length() > 6) {
+                if (inputEmail.substring(0, 6).equals("SAdmin")) {
+                    String hql = "select sAdminId from THngySAdminInfo where sAdminName = ? and sAdminPassWord= ?";
+                    userid = mainRepository.singleQuery(objects, hql);
+                    System.out.println("自动登录:" + userid);
+                    if (userid != null) {
+                        code = Config.Code104;
+                        userType = "9";
+                    }
                 }
             } else {
-                String hql = "select teacherId from THngyTeacherInfo where teacherName = ? and teacherPassword = ?";
-                userid = mainRepository.singleQuery(objects, hql);
+                String hql = "select a.teacherId, b.departmentId from THngyTeacherInfo as a, THngyStaffRoom as b where a.teacherName = ? and a.teacherPassword = ? and a.staffRoomId = b.staffRoomId";
+                Object text = mainRepository.singleQuery(objects, hql);
+                JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(text));
+                userid = jsonArray.getString(0);
+                userdep = jsonArray.getString(1);
                 if (userid != null) {
                     code = Config.Code100;
                     userType = "1";
@@ -105,12 +117,12 @@ public class MainServiceImpl implements MainService {
                 response.addCookie(cookieType);
                 response.addCookie(cookieName);
                 response.addCookie(cookiePwd);
-
             }
             httpSession.setAttribute("id", userid);
             httpSession.setAttribute("inputEmail", inputEmail);
             httpSession.setAttribute("inputPassword", inputPassword);
             httpSession.setAttribute("userType", userType);//0为管理员
+            httpSession.setAttribute("department", userdep);//系部 超管该值为0
         }
         return code;
     }

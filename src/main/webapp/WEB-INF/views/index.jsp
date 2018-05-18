@@ -59,11 +59,17 @@
                                 <li class="support-button-holder"><a class="support-button" href="/login">登 录</a></li>
                                 <%
                                 } else {
-                                %>
-                                <li class="alpha-button-holder"><a class="alpha-button" href="/login">管理中心</a></li>
-                                <%
+                                        if (request.getSession().getAttribute("userType").equals("0")){
+                                            %>
+                                <li class="alpha-button-holder"><a class="alpha-button" href="/admin">管理中心</a></li> <%
+                                        } else if (request.getSession().getAttribute("userType").equals("1")){
+                            %>
+                                <li class="alpha-button-holder"><a class="alpha-button" href="/user">管理中心</a></li> <%
+                                        } else if (request.getSession().getAttribute("userType").equals("9")){
+                            %>
+                                <li class="alpha-button-holder"><a class="alpha-button" href="/sadmin">管理中心</a></li> <%
+                                        }
                                     }
-
                                 %>
                             </ul>
                         </div>
@@ -193,7 +199,7 @@
                 <div class="footer-menu-holder">
                     <h4>其他</h4>
                     <ul class="footer-menu">
-                        <li><a href="./" target="_blank">下载本站源码</a></li>
+                        <li><a href="https://github.com/XLwn/HWTS_SSH" target="_blank">下载本站源码</a></li>
                         <li><a href="./" target="_blank">下载本站APP</a></li>
                     </ul>
                 </div>

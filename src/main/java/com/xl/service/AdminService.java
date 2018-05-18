@@ -36,7 +36,7 @@ public interface AdminService {
      * @param notice 公告内容
      * @return 返回状态码200成功，201失败
      */
-    String updateNotice(String notice);
+    String updateNotice(String notice,long did);
 
 
     /***

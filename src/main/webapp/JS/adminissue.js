@@ -42,12 +42,12 @@ $(document).ready(function () {
         var details = $('#details').val();//任务详情
         var qq = $('#web_qq').val();//发布者qq
         $.ajax({
-            url:"/insertIssueTasks",
-            type:"POST",
-            data:{workName: title, teacher: teacher, workText: details, qq: qq},
+            url: "/insertIssueTasks",
+            type: "POST",
+            data: {workName: title, teacher: teacher, workText: details, qq: qq},
             dataType: "json",
-            success:function (data) {
-                if(data.sCode == "200"){
+            success: function (data) {
+                if (data.sCode == "200") {
                     swal("发布成功", "任务已成功发布出去", "success");
                     setTimeout(function () {
                         window.location.href = "/taskInfo?id=" + data.taskId;
@@ -57,8 +57,8 @@ $(document).ready(function () {
                     swal("发布失败", "错误代码：" + data, "error");
                 }
             },
-            error:function (data) {
-                swal("发布失败", "服务器抽风:"+data.sCode, "error");
+            error: function (data) {
+                swal("发布失败", "服务器抽风:" + data.sCode, "error");
             }
         });
     }

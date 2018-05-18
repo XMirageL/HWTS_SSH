@@ -59,6 +59,7 @@
             <tx:method name="update*" rollback-for="java.lang.Exception"/>
             <tx:method name="delete*" rollback-for="java.lang.Exception"/>
             <tx:method name="import*" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" rollback-for="java.lang.Exception"/>
             <tx:method name="*" read-only="true"/>
         </tx:attributes>
     </tx:advice>

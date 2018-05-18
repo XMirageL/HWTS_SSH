@@ -14,10 +14,12 @@ public class TeacherController {
 
     @Autowired
     TeacherSeviceImpl teacherSevice;
+
     @GetMapping(value = "/teacherInfo")
     public String teacherInfo() {
         return "teacherInfo";
     }
+
     /***
      * 显示用户登录的首页，同时查询用户的基本信息和网站公告
      * @param httpSession
@@ -26,7 +28,7 @@ public class TeacherController {
     @GetMapping(value = "/user")
     public ModelAndView user(HttpSession httpSession) {
         String id = String.valueOf(httpSession.getAttribute("id"));
-        return teacherSevice.getUserHomePageInfo(Long.valueOf(id));
+        return teacherSevice.getUserHomePageInfo(httpSession, Long.valueOf(id));
     }
 
     /***

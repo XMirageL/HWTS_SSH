@@ -104,9 +104,10 @@ public class AdminServiceImpl implements AdminService {
      * @return 返回状态码200成功，201失败
      */
     @Override
-    public String updateNotice(String notice) {
+    public String updateNotice(String notice, long did) {
         String code = Config.Code201;
         THngyNotice notice1 = new THngyNotice();
+        notice1.setDepartmentId(did);
         notice1.setNoticeText(notice);
         if (mainRepository.save(notice1) > 0) {
             code = Config.Code200;

@@ -25,8 +25,10 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/modifyNotice")
     @ResponseBody
-    public String modifyNotice(String notice) {
-        return adminService.updateNotice(notice);
+    public String modifyNotice(String notice,HttpSession session) {
+        String id = (String)session.getAttribute("depfgasdghl");
+        long did = Long.valueOf(id);
+        return adminService.updateNotice(notice,did);
     }
 
     /***

@@ -2,6 +2,7 @@ package com.xl.service;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 
 public interface TeacherService {
@@ -11,7 +12,7 @@ public interface TeacherService {
      * @param id HttpSession中的id
      * @return 返回ModelAndView数据
      */
-    ModelAndView getUserHomePageInfo(Long id);
+    ModelAndView getUserHomePageInfo(HttpSession session, Long id);
     /**
      * 返回用户个人信息
      *

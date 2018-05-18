@@ -48,16 +48,16 @@ public class SAdminRepositoryImpl implements SAdminRepository {
 
     @Override
     public void saveOrUpdate(THngySAdminInfo entity) {
-        saveOrUpdate(entity);
+        getSession().update(entity);
     }
 
     @Override
     public void delete(Long id) {
-
+        getSession().delete(getSession().get(THngySAdminInfo.class, id));
     }
 
     @Override
     public void flush() {
-
+        getSession().flush();
     }
 }

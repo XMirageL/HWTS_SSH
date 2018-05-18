@@ -1,5 +1,6 @@
 package com.xl.repository.impl;
 
+import com.xl.entity.THngyAdminInfo;
 import com.xl.repository.MainRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -71,10 +73,9 @@ public class MainRepositoryImpl implements MainRepository {
     }
 
     public void hqltest() {
-        String hql = "SELECT a.departmentId,a.adminInfoName,b.departmentName,a.adminInfoPassWord,a.adminInfoEmail,a" +
-                ".adminInfoQq,a.adminInfoPhone FROM  THngyAdminInfo as a, THngyDepartment as b WHERE a" +
-                ".departmentId = b.departmentId";
-
+//        String hql  = "select teacherId from THngyTeacherInfo where teacherName = ? and teacherPassword = ?";
+        String hql  = "select a.teacherId, b.departmentId from THngyTeacherInfo as a, THngyStaffRoom as b where a.teacherName = ? and a.teacherPassword = ? and a.staffRoomId = b.staffRoomId";
         Query query = getSession().createQuery(hql);
     }
+
 }

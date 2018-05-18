@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ public class TeacherSeviceImpl implements TeacherService {
 
     @Autowired
     TeacherRepositoryImpl teacherRepository;
+
     /**
      * 以Json形式返回用户个人信息以及公告
      *
@@ -29,21 +31,31 @@ public class TeacherSeviceImpl implements TeacherService {
      * @return 返回ModelAndView数据
      */
     @Override
-    public ModelAndView getUserHomePageInfo(Long id) {
+    public ModelAndView getUserHomePageInfo(HttpSession session, Long id) {
         ModelAndView modelAndView = new ModelAndView("user");
-        String hql = "from THngyNotice";
-        List<Object> list = mainRepository.simpleQuery(null, hql);
-        THngyNotice notice = (THngyNotice) list.get(list.size() - 1);
-        //教研室名                       学院名          已经接工作数
-        hql = "select staff.staffRoomName,department.departmentName,count (work.workTaskId) from THngyTeacherInfo as teacher,THngyStaffRoom as staff,THngyDepartment as department,THngyLink as link,THngyWorkTask as work where teacher.teacherId = ? and teacher.staffRoomId=staff.staffRoomId and staff.departmentId = department.departmentId and link.teacherId = ? and link.workTaskId = work.workTaskId";
-        List<Object[]> list1= mainRepository.complexQuery(new Object[]{id,id},hql);
+        String hql = "select staff.staffRoomName,department.departmentName,count (work.workTaskId) from " +
+                "THngyTeacherInfo as teacher,THngyStaffRoom as staff,THngyDepartment as department,THngyLink as link," +
+                "THngyWorkTask as work where teacher.teacherId = ? and teacher.staffRoomId=staff.staffRoomId and " +
+                "staff.departmentId = department.departmentId and link.teacherId = ? and link.workTaskId = work" +
+                ".workTaskId";
+        List<Object[]> list1 = mainRepository.complexQuery(new Object[]{id, id}, hql);
         Object[] otherInfo = list1.get(0);
-        System.out.println(list1.size());
         //已完成工作数
-        hql = "select count(work.workTaskSchedule)from THngyLink as link,THngyWorkTask as work where link.teacherId = ? and link.workTaskId = work.workTaskId and work.workTaskSchedule='已完成'";
-        Object OK = mainRepository.singleQuery(new Object[]{id},hql);
+        hql = "select count(work.workTaskSchedule)from THngyLink as link,THngyWorkTask as work where link.teacherId =" +
+                " ? and link.workTaskId = work.workTaskId and work.workTaskSchedule='已完成'";
+        Object OK = mainRepository.singleQuery(new Object[]{id}, hql);
         Object NO = Integer.parseInt(String.valueOf(otherInfo[2])) - Integer.parseInt(String.valueOf(OK));
         THngyTeacherInfo teacherInfo = teacherRepository.get(id);
+        hql = "from THngyNotice";
+        List<Object> list = mainRepository.simpleQuery(null, hql);
+        THngyNotice notice = new THngyNotice();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            //从后往前 获取最新该系公告
+            notice = (THngyNotice) list.get(i);
+            if (String.valueOf(notice.getDepartmentId()).equals(session.getAttribute("department"))) {
+                break;
+            }
+        }
         modelAndView.addObject("email", teacherInfo.getTeacherEmail());
         modelAndView.addObject("time", new SimpleDateFormat("yyyy年 MM月 dd日").format(new Date()));
         modelAndView.addObject("name", teacherInfo.getTeacherName());
@@ -52,6 +64,7 @@ public class TeacherSeviceImpl implements TeacherService {
         modelAndView.addObject("countWork", otherInfo[2]);
         modelAndView.addObject("OKWork", OK);
         modelAndView.addObject("NOWork", NO);
+
         modelAndView.addObject("notice", notice.getNoticeText());
         return modelAndView;
     }
@@ -87,7 +100,7 @@ public class TeacherSeviceImpl implements TeacherService {
         THngyTeacherInfo teacherInfo = teacherRepository.get(id);
         teacherInfo.setTeacherEmail(email);
         teacherInfo.setTeacherPhone(phone);
-        teacherInfo.setTeacherPassword(pwd.length()>0?pwd:teacherInfo.getTeacherPassword());
+        teacherInfo.setTeacherPassword(pwd.length() > 0 ? pwd : teacherInfo.getTeacherPassword());
         return "201";
     }
 
@@ -100,8 +113,12 @@ public class TeacherSeviceImpl implements TeacherService {
      */
     @Override
     public String getUserTask(Long id, java.sql.Date date1, java.sql.Date date2) {
-        String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work.workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = teacher.teacherId and  teacher.teacherId ="+id+" and work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskTime desc";
-        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1,date2,hql)));
+        String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
+                ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink " +
+                "as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = " +
+                "teacher.teacherId and  teacher.teacherId =" + id + " and work.workTaskTime>=? and work" +
+                ".workTaskTime<=? order by work.workTaskTime desc";
+        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1, date2, hql)));
         return json;
     }
 }

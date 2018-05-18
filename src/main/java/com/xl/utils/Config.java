@@ -28,6 +28,7 @@ public class Config
      */
     public static final String Code201 = "201";//处理失败
     public static final String Code200 = "200";//处理成功
+
 //    /***
 //     * 老师注册
 //     */
@@ -35,16 +36,21 @@ public class Config
 //    public static final String Code111 = "111";//用户名已存在
 //    public static final String Code112 = "112";//邮箱已被注册
 //    public static final String Code113 = "113";//电话已存在
+
     /***
      * 管理员注册
      */
     public static final String Code120 = "120";//成功
-    //public static final String Code121 = "121";//用户名已存在
-    //public static final String Code122 = "122";//邮箱已被注册
-    //public static final String Code123 = "123";//qq已存在
+    public static final String Code121 = "121";//用户名已存在
+    public static final String Code122 = "122";//邮箱已被注册
+    public static final String Code123 = "123";//qq已存在
+    public static final String Code124 = "124";//未知失败
+
     /***
      * 操作数据库结果
      */
     public static final String OK = "200";//成功
     public static final String NO = "201";//失败
+    public static final String NULL = "202";//查询为空
+
 }

@@ -31,7 +31,6 @@
 
     <!-- sweealert CSS & JS in here -->
     <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     <!-- Related styles of various icon packs and plugins -->
     <link rel="stylesheet" href="./css/plugins.css">
@@ -206,7 +205,8 @@
                                             <label class="col-lg-3 control-label"><i class="fa fa-address-card"></i>&nbsp;管理员名称：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" id="adminName">
+                                                <input type="text" class="form-control" id="adminName" value="admin-"
+                                                       placeholder="为了统一格式，请务必以admin- 开头">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -245,7 +245,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-offset-3 col-lg-8">
                                                 <input class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                                       id="modify-submit" type="button" onclick="test11()" value="保存修改"/>
+                                                       id="modify-submit" type="button" value="添加"/>
                                             </div>
                                         </div>
                                     </form>
@@ -253,8 +253,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-sm-12 container-fluid">
                         <div class="widget">
                             <div class="widget-content themed-background text-light-op">
@@ -265,12 +263,13 @@
                                     <form action="list.php" method="GET" class="form-inline">
                                         <div class="form-group">
                                             <label>搜索管理员</label>
-                                            <input type="text" class="form-control" name="kw" placeholder="请直接输入管理员的帐号">
-                                            <select name="type" class="form-control">
-                                                <option value="0">选择系部</option>
+                                            <input type="text" class="form-control" id="find_name"
+                                                   placeholder="请直接输入管理员名称">
+                                            <select name="type" class="form-control" id="find_select">
+                                                <option value="0">全校</option>
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">搜索</button>&nbsp;
+                                        <button type="button" id="find_bt" class="btn btn-primary">搜索</button>&nbsp;
                                     </form>
                                     <form method="post" name="list1" id="adminInfo1">
                                         <div class="table-responsive">
@@ -292,11 +291,11 @@
                                         </div>
                                         <input name="chkAll1" onclick="checkAll(this.checked)" type="checkbox"
                                                id="chkAll1" value="checkbox">&nbsp;全选&nbsp;
-                                        <select class="table-responsive" name="status">
-                                            <option selected="">操作订单</option>
-                                            <option value="0">删除</option>
+                                        <select class="table-responsive" id="pl_edit" name="status">
+                                            <option value="0" selected="">-</option>
+                                            <option value="1">删除</option>
                                         </select>
-                                        <input type="submit" name="Submit" value="确定">
+                                        <input type="button" name="Submit" value="确定" onclick="pushName()">
                                     </form>
                                 </div>
                             </div>
@@ -326,11 +325,58 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    修改
+                    修改管理员【ID:<spam id="modal_adminid">*</spam>】
                 </h4>
             </div>
             <div class="modal-body">
-                在这里添加一些文本
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><i class="fa fa-group"></i>&nbsp;归属系部：</label>
+                    <div class="col-lg-8">
+                        <select class="form-control" id="modal_department">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><i class="fa fa-address-card"></i>&nbsp;管理员名称：</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="modal_adminName" value="admin-"
+                               placeholder="为了统一格式，请务必以admin- 开头">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><i class="fa fa-lock"></i>&nbsp;管理员密码：</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="modal_adminPwd">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><i class="fa fa-envelope-open"></i>&nbsp;绑定邮箱：</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" maxlength="18" id="modal_email"
+                               name="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><i
+                            class="fa fa-qq"></i>&nbsp;绑定QQ：</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" maxlength="11" id="modal_qq"
+                               name="qq">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"><i class="fa fa-edit"
+                                                             style="font-size:19px"></i>绑定手机号：</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="phone" id="modal_phone">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -344,15 +390,14 @@
 </div>
 
 
-
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script src="./JS/sadmin.js" type="application/javascript"></script>
 <script src="./JS/app.js"></script>
 <script>
-    function meth() {
-        $('#modalEdit').modal('hide');
-    }
+
+
     function checkAll(checked) {
         var allCheckBoxs = document.getElementsByName("checkbox");
         for (var i = 0; i < allCheckBoxs.length; i++) {
@@ -361,9 +406,7 @@
             }
         }
     }
-    function test11() {
 
-    }
 </script>
 </body>
 </html>

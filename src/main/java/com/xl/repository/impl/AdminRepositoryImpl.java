@@ -31,7 +31,8 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public List<THngyAdminInfo> findAll() {
-        return null;
+        String hql = "FROM THngyAdminInfo";
+        return getSession().createQuery(hql).list();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public void delete(Long id) {
-        getSession().delete(getSession().get(THngyAdminInfo.class, id));
+        getSession().delete(getSession().load(THngyAdminInfo.class, id));
     }
 
     @Override
