@@ -3,20 +3,15 @@ package com.xl.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xl.entity.*;
-import com.xl.repository.AdminRepository;
-import com.xl.repository.MainRepository;
-import com.xl.repository.StaffRoomRepository;
+import com.xl.repository.impl.AdminRepositoryImpl;
+import com.xl.repository.impl.MainRepositoryImpl;
+import com.xl.repository.impl.StaffRoomRepositoryImpl;
 import com.xl.service.AdminService;
 import com.xl.utils.Config;
 import com.xl.utils.ExcelUtil;
 import com.xl.utils.MainUtil;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
@@ -27,13 +22,13 @@ import java.util.*;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private AdminRepositoryImpl adminRepository;
 
     @Autowired
-    private StaffRoomRepository staffRoomRepository;
+    private StaffRoomRepositoryImpl staffRoomRepository;
 
     @Autowired
-    private MainRepository mainRepository;
+    private MainRepositoryImpl mainRepository;
 
     /**
      * 以Json形式返回管理员个人信息以及公告

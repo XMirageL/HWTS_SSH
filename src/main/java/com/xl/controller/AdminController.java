@@ -1,6 +1,6 @@
 package com.xl.controller;
 
-import com.xl.service.AdminService;
+import com.xl.service.impl.AdminServiceImpl;
 import com.xl.utils.Config;
 import com.xl.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Date;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+    private AdminServiceImpl adminService;
 
     /***
      * 显示管理员首页信息

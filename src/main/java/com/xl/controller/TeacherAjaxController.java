@@ -1,6 +1,6 @@
 package com.xl.controller;
 
-import com.xl.service.impl.TeacherSeviceImpl;
+import com.xl.service.impl.TeacherServiceImpl;
 import com.xl.utils.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class TeacherAjaxController {
     @Autowired
-    TeacherSeviceImpl teacherSevice;
+    TeacherServiceImpl teacherSevice;
 
     /***
      * 修改用户的个人信息

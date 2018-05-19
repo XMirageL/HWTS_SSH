@@ -1,7 +1,7 @@
 package com.xl.controller;
 
 
-import com.xl.service.impl.TeacherSeviceImpl;
+import com.xl.service.impl.TeacherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public class TeacherController {
 
     @Autowired
-    TeacherSeviceImpl teacherSevice;
+    TeacherServiceImpl teacherSevice;
 
     @GetMapping(value = "/teacherInfo")
     public String teacherInfo() {

@@ -1,7 +1,6 @@
 package com.xl.controller;
 
 import com.xl.entity.THngyAdminInfo;
-import com.xl.service.impl.AdminServiceImpl;
 import com.xl.service.impl.SAdminServiceImpl;
 import com.xl.utils.Config;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class SAdminAjaxController {

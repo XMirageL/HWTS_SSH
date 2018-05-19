@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TeacherSeviceImpl implements TeacherService {
+public class TeacherServiceImpl implements TeacherService {
     @Autowired
     MainRepositoryImpl mainRepository;
 

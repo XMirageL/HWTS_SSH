@@ -2,7 +2,7 @@ package com.xl.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.xl.entity.THngyWorkTask;
-import com.xl.service.AdminService;
+import com.xl.service.impl.AdminServiceImpl;
 import com.xl.utils.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import java.util.*;
 @Controller
 public class AdminAjaxController {
     @Autowired
-    private AdminService adminService;
+    private AdminServiceImpl adminService;
 
     /***
      * 修改公告

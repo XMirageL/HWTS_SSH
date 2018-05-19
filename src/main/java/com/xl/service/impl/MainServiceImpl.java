@@ -3,8 +3,8 @@ package com.xl.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xl.entity.THngyTeacherInfo;
-import com.xl.repository.MainRepository;
-import com.xl.repository.TeacherRepository;
+import com.xl.repository.impl.MainRepositoryImpl;
+import com.xl.repository.impl.TeacherRepositoryImpl;
 import com.xl.service.MainService;
 import com.xl.utils.Config;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ import java.util.Map;
 public class MainServiceImpl implements MainService {
 
     @Autowired
-    private MainRepository mainRepository;
+    private MainRepositoryImpl mainRepository;
 
     @Autowired
-    private TeacherRepository teacherRepository;
+    private TeacherRepositoryImpl teacherRepository;
 
     //返回数据库中用户数量和任务数量
     @Override
