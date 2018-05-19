@@ -121,7 +121,7 @@ public class AdminAjaxController {
     @RequestMapping(value = "getInfo/recentTaskInfo", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
     public String recentTaskInfo(HttpSession session) {
-        return adminService.getAdminHomePageInfo_1(""+session.getAttribute("department"));
+        return adminService.getAdminHomePageInfo_1("" + session.getAttribute("department"));
     }
 
     /***
@@ -214,9 +214,10 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "addTeacher", produces = "text/html;charset=UTF-8;")
     @ResponseBody
-    public String addTeacher(HttpSession session) {
+    public String addTeacher(HttpSession session, String teacherid, String techername, String teacherstaff, String
+            teacheremail, String teacherphone, String teacherpwd) {
         String json = Config.NO;
-        json = adminService.getInfo(session);
+        json = adminService.addTeacher(teacherid, techername, teacherstaff, teacheremail, teacherphone, teacherpwd);
         return json;
     }
 }

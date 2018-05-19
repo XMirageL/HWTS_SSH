@@ -6,12 +6,14 @@ import com.xl.entity.*;
 import com.xl.repository.impl.AdminRepositoryImpl;
 import com.xl.repository.impl.MainRepositoryImpl;
 import com.xl.repository.impl.StaffRoomRepositoryImpl;
+import com.xl.repository.impl.TeacherRepositoryImpl;
 import com.xl.service.AdminService;
 import com.xl.utils.Config;
 import com.xl.utils.ExcelUtil;
 import com.xl.utils.MainUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
@@ -23,6 +25,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminRepositoryImpl adminRepository;
+
+    @Autowired
+    private TeacherRepositoryImpl teacherRepository;
 
     @Autowired
     private StaffRoomRepositoryImpl staffRoomRepository;
@@ -198,13 +203,20 @@ public class AdminServiceImpl implements AdminService {
         List<THngyStaffRoom> list1 = staffRoomRepository.findAll();
         List<THngyTeacherInfo> list = ExcelUtil.getTeacherInfo(filePath, list1);
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getTeacherName() + list.get(i).getStaffRoomId() + list.get(i)
-                    .getTeacherPhone() + list.get(i).getTeacherEmail() + list.get(i).getTeacherPassword());
-            THngyTeacherInfo teacherInfo = list.get(i);
+            System.out.println(list.get(i).getTeacherName() + " " + list.get(i).getStaffRoomId() + " " + list.get(i)
+                    .getTeacherPhone() + " " + list.get(i).getTeacherEmail() + " " + list.get(i).getTeacherPassword());
+            THngyTeacherInfo teacherInfo = new THngyTeacherInfo();
+            teacherInfo.setTeacherName(list.get(i).getTeacherName());
+            teacherInfo.setStaffRoomId(list.get(i).getStaffRoomId());
+            teacherInfo.setTeacherEmail(list.get(i).getTeacherEmail());
+            teacherInfo.setTeacherPhone(list.get(i).getTeacherPhone());
+            teacherInfo.setTeacherPassword(list.get(i).getTeacherPassword());
             Long sign = mainRepository.save(teacherInfo);
-//            if (sign > 0) {
-//                statusCode = Config.Code200;
-//            }
+            if (sign == 0) {
+                return Config.Code201;
+            } else {
+                statusCode = Config.Code200;
+            }
         }
         return statusCode;
     }
@@ -368,5 +380,31 @@ public class AdminServiceImpl implements AdminService {
         jsonObject.put("staffname", staffname);
         return jsonObject.toJSONString();
     }
-}
 
+    /***
+     * 添加教师
+     * @param teacherid
+     * @param techername
+     * @param teacherstaff
+     * @param teacheremail
+     * @param teacherphone
+     * @param teacherpwd
+     * @return
+     */
+    @Override
+    public String addTeacher(String teacherid, String techername, String teacherstaff, String teacheremail, String
+            teacherphone, String teacherpwd) {
+        String code = Config.NO;
+        THngyTeacherInfo tHngyTeacherInfo = new THngyTeacherInfo();
+        tHngyTeacherInfo.setTeacherName(techername);
+        tHngyTeacherInfo.setStaffRoomId(Long.parseLong(teacherstaff));
+        tHngyTeacherInfo.setTeacherEmail(teacheremail);
+        tHngyTeacherInfo.setTeacherPhone(teacherphone);
+        tHngyTeacherInfo.setTeacherPassword(teacherpwd);
+        Long sign = teacherRepository.save(tHngyTeacherInfo);
+        if (sign != 0) {
+            code = Config.OK;
+        }
+        return code;
+    }
+}

@@ -92,4 +92,16 @@ public interface AdminService {
      * @return
      */
     String getInfo(HttpSession session);
+
+    /***
+     * 添加教师
+     * @param teacherid
+     * @param techername
+     * @param teacherstaff
+     * @param teacheremail
+     * @param teacherphone
+     * @param teacherpwd
+     * @return
+     */
+    String addTeacher(String teacherid,String techername,String teacherstaff,String teacheremail,String teacherphone,String teacherpwd);
 }

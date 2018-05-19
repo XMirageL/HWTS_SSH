@@ -4,12 +4,11 @@ $(document).ready(function () {
     $("#bt_add").click(function () {
         var teacherid = $("#teacherid").val();
         var techername = $("#techername").val();
-        var teacherstaff = $('#teacherstaff').attr("name");
+        var teacherstaff = $('#teacherstaff option:selected').attr('value');
         var teacheremail = $("#teacheremail").val();
         var teacherphone = $("#teacherphone").val();
         var teacherpwd = $("#teacherpwd").val();
-        alert(teacherstaff);
-        if (teacherid.length == 0 ||techername.length == 0 ||teacherstaff.length == 0 ||teacheremail.length == 0 ||teacherphone.length == 0 ||teacherpwd.length == 0){
+        if (teacherid.length == 0 || techername.length == 0 || teacherstaff.length == 0 || teacheremail.length == 0 || teacherphone.length == 0 || teacherpwd.length == 0) {
             swal("请不要留空", "", "error");
             return;
         }
@@ -26,6 +25,14 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (data) {
+                if (data == 200) {
+                    swal("注册成功", "", "success");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    swal("注册失败", "code:" + data, "error");
+                }
             },
             error: function (data) {
                 swal("网络错误", "请重新尝试", "error");
@@ -58,7 +65,7 @@ $(document).ready(function () {
         }, function () {
             setTimeout(function () {
                 ajax_task();
-            }, 2000);
+            }, 1000);
         });
     });
 
@@ -75,14 +82,14 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             error: function (data) {
-                if (data != null) {
+                if (data == 200) {
                     swal("插入成功", "教师信息已全部导入", "success")
                 } else {
                     swal("插入失败", "请仔细检查Excel表是否符合格式", "error")
                 }
             },
             success: function (data) {
-                if (data != null) {
+                if (data == 200) {
                     swal("插入成功", "教师信息已全部导入", "success")
                 } else {
                     swal("插入失败", "请仔细检查Excel表是否符合格式", "error")
