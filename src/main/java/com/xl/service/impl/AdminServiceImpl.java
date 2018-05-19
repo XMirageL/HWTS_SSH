@@ -224,46 +224,38 @@ public class AdminServiceImpl implements AdminService {
      *
      */
     @Override
-    public String saveTaskTeacherLinkInfo(HttpSession session, String workName, String teacher, String workText,
+    public String saveTaskTeacherLinkInfo(long did, String workName, String teacher, String workText,
                                           String qq) {
         //获取当前时间,保存任务信息
-        String time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         int M = Integer.parseInt((String) time.subSequence(5, 7));
         THngyWorkTask tHngyWorkTask = new THngyWorkTask();
+        tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(time));
         tHngyWorkTask.setWorkTaskName(workName);
         tHngyWorkTask.setWorkTaskText(workText);
-        tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(time + " 00:00:00"));
-        if (M < 2 && M > 8) {
-            //上学期
-            tHngyWorkTask.setWorkTaskTerm("上学期");
-        } else {
-            //下学期
-            tHngyWorkTask.setWorkTaskTerm("下学期");
-        }
         tHngyWorkTask.setWorkTaskSchedule("未完成");
         tHngyWorkTask.setQq(qq);
-        tHngyWorkTask.setDepartmentId(Long.parseLong("" + session.getAttribute("department")));
+        tHngyWorkTask.setDepartmentId(did);
+        if (M < 2 && M > 8)//上学期
+        {
+            tHngyWorkTask.setWorkTaskTerm("上学期");
+        } else//下学期
+        {
+            tHngyWorkTask.setWorkTaskTerm("下学期");
+        }
         long workId = mainRepository.save(tHngyWorkTask);
-        String sql = "select max (task.workTaskId) from THngyWorkTask as task ";
-        List<Object> list = mainRepository.simpleQuery(null, sql);
+
         //获取全部教师的id,将教师id与对应的任务id存如Link表
         String[] teachers = teacher.split(",");
-//        for (int i = 0; i < teachers.length; i++) {
-//            String hql = "select t.id from THngyTeacherInfo t where teacherName = ?";
-//            Object[] objects = {teachers[i]};
-//            Object object = mainRepository.singleQuery(objects, hql);
-//            System.out.println("老师输出" + object);
-//        }
         for (int i = 0; i < teachers.length; i++) {
-            String hql = "select t.id from THngyTeacherInfo as t where teacherName = ?";
+            String hql = "select t.id from THngyTeacherInfo t where teacherName = ?";
             Object[] objects = {teachers[i]};
-            THngyLink tHngyLink = new THngyLink();
-            Object object = mainRepository.singleQuery(objects, hql);
-            tHngyLink.setWorkTaskId(Long.parseLong("" + list.get(0)));
-            tHngyLink.setTeacherId(Long.parseLong("" + object));
-            mainRepository.save(tHngyLink);
+            THngyLink link = new THngyLink();
+            link.setWorkTaskId(workId);
+            link.setTeacherId((long) mainRepository.singleQuery(objects, hql));
+            mainRepository.save(link);
         }
-        return Config.Code200;
+        return String.valueOf(workId);
     }
 
     /**
@@ -376,7 +368,7 @@ public class AdminServiceImpl implements AdminService {
                 staffname += ",";
             }
         }
-        jsonObject.put("maxid", Integer.parseInt(object + "")+1);
+        jsonObject.put("maxid", Integer.parseInt(object + "") + 1);
         jsonObject.put("staffid", staffid);
         jsonObject.put("staffname", staffname);
         return jsonObject.toJSONString();

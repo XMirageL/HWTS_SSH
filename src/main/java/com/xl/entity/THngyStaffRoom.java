@@ -15,6 +15,7 @@ public class THngyStaffRoom {
     private String spare4;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Staff_room_ID")
     public long getStaffRoomId() {
         return staffRoomId;

@@ -62,12 +62,13 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/insertIssueTasks")
     @ResponseBody
-    public String insertIssueTasks(HttpSession httpSession, String workName, String teacher, String workText, String
+    public String insertIssueTasks(HttpSession session, String workName, String teacher, String workText, String
             qq) {
         String statusCode = Config.Code201;
         String taskId = "";
+        long did = Long.parseLong("" + session.getAttribute("department"));
         if (workName.length() > 0 && teacher.length() > 0 && workText.length() > 0 && qq.length() > 0) {
-            taskId = adminService.saveTaskTeacherLinkInfo(httpSession, workName, teacher, workText, qq);
+            taskId = adminService.saveTaskTeacherLinkInfo(did, workName, teacher, workText, qq);
             statusCode = Config.Code200;
         }
         String json = "{\"sCode\":\"" + statusCode + "\",\"taskId\":\"" + taskId + "\"}";

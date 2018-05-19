@@ -62,7 +62,7 @@ public interface AdminService {
      * @param teacher 管理员指定的多个教师,以","隔开
      * @param qq 发布任务的管理员的qq
      */
-    String saveTaskTeacherLinkInfo(HttpSession session, String workName, String teacher, String workText, String qq);
+    String saveTaskTeacherLinkInfo(long did, String workName, String teacher, String workText, String qq);
 
     /**
      * 根据id获取任务数据

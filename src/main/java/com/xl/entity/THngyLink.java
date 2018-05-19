@@ -15,6 +15,7 @@ public class THngyLink {
     private String spare4;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Link_ID")
     public long getLinkId() {
         return linkId;

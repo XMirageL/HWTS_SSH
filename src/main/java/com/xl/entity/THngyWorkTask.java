@@ -21,6 +21,7 @@ public class THngyWorkTask {
     private String spare1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Work_task_ID")
     public long getWorkTaskId() {
         return workTaskId;

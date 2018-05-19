@@ -18,6 +18,7 @@ public class THngySAdminInfo {
     private String spare4;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SAdmin_ID")
     public long getsAdminId() {
         return sAdminId;
