@@ -1,6 +1,7 @@
 package com.xl.controller;
 
 import com.xl.service.impl.TeacherSeviceImpl;
+import com.xl.utils.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,11 @@ public class TeacherAjaxController {
     @PostMapping(value = "/modifyUserInfo")
     @ResponseBody
     public String modifyUserInfo(String email, String phone, String pwd, HttpSession session) {
+        String code = Config.Code201;
         String id = (String) session.getAttribute("id");
-        return teacherSevice.updateUserInfo(Long.valueOf(id),email,phone,pwd);
+        System.out.println(email + " " + phone + " " + pwd + " ");
+        code = teacherSevice.updateUserInfo(Long.valueOf(id), email, phone, pwd);
+        return code;
     }
 
     /***
@@ -39,9 +43,10 @@ public class TeacherAjaxController {
     public String userTaskQuery(String year, String hyear, HttpSession session) {
         Long id = Long.valueOf(String.valueOf(session.getAttribute("id")));
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) + "-02-01");
+        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
+                "-02-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
-        return teacherSevice.getUserTask(Long.valueOf(id),date1,date2);
+        return teacherSevice.getUserTask(Long.valueOf(id), date1, date2);
     }
 }

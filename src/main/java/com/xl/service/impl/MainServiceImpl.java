@@ -72,33 +72,35 @@ public class MainServiceImpl implements MainService {
                 String hql = "select adminInfoId,departmentId from THngyAdminInfo  where adminInfoName = ? and " +
                         "adminInfoPassWord=?";
                 Object text = mainRepository.singleQuery(objects, hql);
-                JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(text));
-                userid = jsonArray.getString(0);
-                userdep = jsonArray.getString(1);
-//                System.out.println("ID" + userid.toString() + "部门" + userdep.toString());
-                if (userid != null) {
+                if (!JSONObject.toJSONString(text).equals("null")) {
+                    JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(text));
+                    userid = jsonArray.getString(0);
+                    userdep = jsonArray.getString(1);
                     code = Config.Code103;
                     userType = "0";
                 }
             }
         } else if (inputEmail.length() > 2) {
-            if (inputEmail.length() > 6) {
+            if (inputEmail.length() >= 6) {
                 if (inputEmail.substring(0, 6).equals("SAdmin")) {
-                    String hql = "select sAdminId from THngySAdminInfo where sAdminName = ? and sAdminPassWord= ?";
+                    System.out.println("进入超管判断登录");
+                    String hql = "select a.sAdminId from THngySAdminInfo as a where a.sAdminName = ? and a" +
+                            ".sAdminPassWord= ?";
                     userid = mainRepository.singleQuery(objects, hql);
-                    System.out.println("自动登录:" + userid);
                     if (userid != null) {
                         code = Config.Code104;
                         userType = "9";
                     }
                 }
             } else {
-                String hql = "select a.teacherId, b.departmentId from THngyTeacherInfo as a, THngyStaffRoom as b where a.teacherName = ? and a.teacherPassword = ? and a.staffRoomId = b.staffRoomId";
+                System.out.println("进入老师判断登录");
+                String hql = "select a.teacherId, b.departmentId from THngyTeacherInfo as a, THngyStaffRoom as b " +
+                        "where a.teacherName = ? and a.teacherPassword = ? and a.staffRoomId = b.staffRoomId";
                 Object text = mainRepository.singleQuery(objects, hql);
-                JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(text));
-                userid = jsonArray.getString(0);
-                userdep = jsonArray.getString(1);
-                if (userid != null) {
+                if (!JSONObject.toJSONString(text).equals("null")) {
+                    JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(text));
+                    userid = jsonArray.getString(0);
+                    userdep = jsonArray.getString(1);
                     code = Config.Code100;
                     userType = "1";
                 }

@@ -266,7 +266,7 @@
                                             <label class="col-lg-3 control-label">教师ID：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name" value="10001"
+                                                <input type="text" class="form-control" name="web_name"  id="teacherid"
                                                        disabled>
                                             </div>
                                         </div>
@@ -274,7 +274,7 @@
                                             <label class="col-lg-3 control-label">教师姓名：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name"
+                                                <input type="text" class="form-control" name="web_name" id="techername"
                                                 >
                                             </div>
                                         </div>
@@ -282,7 +282,7 @@
                                             <label class="col-lg-3 control-label">归属教研室：</label>
 
                                             <div class="col-lg-8">
-                                                <select name="isyaoqing" class="form-control">
+                                                <select name="isyaoqing" class="form-control" id="teacherstaff">
                                                     <option value="1">5306教室</option>
                                                     <option value="0">5305教室</option>
                                                 </select>
@@ -292,7 +292,7 @@
                                             <label class="col-lg-3 control-label">教师邮箱：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name"
+                                                <input type="text" class="form-control" name="web_name" id="teacheremail"
                                                 >
                                             </div>
                                         </div>
@@ -301,7 +301,7 @@
 
                                             <div class="col-lg-8">
                                                 <input type="text" class="form-control" name="web_name"
-                                                       onkeyup="value=value.replace(/[^\d]/g,'')"
+                                                       onkeyup="value=value.replace(/[^\d]/g,'')" id="teacherphone"
                                                 >
                                             </div>
                                         </div>
@@ -309,7 +309,7 @@
                                             <label class="col-lg-3 control-label">登录密码：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name" value="123456"
+                                                <input type="text" class="form-control" name="web_name" value="123456" id="teacherpwd"
                                                 >
                                             </div>
                                             <br>
@@ -320,7 +320,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-offset-3 col-lg-8">
                                                 <button class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                                        type="submit">保存提交
+                                                        type="button" id="bt_add">保存提交
                                                 </button>
                                             </div>
                                         </div>
@@ -345,8 +345,8 @@
                                     <strong> Excel表要求文件格式：</strong>.xls<br><br>
                                     <strong> Excel表名字要求：</strong>无要求<br><br>
                                     <strong> Excel表大小要求：</strong>无限制<br><br>
-                                    <strong> Excel表内容格式要求：</strong>4 x *  （ 列限制4格 行无限）<br><br>
-                                    每行4列<br>第一列为<strong>教师姓名</strong><br>第二列为教师归属<strong>教研室的ID</strong><br>第三列为<strong>教师邮箱</strong><br>第四列为<strong>教师联系电话</strong>
+                                    <strong> Excel表内容格式要求：</strong>3 x *  （ 列限制3格 行无限）<br><br>
+                                    每行4列<br>第一列为<strong>教师姓名</strong><br>第二列为教师归属<strong>教师邮箱</strong><br>第三列为<strong>教师联系电话</strong><br>
                                     <br><strong>教师密码</strong>不需设置，统一默认设置为<strong>123456</strong><br><br>
                                     <strong>格式符合的Excel表 可直接选择上传</strong><br>
                                     例子截图如下：<br>

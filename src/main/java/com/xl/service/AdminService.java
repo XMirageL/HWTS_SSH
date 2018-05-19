@@ -5,6 +5,7 @@ import org.springframework.http.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,13 @@ public interface AdminService {
      * @param id HttpSession中的id
      * @return 返回json格式的数据
      */
-    String getAdminHomePageInfo(String id);
+    String getAdminHomePageInfo(String id, String department);
 
     /**
      * 以Json形式返回管理员主页最近任务信息
      * @return 返回json格式的数据
      */
-    String getAdminHomePageInfo();
+    String getAdminHomePageInfo_1(String dep);
 
     /**
      * 修改管理员信息
@@ -35,15 +36,16 @@ public interface AdminService {
      * 修改公告
      * @param notice 公告内容
      * @return 返回状态码200成功，201失败
+     *
      */
-    String updateNotice(String notice,long did);
+    String updateNotice(String notice,long did, long department);
 
 
     /***
      * 根据时间获取教师工作状态(查询时间内完成任务数)
      * @return 报表
      */
-    List<Map<String, Object>> teacherReportsQuery(Date date1,Date date2);
+    List<Map<String, Object>> teacherReportsQuery(String dep,Date date1,Date date2);
 
     /***
      * Excel批量注册 教师信息
@@ -60,7 +62,7 @@ public interface AdminService {
      * @param teacher 管理员指定的多个教师,以","隔开
      * @param qq 发布任务的管理员的qq
      */
-    String saveTaskTeacherLinkInfo(String workName, String teacher, String workText, String qq);
+    String saveTaskTeacherLinkInfo(HttpSession session, String workName, String teacher, String workText, String qq);
 
     /**
      * 根据id获取任务数据
@@ -84,4 +86,10 @@ public interface AdminService {
      * 根据时间查询工作报表
      */
     void downloadReports(HttpServletResponse response,List<Map<String, Object>> list, String fileName, String columnNames[], String keys[]);
+
+    /***
+     * 批量导入页信息部署
+     * @return
+     */
+    String getInfo(HttpSession session);
 }

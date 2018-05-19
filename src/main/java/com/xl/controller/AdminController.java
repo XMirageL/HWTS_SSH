@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,7 +36,7 @@ public class AdminController {
      * @return
      */
     @GetMapping(value = "/adminissue")
-    public String adminissue(HttpServletRequest req) {
+    public String adminissue(HttpServletRequest req, HttpSession session) {
         //获取当前时间
         String time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         int M = Integer.parseInt((String) time.subSequence(5, 7));
@@ -57,7 +58,8 @@ public class AdminController {
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         System.out.println(date1 + "\n" + date2);
 
-        req.setAttribute("allTeacherInfo", adminService.teacherReportsQuery(date1, date2));
+        req.setAttribute("allTeacherInfo", adminService.teacherReportsQuery("" + session.getAttribute("department"),
+                date1, date2));
         return "adminissue";
     }
 
@@ -80,7 +82,8 @@ public class AdminController {
         String fileName = year + hyear + "任务详情表";
         String columnNames[] = {"时间(年/月/日)", "任务名称", "所属教师", "状态"};// 列名
         String keys[] = {"taskDate", "taskName", "teachers", "taskState"};// map中的key
-        adminService.downloadReports(response, adminService.taskReportsQuery(date1, date2), fileName, columnNames, keys);
+        adminService.downloadReports(response, adminService.taskReportsQuery(date1, date2), fileName, columnNames,
+                keys);
     }
 
     /***
@@ -91,7 +94,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/downloadTeacher")
-    public void downloadTeacher(HttpServletResponse response, String year, String
+    public void downloadTeacher(HttpServletResponse response, HttpSession session, String year, String
             hyear) {
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
         String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
@@ -103,7 +106,9 @@ public class AdminController {
         String fileName = year + hyear + "教师详情表";
         String columnNames[] = {"ID", "姓名", "已安排任务数", "未完成数"};// 列名
         String keys[] = {"teacherId", "teacherName", "taskCount", "unfinished"};// map中的key
-        adminService.downloadReports(response, adminService.teacherReportsQuery(date1, date2), fileName, columnNames, keys);
+        adminService.downloadReports(response, adminService.teacherReportsQuery("" + session.getAttribute
+                        ("department"), date1, date2), fileName, columnNames,
+                keys);
     }
 
 

@@ -212,6 +212,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-address-card-o"></i>&nbsp;所属系部：</label>
+
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control"  disabled="disabled" id="adminDep">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-lg-3 control-label"><i class="fa fa-address-card-o"></i>&nbsp;管理员名称：</label>
 
                                             <div class="col-lg-8">
@@ -259,7 +266,7 @@
                                 <div class="ibox-content">
                                     <form role="form" class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="col-lg-3 control-label"><i class="fa fa-bullhorn"></i>&nbsp;教师页面公告内容：</label>
+                                            <label class="col-lg-3 control-label"><i class="fa fa-bullhorn"></i>&nbsp;教师页面公告内容：<small>(只在同系老师的公告界面上显示)</small></label>
                                             <div class="col-lg-8">
                                                 <textarea type="text" class="form-control" rows="11" id="notice-text"></textarea>
                                             </div>
@@ -331,7 +338,11 @@
 </div>
 <!-- END Page Wrapper -->
 
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
+<script>
 
+    var ii = layer.load(2, {shade: [0.1, '#fff']});
+</script>
 <script src="./JS/admin.js"></script>
 <script src="./JS/app.js"></script>
 </body>

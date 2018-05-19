@@ -82,6 +82,7 @@ $(document).ready(function () {
     $.post("/getInfo/adminInfo", $('#adminInfo').serialize(), function (data) {
         var temp = jQuery.parseJSON(data);
         $("#adminId").val(temp.adminId);
+        $("#adminDep").val(temp.adminDep);
         $("#adminName").val(temp.adminName);
         $("#email").val(temp.adminEmail);
         $("#qq").val(temp.adminQQ);
@@ -120,7 +121,7 @@ $(document).ready(function () {
     function taskQueryResult(data) {
         var tableStr = " <div class=\"widget\">" +
             "                            <div class=\"widget-content themed-background text-light-op\">" +
-            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>最近任务</strong>&nbsp;" +
+            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>最近任务(一个月)</strong>&nbsp;" +
             // "<a href=\"downloadTask?year="+year+"&hyear="+hyear+"\" class=\"btn btn-info btn-xs\">下载</a>" +
             "                                <div class=\"pull-right\">" +
             "                                    <i id=\"idown2\" class=\"fa fa-chevron-down sidebar-nav-indicator sidebar-nav-mini-hide  \"></i>" +
@@ -177,6 +178,7 @@ $(document).ready(function () {
         setTimeout(function () {
             $("#text2").slideDown();
         }, 200);
+        layer.close(ii);
     }
 
 });

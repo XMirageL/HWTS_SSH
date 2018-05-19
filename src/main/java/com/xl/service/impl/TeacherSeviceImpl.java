@@ -6,6 +6,7 @@ import com.xl.entity.THngyTeacherInfo;
 import com.xl.repository.impl.MainRepositoryImpl;
 import com.xl.repository.impl.TeacherRepositoryImpl;
 import com.xl.service.TeacherService;
+import com.xl.utils.Config;
 import com.xl.utils.MainUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,7 +102,7 @@ public class TeacherSeviceImpl implements TeacherService {
         teacherInfo.setTeacherEmail(email);
         teacherInfo.setTeacherPhone(phone);
         teacherInfo.setTeacherPassword(pwd.length() > 0 ? pwd : teacherInfo.getTeacherPassword());
-        return "201";
+        return Config.Code200;
     }
 
     /***

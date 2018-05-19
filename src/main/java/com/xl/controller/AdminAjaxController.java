@@ -25,10 +25,12 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/modifyNotice")
     @ResponseBody
-    public String modifyNotice(String notice,HttpSession session) {
-        String id = (String)session.getAttribute("depfgasdghl");
+    public String modifyNotice(String notice, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        String department = (String) session.getAttribute("department");
         long did = Long.valueOf(id);
-        return adminService.updateNotice(notice,did);
+        long ddepartment = Long.valueOf(department);
+        return adminService.updateNotice(notice, did, ddepartment);
     }
 
     /***
@@ -60,11 +62,12 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/insertIssueTasks")
     @ResponseBody
-    public String insertIssueTasks(String workName, String teacher, String workText, String qq) {
+    public String insertIssueTasks(HttpSession httpSession, String workName, String teacher, String workText, String
+            qq) {
         String statusCode = Config.Code201;
         String taskId = "";
         if (workName.length() > 0 && teacher.length() > 0 && workText.length() > 0 && qq.length() > 0) {
-            taskId = adminService.saveTaskTeacherLinkInfo(workName, teacher, workText, qq);
+            taskId = adminService.saveTaskTeacherLinkInfo(httpSession, workName, teacher, workText, qq);
             statusCode = Config.Code200;
         }
         String json = "{\"sCode\":\"" + statusCode + "\",\"taskId\":\"" + taskId + "\"}";
@@ -84,7 +87,8 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/updateTask")
     @ResponseBody
-    public String updateTask(String workId, String workName, String workText, String qq, String workState, String workTime) {
+    public String updateTask(String workId, String workName, String workText, String qq, String workState, String
+            workTime) {
         if (workId.length() > 0 || workName.length() > 0 && workText.length() > 0 && qq.length() > 0
                 && workState.length() > 0 && workTime.length() > 0) {
             System.out.println(workName + "\n" + workText + "\n" + qq + "\n" + workState + "\n");
@@ -115,8 +119,8 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "getInfo/recentTaskInfo", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String recentTaskInfo() {
-        return adminService.getAdminHomePageInfo();
+    public String recentTaskInfo(HttpSession session) {
+        return adminService.getAdminHomePageInfo_1(""+session.getAttribute("department"));
     }
 
     /***
@@ -125,16 +129,17 @@ public class AdminAjaxController {
      * @param hyear 学期
      * @return
      */
-    @RequestMapping(value = "taskQuery",produces="text/html;charset=UTF-8;")
+    @RequestMapping(value = "taskQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String taskQuery(String year,String hyear){
-        String dateStr1 = year+("上学期".equals(hyear)?"-02-01":"-08-01");
-        String dateStr2 = ("上学期".equals(hyear)?year+"-08-01":String.valueOf(Integer.parseInt(year)+1)+"-02-01");
+    public String taskQuery(String year, String hyear) {
+        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
+        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
+                "-02-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         //输出
-        System.out.println(date1+"\n"+date2);
-        String json = JSONArray.toJSONString(adminService.taskReportsQuery(date1,date2));
+        System.out.println(date1 + "\n" + date2);
+        String json = JSONArray.toJSONString(adminService.taskReportsQuery(date1, date2));
         System.out.println(json);
         return json;
     }
@@ -147,13 +152,16 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "teacherQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String teacherQuery(String year, String hyear) {
+    public String teacherQuery(HttpSession session, String year, String hyear) {
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) + "-02-01");
+        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
+                "-02-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         System.out.println(date1 + "\n" + date2);
-        List<Map<String, Object>> list = adminService.teacherReportsQuery(date1,date2);
+        List<Map<String, Object>> list = adminService.teacherReportsQuery("" + session.getAttribute("department"),
+                date1,
+                date2);
         if (list == null) {
             return "101";
         }
@@ -170,7 +178,8 @@ public class AdminAjaxController {
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
     public String getAdminInfo(HttpSession httpSession) {
         String id = String.valueOf(httpSession.getAttribute("id"));
-        return adminService.getAdminHomePageInfo(id);
+        String department = String.valueOf(httpSession.getAttribute("department"));
+        return adminService.getAdminHomePageInfo(id, department);
     }
 
     /**
@@ -182,6 +191,31 @@ public class AdminAjaxController {
     @ResponseBody
     public String getTaskInfo(String id) {
         String json = adminService.getTaskInfoForAdmin(Long.valueOf(id));
+        return json;
+    }
+
+    /***
+     * 批量导入页面信息部署
+     * @return
+     */
+    @RequestMapping(value = "getimportInfo", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getimportInfo(HttpSession session) {
+        String json = Config.NO;
+        json = adminService.getInfo(session);
+        return json;
+    }
+
+    /***
+     * 注册老师
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "addTeacher", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String addTeacher(HttpSession session) {
+        String json = Config.NO;
+        json = adminService.getInfo(session);
         return json;
     }
 }

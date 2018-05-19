@@ -1,11 +1,14 @@
 package com.xl.utils;
 
+import com.xl.entity.THngyStaffRoom;
 import com.xl.entity.THngyTeacherInfo;
+import com.xl.repository.MainRepository;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,10 +23,11 @@ public class ExcelUtil {
 
     /**
      * 批量获取Excel文件中教师信息
+     *
      * @param tablePath 文件在服务器上的路径
      * @return 教师list
      */
-    public static List<THngyTeacherInfo> getTeacherInfo(String tablePath){
+    public static List<THngyTeacherInfo> getTeacherInfo(String tablePath, List<THngyStaffRoom> list_staff) {
         List<THngyTeacherInfo> list = new ArrayList<>();
         File file = new File(tablePath);
         try {
@@ -40,7 +44,7 @@ public class ExcelUtil {
                     if (j == 0) {
                         info.setTeacherName(tStr);
                     } else if (j == 1) {
-                        info.setStaffRoomId(Long.valueOf(tStr));
+                        info.setStaffRoomId(staffnameToID(tStr, list_staff));
                     } else if (j == 2) {
                         info.setTeacherEmail(tStr);
                     } else if (j == 3) {
@@ -59,13 +63,25 @@ public class ExcelUtil {
 
     }
 
+    public static Long staffnameToID(String staffName, List<THngyStaffRoom> list_staff) {
+        Long id = Long.valueOf(0);
+        for (int i = 0; i < list_staff.size(); i++) {
+            if (list_staff.get(i).getStaffRoomName().equals(staffName)) {
+                id = list_staff.get(i).getStaffRoomId();
+                break;
+            }
+        }
+        System.out.println("判断出教研室ID：" + id);
+        return id;
+    }
+
     /**
      * @param list        数据集合
      * @param keys        数据集合里map对象的key
      * @param columnNames 导出excel里面的列名
      * @return
      */
-    public static Workbook createWorkbook(List<Map<String,Object>> list, String[] keys, String[] columnNames) {
+    public static Workbook createWorkbook(List<Map<String, Object>> list, String[] keys, String[] columnNames) {
         // 创建excel工作簿
         AtomicReference<XSSFWorkbook> wb = new AtomicReference<>(new XSSFWorkbook());
         // 创建第一个sheet（页），并命名
