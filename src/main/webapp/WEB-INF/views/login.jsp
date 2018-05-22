@@ -28,6 +28,7 @@
 
     <title>用户登录</title>
 
+    <link href="login.css" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -37,14 +38,54 @@
 
     "></script>
     <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
 
     <link href="https://cdn.bootcss.com/Ladda/1.0.6/ladda.min.css" rel="stylesheet">
+
 
     <!--[if IE]>
     <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
+    <style>
+        .demo--label {
+            /*margin: 20px 20px 0 0;*/
+            margin-right: -30px;
+            display: inline-block
+        }
 
+        .demo--radio {
+            display: none
+        }
+
+        .demo--radioInput {
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 100%;
+            display: inline-block;
+            height: 18px;
+            margin-right: 10px;
+            margin-top: -1px;
+            vertical-align: middle;
+            width: 18px;
+            line-height: 1
+        }
+
+        .demo--radio:checked + .demo--radioInput:after {
+            background-color: #53b5e6;
+            border-radius: 100%;
+            content: "";
+            display: inline-block;
+            height: 12px;
+            /*margin: 2px;*/
+            margin-left: 2px;
+            margin-top: 2px;
+            width: 12px
+        }
+
+        .demo--checkbox.demo--radioInput, .demo--radio:checked + .demo--checkbox.demo--radioInput:after {
+            border-radius: 0
+        }
+    </style>
 
 </head>
 
@@ -64,15 +105,29 @@
             <span id="helpBlock2" class="help-block" style="display:none">不得为空</span>
         </div>
         <div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me" id="autoLogin"> 七天之内自动登录
+            <label class="demo--label" style="padding-left : 0px;">
+                <input class="demo--radio" type="checkbox" value="remember-me" id="autoLogin">
+                <span class="demo--checkbox demo--radioInput"></span><span onselectstart="return false;">七天之内自动登录</span>
             </label>
         </div>
         <center>
             <button class="btn btn-lg btn-primary btn-block ladda-button" id="btlg" data-color="blue"
-                    data-style="zoom-out"  type="button">登 录
+                    data-style="zoom-out" type="button">登 录
             </button>
         </center>
+        <div class="form-group" style="margin-top: 20px;">
+            <center>
+                - 也可以用以下方式登录 -
+            </center>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <center>
+                <a href="login.do" style="padding-left: 18px;padding-right: 18px;color: #00aef0;"><i class="fa fa-qq"
+                                                                                                     style="font-size:35px;"></i></a>
+                <a href="./" style="color: #ff6d73;padding-left: 18px;padding-right: 18px;"><i class="fa fa-weibo"
+                                                                                               style="font-size:40px;"></i></a>
+            </center>
+        </div>
     </form>
 
 </div> <!-- /container -->
@@ -86,12 +141,11 @@
 <script>
 
 
-
-    $(document).ready(function(){
+    $(document).ready(function () {
         // Bind normal buttons
         Ladda.bind('#btlg', null);
         var Ladda_l = Ladda.create(document.querySelector('#btlg'));
-        $("#btlg").click(function(){
+        $("#btlg").click(function () {
             var regUserName = /[\u4e00-\u9fa5\w]{2,20}/;
             var regPwd = /^\w{6,18}$/;
             var userName = $("#inputEmail").val();
@@ -131,13 +185,13 @@
                             setTimeout(function () {
                                 window.location.href = "/admin";
                             }, 500)
-                        } else if (data == "104"){
+                        } else if (data == "104") {
                             swal({title: "欢迎回来！", text: "超管已登入", imageUrl: "css/sadmin.png", confirmButtonText: "确定",});
                             setTimeout(function () {
                                 window.location.href = "/sadmin";
                             }, 500)
                         } else {
-                            swal("网络错误", "请重新尝试","error")
+                            swal("网络错误", "请重新尝试", "error")
                         }
                     });
             }

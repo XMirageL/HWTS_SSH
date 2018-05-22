@@ -98,6 +98,7 @@ $(document).ready(function () {
         });
     }
 
+    var ii = layer.load(2, {shade: [0.1, '#fff']});
     $.ajax({
         type: "get",
         url: "/getimportInfo",
@@ -114,9 +115,11 @@ $(document).ready(function () {
                 }
                 $("#teacherstaff").html(select_text);
             }
+            layer.close(ii);
         },
         error: function () {
             alert("服务器错误");
+            layer.close(ii);
         }
     });
 });

@@ -28,6 +28,9 @@ public class TeacherAjaxController {
         String code = Config.Code201;
         String id = (String) session.getAttribute("id");
         System.out.println(email + " " + phone + " " + pwd + " ");
+        if (pwd.length() != 0){
+            session.setAttribute("inputPassword", pwd);
+        }
         code = teacherSevice.updateUserInfo(Long.valueOf(id), email, phone, pwd);
         return code;
     }
@@ -42,11 +45,41 @@ public class TeacherAjaxController {
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
     public String userTaskQuery(String year, String hyear, HttpSession session) {
         Long id = Long.valueOf(String.valueOf(session.getAttribute("id")));
-        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
-                "-02-01");
-        java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
-        java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
+//        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : String.valueOf(Integer.parseInt(year) + 10) +"-08-01");
+//        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 10) +
+//                "-02-01");
+        java.sql.Date date1 = java.sql.Date.valueOf("2010-02-01");
+        java.sql.Date date2 = java.sql.Date.valueOf("2020-02-01");
         return teacherSevice.getUserTask(Long.valueOf(id), date1, date2);
     }
+
+    /**
+     * 获取未完成的任务信息
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "userNotFinish", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String userNotFinish(HttpSession session) {
+        Long id = Long.valueOf(String.valueOf(session.getAttribute("id")));
+//        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : String.valueOf(Integer.parseInt(year) + 10) +"-08-01");
+//        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 10) +
+//                "-02-01");
+        java.sql.Date date1 = java.sql.Date.valueOf("2010-02-01");
+        java.sql.Date date2 = java.sql.Date.valueOf("2020-02-01");
+        return teacherSevice.getNotFinis(Long.valueOf(id), date1, date2);
+    }
+
+    /**
+     * 查该老师任务列表
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getTaskList", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String getTaskList(HttpSession session) {
+        String json = teacherSevice.getTaskList(session.getAttribute("id")+"");
+        return json;
+    }
+
 }

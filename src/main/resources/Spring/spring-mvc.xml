@@ -72,6 +72,7 @@
             <mvc:exclude-mapping path="/**/css/*"/>
             <mvc:exclude-mapping path="/**/css/images/*"/>
             <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/login.do"/>
             <mvc:exclude-mapping path="/favicon.ico"/>
             <mvc:exclude-mapping path="/VerificationLogin"/>
             <mvc:exclude-mapping path="/getInfo/**"/>

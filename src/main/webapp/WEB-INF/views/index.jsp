@@ -104,7 +104,7 @@
                     <p>该系统特点：</p>
                     <p><i class="fa fa-check"></i>&nbsp;1.老师可以登录查看任务</p>
                     <p><i class="fa fa-check"></i>&nbsp;2.管理员可分配给老师们新任务</p>
-                    <p><i class="fa fa-check"></i>&nbsp;3.系统合理智能分布任务</p>
+                    <p><i class="fa fa-check"></i>&nbsp;3.系统合理智能分配任务</p>
                 </div>
             </div>
         </div>
@@ -114,7 +114,24 @@
         <div id="join-buttons">
 
         <span class="pre-sale completed">
+            <%
+                if (request.getSession().getAttribute("inputEmail") == null || request.getSession().getAttribute("id") == null) {
+            %>
           <div><a href="/login" style="color:white;text-decoration:none;"><i class="fa fa-check"></i>立刻登录</a></div>
+                                <%
+                                } else {
+                                    if (request.getSession().getAttribute("userType").equals("0")){
+                                %>
+          <div><a href="/admin" style="color:white;text-decoration:none;"><i class="fa fa-check"></i>管理中心</a></div><%
+        } else if (request.getSession().getAttribute("userType").equals("1")){
+        %>
+          <div><a href="/user" style="color:white;text-decoration:none;"><i class="fa fa-check"></i>管理中心</a></div> <%
+        } else if (request.getSession().getAttribute("userType").equals("9")){
+        %>
+          <div><a href="/sadmin" style="color:white;text-decoration:none;"><i class="fa fa-check"></i>管理中心</a></div> <%
+                }
+            }
+        %>
         </span>
         </div>
     </div>
@@ -164,7 +181,7 @@
                 <div>
                     <span id="message"></span>
                 </div>
-                <button class="ybtn newsletter ybtn-white ybtn-shadow ybtn-icon">
+                <button onclick="window.location.href='mailto:1308109287@qq.com'" class="ybtn newsletter ybtn-white ybtn-shadow ybtn-icon">
                     <i class="fa fa-envelope"></i> Welcome to Email us
                 </button>
             </div>

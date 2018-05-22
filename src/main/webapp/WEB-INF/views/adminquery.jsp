@@ -201,7 +201,7 @@
                             <div class="widget-content padded">
 
                                 <small><span class="text-info">学期进度：</span></small>
-                                <div class="progress progress-striped">
+                                <div class="progress progress-striped active">
                                     <div class="progress-bar progress-bar-info" role="progressbar"
                                          aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                                          style="width: 30%;">
@@ -209,7 +209,7 @@
                                     </div>
                                 </div>
                                 <small><span class="text-success">任务进度：</span></small>
-                                <div class="progress progress-striped">
+                                <div class="progress progress-striped active">
                                     <div class="progress-bar progress-bar-success" role="progressbar"
                                          aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                                          style="width: 90%;">
@@ -246,12 +246,24 @@
                                                     <option value="下学期" id="sHalf">下学期</option>
                                                 </select>
                                             </div>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><strong>至</strong></div>
+                                            </div>
+                                            <div class="input-group">
+                                                <select name="year" class="form-control" id="select_year_1">
+                                                </select>
+                                                <div class="input-group-addon"><strong>年</strong></div>
+                                                <select name="hyear" class="form-control" id="select_hyear_1">
+                                                    <option value="上学期" id="fHalf_1">上学期</option>
+                                                    <option value="下学期" id="sHalf_1">下学期</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="button" name="submit" value="查询该学期所有任务详情"
+                                            <input type="button" name="submit" value="查询该学期段内所有任务详情"
                                             <%--onclick="if(!confirm('是否确认？')) return false;"--%>
                                                    class="btn btn-primary btn-block" id="btn_taskQuery">
-                                            <input type="button" name="submit" value="查询该学期每位老师任务次数"
+                                            <input type="button" name="submit" value="查询该学期段内每位老师任务次数"
                                                    class="btn btn-info btn-block" id="btn_teacherQuery">
                                         </div>
                                     </form>
@@ -283,6 +295,7 @@
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/adminquery.js"></script>
 <script src="./JS/app.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script>
     $("#idown1").click(function(){
         $("#text1").slideToggle();

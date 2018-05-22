@@ -82,6 +82,11 @@
                                         class="sidebar-nav-mini-hide">工作进度</span></a>
                             </li>
                             <li>
+                                <a id="list" href="/taskInfo_list"><i
+                                        class="fa fa-list sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">任务列表</span></a>
+                            </li>
+                            <li>
                                 <a id="help" href="/userinfo"><i class="fa fa-info-circle sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">个人资料</span></a>
                             </li>
@@ -180,7 +185,7 @@
                             <div class="widget-content padded">
                                 <p>当前学期是：<span class="text-danger" id="xueqi"></span></p>
                                 <small><span class="text-info">学期进度：</span></small>
-                                <div class="progress progress-striped">
+                                <div class="progress progress-striped active">
                                     <div class="progress-bar progress-bar-info" role="progressbar"
                                          aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                                          style="width: 80%;">
@@ -188,7 +193,7 @@
                                     </div>
                                 </div>
                                 <small><span class="text-success">任务进度：</span></small>
-                                <div class="progress progress-striped">
+                                <div class="progress progress-striped active">
                                     <div class="progress-bar progress-bar-success" role="progressbar"
                                          aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                                          style="width: 90%;">
@@ -294,6 +299,7 @@
 
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/jquery-2.2.0.min.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script src="./JS/userPlan.js"></script>
 <script src="./JS/app.js"></script>
 </body>

@@ -13,6 +13,7 @@ public interface TeacherService {
      * @return 返回ModelAndView数据
      */
     ModelAndView getUserHomePageInfo(HttpSession session, Long id);
+
     /**
      * 返回用户个人信息
      *
@@ -27,7 +28,8 @@ public interface TeacherService {
      * @param id HttpSession中的id
      * @return 返回状态码
      */
-    String updateUserInfo(Long id,String email, String phone, String pwd);
+    String updateUserInfo(Long id, String email, String phone, String pwd);
+
     /***
      * 根据时间和用户session中的用户ID查询任务报表
      * @param id 用户id
@@ -35,5 +37,21 @@ public interface TeacherService {
      * @param date2 结束时间
      * @return json格式数据
      */
-    String getUserTask(Long id, Date date1,Date date2);
+    String getUserTask(Long id, Date date1, Date date2);
+
+    /***
+     * 获取未完成的任务
+     * @param id
+     * @param date1
+     * @param date2
+     * @return
+     */
+    String getNotFinis(Long id, java.sql.Date date1, java.sql.Date date2);
+
+    /***
+     * 根据教师ID查任务列表
+     * @param id
+     * @return
+     */
+    String getTaskList(String id);
 }

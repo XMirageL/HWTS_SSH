@@ -30,6 +30,10 @@
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
     <link rel="stylesheet" href="./css/main.css">
 
+    <!-- sweealert CSS & JS in here -->
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+
 
 </head>
 <body>
@@ -75,6 +79,11 @@
                                 <a id="plan" href="/userplan"><i
                                         class="fa fa-calendar-check-o sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">工作进度</span></a>
+                            </li>
+                            <li>
+                                <a id="list" href="/taskInfo_list"><i
+                                        class="fa fa-list sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">任务列表</span></a>
                             </li>
                             <li>
                                 <a id="help" href="/userinfo"><i class="fa fa-info-circle sidebar-nav-icon"></i><span
@@ -172,7 +181,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <!-- Stats User Widget -->
                         <div class="widget">
-                            <div class="widget-content border-bottom text-dark">
+                            <div class="widget-content themed-background text-light-op">
                                 <small>欢迎您：</small>
                                 ${name}
                             </div>
@@ -192,19 +201,25 @@
                             <div class="widget-content widget-content-full-top-bottom">
                                 <div class="row text-center">
                                     <div class="col-xs-4 push-inner-top-bottom border-right">
-                                        <h3 class="widget-heading">已接受<br>
-                                            <small>${countWork} </small>
-                                        </h3>
+                                        <a href="/taskInfo_list">
+                                            <h3 class="widget-heading">已接受<br>
+                                                <small>${countWork} </small>
+                                            </h3>
+                                        </a>
                                     </div>
                                     <div class="col-xs-4 push-inner-top-bottom border-right">
-                                        <h3 class="widget-heading">已完成<br>
-                                            <small>${OKWork}</small>
-                                        </h3>
+                                        <a href="/taskInfo_list">
+                                            <h3 class="widget-heading">已完成<br>
+                                                <small>${OKWork}</small>
+                                            </h3>
+                                        </a>
                                     </div>
                                     <div class="col-xs-4 push-inner-top-bottom">
-                                        <h3 class="widget-heading">待完成<br>
-                                            <small>${NOWork}</small>
-                                        </h3>
+                                        <a href="/taskInfo_list">
+                                            <h3 class="widget-heading">待完成<br>
+                                                <small>${NOWork}</small>
+                                            </h3>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -214,12 +229,14 @@
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <!-- Chart Widget -->
                         <div class="widget">
-                            <div class="widget-content border-bottom text-dark">
-                                网站公告
+                            <div class="widget-content themed-background text-light-op">
+                                <i class="fa fa-bullhorn"></i>&nbsp;网站公告
                             </div>
                             <div class="widget-content border-bottom text-dark">
                                 <div class="form-group " style="margin-left: 1px;margin-right: 1px;margin-top:-10px;">
-                                    <h2><textarea type="text" class="form-control" rows="17" id="notice-text" style="overflow:auto;background-attachment:fixed;background-repeat:no-repeat;border-style:solid;border-color:#FFFFFF;">${notice}</textarea></h2>
+                                    <h2><textarea type="text" class="form-control" rows="17" id="notice-text"
+                                                  style="overflow:auto;background-attachment:fixed;background-repeat:no-repeat;border-style:solid;border-color:#FFFFFF;">${notice}</textarea>
+                                    </h2>
                                 </div>
                             </div>
 
@@ -231,6 +248,27 @@
                         </div>
 
 
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <!-- Chart Widget -->
+                        <div class="widget">
+                            <div class="widget-content themed-background text-light-op">
+                                <i class="fa fa-fw fa-pencil"></i>&nbsp;我的待做任务（未完成任务）
+                            </div>
+                            <div class="widget-content border-bottom text-dark">
+                                <div class="form-group">
+                                    <table class="table table-bordered">
+                                        <tbody id="tbod">
+                                        <tr>
+                                            <td align="center"><span style="color:silver;"><b>时间(年/月/日)</b></span></td>
+                                            <td align="center"><span style="color:silver;"><b>任务名称</b></span></td>
+                                            <td align="center"><span style="color:silver;"><b>发布人</b></span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- END Chart Widget -->
                 </div>
@@ -291,5 +329,7 @@
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/jquery-2.2.0.min.js"></script>
 <script src="./JS/app.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
+<script src="./JS/user.js"></script>
 </body>
 </html>

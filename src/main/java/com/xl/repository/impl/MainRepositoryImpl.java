@@ -73,7 +73,7 @@ public class MainRepositoryImpl implements MainRepository {
     }
 
     public void hqltest() {
-        String hql = "SELECT max (teacher.teacherId) from THngyTeacherInfo as teacher" ;
+        String hql = "select admin.adminInfoName from THngyAdminInfo as admin where admin.adminInfoQq = ?";
         Query query = getSession().createQuery(hql);
     }
 

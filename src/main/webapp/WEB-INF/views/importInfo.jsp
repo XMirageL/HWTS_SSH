@@ -346,7 +346,7 @@
                                     <strong> Excel表名字要求：</strong>无要求<br><br>
                                     <strong> Excel表大小要求：</strong>无限制<br><br>
                                     <strong> Excel表内容格式要求：</strong>3 x *  （ 列限制3格 行无限）<br><br>
-                                    每行4列<br>第一列为<strong>教师姓名</strong><br>第二列为教师归属<strong>教师邮箱</strong><br>第三列为<strong>教师联系电话</strong><br>
+                                    每行4列<br>第一列为<strong>教师姓名</strong><br>第二列为<strong>所示教研室</strong><br>第三列为教师归属<strong>教师邮箱</strong><br>第四列为<strong>教师联系电话</strong><br>
                                     <br><strong>教师密码</strong>不需设置，统一默认设置为<strong>123456</strong><br><br>
                                     <strong>格式符合的Excel表 可直接选择上传</strong><br>
                                     例子截图如下：<br>
@@ -372,5 +372,9 @@
 
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
+<script>
+
+</script>
 <script src="./JS/importInfo.js"></script>
 </html>

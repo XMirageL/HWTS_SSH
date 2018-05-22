@@ -84,6 +84,11 @@
                                         class="sidebar-nav-mini-hide">工作进度</span></a>
                             </li>
                             <li>
+                                <a id="list" href="/taskInfo_list"><i
+                                        class="fa fa-list sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">任务列表</span></a>
+                            </li>
+                            <li>
                                 <a id="help" href="/userinfo" class="active"><i
                                         class="fa fa-info-circle sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">个人资料</span></a>

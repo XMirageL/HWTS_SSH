@@ -282,6 +282,50 @@ public class AdminServiceImpl implements AdminService {
         return json;
     }
 
+    /***
+     * 根据QQ获取管理员名称
+     * @param qq
+     * @return
+     */
+    @Override
+    public String getTaskInfoForAdmin_1(String qq) {
+        String hql = "select admin.adminInfoName from THngyAdminInfo as admin where admin.adminInfoQq = " + qq;
+        List<THngyAdminInfo> list = new LinkedList<>();
+        list = adminRepository.findAll();
+        String qq_admin = "";
+        for (int i = 0; i < list.size(); i ++){
+            if (list.get(i).getAdminInfoQq().equals(qq)){
+                qq_admin = list.get(i).getAdminInfoName();
+                break;
+            }
+        }
+//        Object object = mainRepository.singleQuery(hql);
+        System.out.println("" + qq_admin);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",Config.OK);
+        jsonObject.put("mes",qq_admin);
+        return jsonObject.toJSONString();
+    }
+
+    /***
+     * 根据ID查管理员QQ
+     * @param id
+     * @return
+     */
+    @Override
+    public String getAdminQQ(String id) {
+        String qq = "";
+        List<THngyAdminInfo> list = new LinkedList<>();
+        list = adminRepository.findAll();
+        for (int i = 0 ; i < list.size() ; i ++){
+            if (String.valueOf(list.get(i).getDepartmentId()).equals(id)){
+                qq = list.get(i).getAdminInfoQq();
+                break;
+            }
+        }
+        return qq;
+    }
+
     /**
      * 编辑保存任务，更新任务的数据
      *
@@ -302,10 +346,11 @@ public class AdminServiceImpl implements AdminService {
      * @return 表单集合
      */
     @Override
-    public List<Map<String, Object>> taskReportsQuery(java.sql.Date date1, java.sql.Date date2) {
+    public List<Map<String, Object>> taskReportsQuery(String dep, java.sql.Date date1, java.sql.Date date2) {
         String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
                 ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink " +
-                "as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = " +
+                "as link,THngyTeacherInfo as teacher where work.departmentId = " + dep + " and link.workTaskId = work" +
+                ".workTaskId and link.teacherId = " +
                 "teacher.teacherId and work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskTime desc";
         List<Map<String, Object>> list = MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1, date2, hql));
         return list;

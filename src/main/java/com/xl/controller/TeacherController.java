@@ -53,5 +53,15 @@ public class TeacherController {
         return modelAndView;
     }
 
+    /***
+     * 进入任务列表页面
+     * @return
+     */
+    @GetMapping(value = "/taskInfo_list")
+    public String taskInfo_list() {
+
+        return "taskInfo_list";
+    }
+
 
 }

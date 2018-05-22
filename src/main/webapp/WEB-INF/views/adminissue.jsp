@@ -277,7 +277,7 @@
 
                                             <div class="col-lg-8">
                                                 <input type="text" class="form-control" id="web_qq" name="web_qq"
-                                                       maxlength="11"
+                                                       maxlength="11" disabled
                                                        placeholder="用于向受任老师提供咨询服务">
                                             </div>
                                         </div>
@@ -312,5 +312,19 @@
 </body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
+<script>
+    $.ajax({
+        type: "POST",
+        url: "/getAdminQQ",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            $("#web_qq").val(data);
+        },
+        error: function (data) {
+
+        }
+    });
+</script>
 <script src="./JS/adminissue.js"></script>
 </html>

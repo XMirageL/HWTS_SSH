@@ -132,15 +132,16 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "taskQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String taskQuery(String year, String hyear) {
+    public String taskQuery(HttpSession session, String year, String hyear, String year_1, String hyear_1) {
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
-                "-02-01");
+        String dateStr2 = year_1 + ("上学期".equals(hyear_1) ? "-02-01" : "-08-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         //输出
         System.out.println(date1 + "\n" + date2);
-        String json = JSONArray.toJSONString(adminService.taskReportsQuery(date1, date2));
+        String json = JSONArray.toJSONString(adminService.taskReportsQuery(session.getAttribute("department") + "",
+                date1,
+                date2));
         System.out.println(json);
         return json;
     }
@@ -153,10 +154,9 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "teacherQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String teacherQuery(HttpSession session, String year, String hyear) {
+    public String teacherQuery(HttpSession session, String year, String hyear, String year_1, String hyear_1) {
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
-                "-02-01");
+        String dateStr2 = year_1 + ("上学期".equals(hyear_1) ? "-02-01" : "-08-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         System.out.println(date1 + "\n" + date2);
@@ -193,6 +193,28 @@ public class AdminAjaxController {
     public String getTaskInfo(String id) {
         String json = adminService.getTaskInfoForAdmin(Long.valueOf(id));
         return json;
+    }
+
+    /***
+     * 根据QQ号查管理员名称
+     * @param qq
+     * @return
+     */
+    @RequestMapping(value = "getTaskInfo_1", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getTaskInfo_1(String qq) {
+        return adminService.getTaskInfoForAdmin_1(qq);
+    }
+
+    /**
+     * 根据Session查管理员QQ
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getAdminQQ", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getAdminQQ(HttpSession session) {
+        return adminService.getAdminQQ(session.getAttribute("id")+"").toString();
     }
 
     /***

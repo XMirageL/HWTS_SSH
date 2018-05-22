@@ -86,19 +86,32 @@
                         <!-- Sidebar Navigation -->
                         <ul class="sidebar-nav">
                             <li>
-                                <a id="user" href="/user"><i class="fa fa-child sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">用户中心</span></a>
+                                <a id="user" href="/user"><i class="fa fa-child sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">用户中心</span></a>
                             </li>
                             <li>
-                                <a id="plan" href="/userplan"><i class="fa fa-calendar-check-o sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">工作进度</span></a>
+                                <a id="plan" href="/userplan"><i
+                                        class="fa fa-calendar-check-o sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">工作进度</span></a>
                             </li>
                             <li>
-                                <a id="help" href="/userinfo"><i class="fa fa-info-circle sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">个人资料</span></a>
+                                <a id="list" href="/taskInfo_list"><i
+                                        class="fa fa-list sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">任务列表</span></a>
                             </li>
                             <li>
-                                <a id="index" href="/loginOut"><i class="fa fa-power-off sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">注销登录</span></a>
+                                <a id="help" href="/userinfo"><i class="fa fa-info-circle sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">个人资料</span></a>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" id="gongdan" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-info sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">关于我们</span></a>
+                                <a id="index" href="/loginOut"><i class="fa fa-power-off sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">注销登录</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="gongdan" class="sidebar-nav-menu"><i
+                                        class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i
+                                        class="fa fa-info sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">关于我们</span></a>
                                 <ul>
                                     <li>
                                         <a href="http://www.hunangy.com/">湖南工院</a>
@@ -213,11 +226,12 @@
 
                                         <div class="form-group">
                                             <label class="col-lg-3 control-label"><i
-                                                    class="fa fa-qq"></i>&nbsp;发布者QQ：</label>
+                                                    class="fa fa-qq"></i>&nbsp;发布者：</label>
 
                                             <div class="col-lg-7" style="top:6px;">
 
-                                                <strong id="qq1"></strong>&nbsp;<a target="_blank"  id="qq2"><img border="0" src="http://pub.idqqimg.com/wpa/images/counseling_style_52.png" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>
+                                                &nbsp;<a target="_blank" id="qq2">XXXX</a><span id="sp_1"
+                                                                                                style="display: none"></span>
                                             </div>
                                         </div>
 
@@ -230,7 +244,7 @@
                                             <div class="col-lg-7">
                                                 <select class="form-control" id="taskState" disabled>
                                                     <option style="color: red" value="未完成">未完成</option>
-                                                    <option style="color: green" value="已完成" >已完成</option>
+                                                    <option style="color: green" value="已完成">已完成</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -242,52 +256,14 @@
                                                        value="" disabled>
                                             </div>
                                         </div>
-                                        <script>
-                                            var id = window.location.href.split("id=")[1];
-                                            if(id!=null){
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "/getTaskInfo",
-                                                    error: function () {
-                                                        //服务器返回失败调用的方法
-                                                        alert("服务器错误");
-                                                    },
-                                                    data: {id:id},
-                                                    dataType: "json",
-                                                    success: function (data) {
-                                                        var info = data[0];
-                                                        $("#title").val(info.taskName);
-                                                        $("#details").val(info.taskText);
-                                                        $("#qq1").text(info.qq);
-                                                        $("#qq2").attr("href","http://wpa.qq.com/msgrd?v=3&uin="+info.qq+"&site=qq&menu=yes");
-                                                        var taskDate = info.taskDate.split("-");
-                                                        $("#date").val(taskDate[0]+"年"+taskDate[1]+"月"+taskDate[2]+"日");
-                                                        var tsStr = "";
-                                                        var teachers = info.teachers.split(",");
-                                                        var teachersId = info.teachersId.split(",");
-                                                        for(var j = 0;j<teachers.length;j++){
-                                                            tsStr+="<a href=\"teacherInfo?id="+teachersId[j]+"\" class=\"btn btn-sm btn-info \" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"查看老师信息\">"+teachers[j]+"</a>  ";
-                                                        }
-                                                        $("#teachers").append(tsStr);
-                                                        if(info.taskState == "已完成"){
-                                                            $("#taskState option[value='已完成']").attr("selected", true);
-                                                            $("#taskState").css("color","green");
-                                                        } else {
-                                                            $("#taskState option[value='未完成']").attr("selected", true);
-                                                            $("#taskState").css("color","red");
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        </script>
                                         <%--<span class="help-block text-center"><a--%>
-                                                <%--href="http://shang.qq.com/v3/widget.html" target="_blank">需开通QQ在线沟通组件权限，已开通的请忽略</a></span>--%>
+                                        <%--href="http://shang.qq.com/v3/widget.html" target="_blank">需开通QQ在线沟通组件权限，已开通的请忽略</a></span>--%>
                                         <%--<div class="form-group">--%>
-                                            <%--<div class="col-lg-offset-3 col-lg-7" style="display: none">--%>
-                                                <%--<button class="btn btn-sm btn-primary pull-right m-t-n-xs"--%>
-                                                        <%--type="button" >确认修改--%>
-                                                <%--</button>--%>
-                                            <%--</div>--%>
+                                        <%--<div class="col-lg-offset-3 col-lg-7" style="display: none">--%>
+                                        <%--<button class="btn btn-sm btn-primary pull-right m-t-n-xs"--%>
+                                        <%--type="button" >确认修改--%>
+                                        <%--</button>--%>
+                                        <%--</div>--%>
                                         <%--</div>--%>
                                     </form>
                                 </div>
@@ -312,4 +288,66 @@
 </body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
+<script>
+
+    var ii = layer.load(2, {shade: [0.1, '#fff']});
+    var id = window.location.href.split("id=")[1];
+    if (id != null) {
+        $.ajax({
+            type: "POST",
+            url: "/getTaskInfo",
+            error: function () {
+                //服务器返回失败调用的方法
+                alert("服务器错误");
+            },
+            data: {id: id},
+            dataType: "json",
+            success: function (data) {
+                var info = data[0];
+                $("#title").val(info.taskName);
+                $("#details").val(info.taskText);
+                $("#sp_1").html(info.qq);
+                var taskDate = info.taskDate.split("-");
+                $("#date").val(taskDate[0] + "年" + taskDate[1] + "月" + taskDate[2] + "日");
+                var tsStr = "";
+                var teachers = info.teachers.split(",");
+                var teachersId = info.teachersId.split(",");
+                for (var j = 0; j < teachers.length; j++) {
+                    tsStr += "<a href=\"teacherInfo?id=" + teachersId[j] + "\" class=\"btn btn-sm btn-info \" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"查看老师信息\">" + teachers[j] + "</a>  ";
+                }
+                $("#teachers").append(tsStr);
+                if (info.taskState == "已完成") {
+                    $("#taskState option[value='已完成']").attr("selected", true);
+                    $("#taskState").css("color", "green");
+                } else {
+                    $("#taskState option[value='未完成']").attr("selected", true);
+                    $("#taskState").css("color", "red");
+                }
+                var qq_text = $("#sp_1").html();
+                dataSetName(qq_text)
+            }
+        });
+
+        function dataSetName(qq) {
+            $.ajax({
+                type: "POST",
+                url: "/getTaskInfo_1",
+                data: {qq: qq},
+                dataType: "json",
+                error: function (data) {
+                    //服务器返回失败调用的方法
+                    $("#qq2").html(data.mes);
+                    $("#qq2").attr("href", "teacherInfo?id=" + data.mes);
+                    layer.close(ii);
+                },
+                success: function (data) {
+                    $("#qq2").html(data.mes);
+                    $("#qq2").attr("href", "teacherInfo?id=" + data.mes);
+                    layer.close(ii);
+                }
+            });
+        }
+    }
+</script>
 </html>

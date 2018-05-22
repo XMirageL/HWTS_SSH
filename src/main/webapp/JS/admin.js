@@ -156,7 +156,7 @@ $(document).ready(function () {
             var teachers = data[i].teachers.split(",");
             var teachersId = data[i].teachersId.split(",");
             for (var j = 0; j < teachers.length; j++) {
-                tsStr += "<a href=\"teacherInfo?id=" + teachersId[j] + "\">" + teachers[j] + "</a>,";
+                tsStr += "<a target='_blank' href=\"teacherInfo?id=" + teachersId[j] + "\">" + teachers[j] + "</a>,";
             }
             tsStr = tsStr.substring(0, tsStr.length - 1);
 

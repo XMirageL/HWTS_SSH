@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,10 +72,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/downloadTask")
-    public void downloadTask(HttpServletResponse response, String year, String hyear) {
+    public void downloadTask(HttpServletResponse response, HttpSession session, String year, String hyear, String
+            year_1, String hyear_1) {
         String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
-                "-02-01");
+        String dateStr2 = year_1 + ("上学期".equals(hyear_1) ? "-02-01" : "-08-01");
         java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
         java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
         //输出
@@ -82,7 +83,8 @@ public class AdminController {
         String fileName = year + hyear + "任务详情表";
         String columnNames[] = {"时间(年/月/日)", "任务名称", "所属教师", "状态"};// 列名
         String keys[] = {"taskDate", "taskName", "teachers", "taskState"};// map中的key
-        adminService.downloadReports(response, adminService.taskReportsQuery(date1, date2), fileName, columnNames,
+        adminService.downloadReports(response, adminService.taskReportsQuery(session.getAttribute("department") + "",
+                date1, date2), fileName, columnNames,
                 keys);
     }
 
@@ -120,6 +122,7 @@ public class AdminController {
      * @param request
      */
     @RequestMapping("fileupload")
+    @ResponseBody
     public String fileupload(HttpServletRequest request) {
         String filePath = FileUtil.upload(request, "temp/excel");
         String statusCode = Config.Code201;

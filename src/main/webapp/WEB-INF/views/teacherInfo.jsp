@@ -34,11 +34,12 @@
 
 <!-- Wrapper -->
 <div id="wrapper">
-
     <!-- Main -->
     <section id="main">
         <header>
-            <span class="avatar"><img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1521433057,1623959565&fm=58" style="width:150px;height:150px" alt="头像" /></span>
+            <span class="avatar"><img id="head_img"
+                                      src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1521433057,1623959565&fm=58"
+                                      style="width:150px;height:150px" alt="头像"/></span>
             <h1 id="teacherName"></h1>
             <p>点击下方图标选择相应联系方式</p>
         </header>
@@ -46,6 +47,7 @@
             <ul class="icons">
                 <li><a href="tel:<$教师电话>" class="fa-phone" id="teacherPhone">电话</a></li>
                 <li><a href="mailto:<$教师QQ>@qq.com" class="fa fa-envelope" id="teacherEmail">邮箱</a></li>
+                <li id="li_qq"><a href="./" class="fa fa-qq" id="teacherQq">QQ</a></li>
                 <!---QQ图标代码为："fa-qq" 替换上方即可--->
             </ul>
             <ul class="icons">
@@ -53,6 +55,9 @@
             </ul>
             <ul class="icons">
                 <a id="email">邮箱：XXX@XXXX.com</a>
+            </ul>
+            <ul class="icons" id="ul_qq">
+                <a id="qq">QQ：XXX@XXXX.com</a>
             </ul>
         </footer>
     </section>
@@ -73,25 +78,37 @@
                         alert("获取数据失败");
                         window.history.go(-1);
                     } else {
-                        $(document).attr("title",data.teacherName+" - 个人主页");
-                        $("#teacherName").text(data.teacherName);
-                        $("#phone").text("电话："+data.teacherPhone);
-                        $("#email").text("邮箱: "+data.teacherEmail);
-                        $("#teacherPhone").attr("href","tel:"+data.teacherPhone);
-                        $("#teacherEmail").attr("href","mailto:"+data.teacherEmail);
+                        if (id.indexOf("admin-") != -1) {
+                            $(document).attr("title", data.adminInfoName + " - 个人主页");
+                            $("#teacherName").text(data.adminInfoName);
+                            $("#phone").text("电话：" + data.adminInfoPhone);
+                            $("#email").text("邮箱: " + data.adminInfoEmail);
+                            $("#qq").text("QQ: " + data.adminInfoQq);
+                            $("#teacherPhone").attr("href", "tel:" + data.adminInfoPhone);
+                            $("#teacherEmail").attr("href", "mailto:" + data.adminInfoEmail);
+                            $("#teacherQq").attr("href", "http://wpa.qq.com/msgrd?v=3&uin=" + data.adminInfoQq + "&site=qq&menu=yes");
+                            $("#head_img").attr("src", "http://q2.qlogo.cn/headimg_dl?dst_uin=" + data.adminInfoQq + "&spec=100");
+                        } else {
+                            $(document).attr("title", data.teacherName + " - 个人主页");
+                            $("#teacherName").text(data.teacherName);
+                            $("#phone").text("电话：" + data.teacherPhone);
+                            $("#email").text("邮箱: " + data.teacherEmail);
+                            $("#teacherPhone").attr("href", "tel:" + data.teacherPhone);
+                            $("#teacherEmail").attr("href", "mailto:" + data.teacherEmail);
+                            $("#ul_qq").hide();
+                            $("#li_qq").hide();
+                        }
                     }
                 }
             });
         }
     </script>
-
     <!-- Footer -->
     <footer id="footer">
         <ul class="copyright">
             <small class="help-block">Made BY：<br>RJXH - 移软分部</small>
         </ul>
     </footer>
-
 </div>
 
 <script>
@@ -102,7 +119,6 @@
         document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
     }
 </script>
-
 </body>
 <script>
     function fun() {

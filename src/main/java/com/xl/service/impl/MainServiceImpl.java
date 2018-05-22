@@ -2,7 +2,9 @@ package com.xl.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xl.entity.THngyAdminInfo;
 import com.xl.entity.THngyTeacherInfo;
+import com.xl.repository.impl.AdminRepositoryImpl;
 import com.xl.repository.impl.MainRepositoryImpl;
 import com.xl.repository.impl.TeacherRepositoryImpl;
 import com.xl.service.MainService;
@@ -26,6 +28,9 @@ public class MainServiceImpl implements MainService {
 
     @Autowired
     private TeacherRepositoryImpl teacherRepository;
+
+    @Autowired
+    private AdminRepositoryImpl adminRepository;
 
     //返回数据库中用户数量和任务数量
     @Override
@@ -139,6 +144,23 @@ public class MainServiceImpl implements MainService {
     public String getTeacherInfo(Long id) {
         THngyTeacherInfo teacherInfo = teacherRepository.get(id);
         String json = JSONArray.toJSONString(teacherInfo);
+        return json;
+    }
+
+    /**
+     * 获取管理员信息
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public String getAdminInfo(String name) {
+        String hql = "select admin.adminInfoId from THngyAdminInfo as admin where admin.adminInfoName = ?";
+        Object object = mainRepository.singleQuery(new Object[]{name}, hql);
+        System.out.println(object + "");
+        THngyAdminInfo tHngyAdminInfo = adminRepository.get(Long.parseLong(object + ""));
+        String json = JSONArray.toJSONString(tHngyAdminInfo);
+
         return json;
     }
 }

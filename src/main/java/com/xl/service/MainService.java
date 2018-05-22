@@ -24,4 +24,11 @@ public interface MainService {
      * @return
      */
     String getTeacherInfo(Long id);
+
+    /**
+     * 获取管理员信息
+     * @param name
+     * @return
+     */
+    String getAdminInfo(String name);
 }

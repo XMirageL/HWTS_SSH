@@ -70,6 +70,20 @@ public interface AdminService {
      */
     String getTaskInfoForAdmin(long id);
 
+
+    /***
+     * 根据QQ获取管理员名称
+     * @param qq
+     * @return
+     */
+    String getTaskInfoForAdmin_1(String qq);
+
+    /***
+     * 根据ID查管理员QQ
+     * @param id
+     * @return
+     */
+    String getAdminQQ(String id);
     /**
      * 编辑保存任务，更新任务的数据
      * @return 状态码
@@ -80,7 +94,7 @@ public interface AdminService {
      * 根据时间查询工作报表
      * @return 表单集合
      */
-    List<Map<String, Object>> taskReportsQuery(Date date1,Date date2);
+    List<Map<String, Object>> taskReportsQuery(String dep,Date date1,Date date2);
 
     /**
      * 根据时间查询工作报表

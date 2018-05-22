@@ -1,8 +1,10 @@
 package com.xl.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.xl.entity.THngyNotice;
 import com.xl.entity.THngyTeacherInfo;
+import com.xl.entity.WorkInfo;
 import com.xl.repository.impl.MainRepositoryImpl;
 import com.xl.repository.impl.TeacherRepositoryImpl;
 import com.xl.service.TeacherService;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -121,5 +124,48 @@ public class TeacherServiceImpl implements TeacherService {
                 ".workTaskTime<=? order by work.workTaskTime desc";
         String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1, date2, hql)));
         return json;
+    }
+
+    /***
+     * 获取未完成的任务
+     * @param id
+     * @param date1
+     * @param date2
+     * @return
+     */
+    @Override
+    public String getNotFinis(Long id, java.sql.Date date1, java.sql.Date date2) {
+        String notFinish = "未完成";
+        String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
+                ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText,admin.adminInfoName from THngyWorkTask" +
+                " as work ,THngyLink " +
+                "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where link.workTaskId = work.workTaskId" +
+                " and link.teacherId = " +
+                "teacher.teacherId and  teacher.teacherId =" + id + " and work.workTaskTime>=? and work" +
+                ".workTaskTime<=? and work.qq = admin.adminInfoQq order by work.workTaskTime desc";
+        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUti2(mainRepository.dateQuery(date1, date2, hql)));
+        return json;
+    }
+
+    /***
+     * 根据教师ID查任务列表
+     * @param id
+     * @return
+     */
+    @Override
+    public String getTaskList(String id) {
+        Long lo_id = Long.parseLong(id);
+        List list = new LinkedList();
+        String json = "";
+        String hql = "select task.workTaskId,task.workTaskTime,task.workTaskName, task.workTaskSchedule,task" +
+                ".workTaskText, admin.adminInfoName from " +
+                "THngyWorkTask as task , THngyLink as link, THngyAdminInfo as admin, THngyTeacherInfo as teacher " +
+                "where teacher.teacherId = ? and teacher.teacherId = link.teacherId and link.workTaskId = task" +
+                ".workTaskId and admin.adminInfoQq = task.qq order by task.workTaskId desc";
+        List<Object[]> list1 = mainRepository.complexQuery(new Object[]{lo_id}, hql);
+        JSONObject jsonObjects = new JSONObject();
+//        jsonObjects.put("sum", list1.size());
+
+        return JSONArray.toJSONString(MainUtil.getWorkInfoUti3(list1));
     }
 }

@@ -35,7 +35,7 @@ $(document).ready(function () {
     function taskQueryResult(data) {
         var tableStr = " <div class=\"widget\">" +
             "                            <div class=\"widget-content themed-background text-light-op\">" +
-            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>我的最近任务</strong>&nbsp;"+
+            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>我的所有任务</strong>&nbsp;"+
             // "<a href=\"downloadTask?year="+year+"&hyear="+hyear+"\" class=\"btn btn-info btn-xs\">下载</a>" +
             "                                <div class=\"pull-right\">" +
             "                                    <i id=\"idown2\" class=\"fa fa-chevron-down sidebar-nav-indicator sidebar-nav-mini-hide  \"></i>" +

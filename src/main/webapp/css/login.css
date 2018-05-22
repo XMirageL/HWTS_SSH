@@ -1,0 +1,87 @@
+@font-face {
+    font-family: kf5-mobile;
+    src: url(http://assets-cdn.kf5.com/help-center-mobile/fonts/kf5-mobile.eot?hiqtdv);
+    src: url(http://assets-cdn.kf5.com/help-center-mobile/fonts/kf5-mobile.eot?#iefixhiqtdv) format('embedded-opentype'), url(http://assets-cdn.kf5.com/help-center-mobile/fonts/kf5-mobile.ttf?hiqtdv) format('truetype'), url(http://assets-cdn.kf5.com/help-center-mobile/fonts/kf5-mobile.woff?hiqtdv) format('woff'), url(http://assets-cdn.kf5.com/help-center-mobile/fonts/kf5-mobile.svg?hiqtdv#kf5-mobile) format('svg');
+    font-weight: 400;
+    font-style: normal
+}
+
+.openID-list li > a {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box
+}
+
+.openID-list {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 20px 30px
+}
+
+.openID-list li > a {
+    height: 50px;
+    width: 50px;
+    box-sizing: border-box;
+    border-radius: 100%;
+    border: 1px solid #00aef0;
+    text-align: center;
+    line-height: 50px;
+    font-family: kf5-mobile;
+    display: block
+}
+
+.openID-list .qq > a {
+    border-color: #00aef0
+}
+
+.openID-list .qq > a:after {
+    content: "\e606";
+    font-size: 24px;
+    color: #00aef0
+}
+
+.openID-list .weibo > a {
+    border-color: #ff6d73
+}
+
+.openID-list .weibo > a:after {
+    content: "\e602";
+    font-size: 24px;
+    color: #ff6d73
+}
+
+.openID-list .renren > a {
+    border-color: #4A90E2
+}
+
+.openID-list .renren > a:after {
+    content: "\e600";
+    font-size: 20px;
+    color: #4a90e2
+}
+
+.openID-list .mingdao > a {
+    border-color: #285FCE
+}
+
+.openID-list .mingdao > a:after {
+    content: "\e601";
+    font-size: 24px;
+    color: #285fce
+}
+
+ol, ul {
+    list-style: none
+}
+
+::selection {
+    background: #00D7D5;
+    color: #fff
+}
