@@ -102,4 +102,17 @@ public class MainUtil {
         }
         return list;
     }
+
+    public static List<Map<String, Object>> getWorkInfoUti4(List<Object[]> listWork) {
+        WorkInfo workInfo = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < listWork.size(); ++i) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            Object[] object1 = listWork.get(i);
+            map.put("kindId", object1[0].toString());
+            map.put("kindName", object1[1].toString());
+            list.add(map);
+        }
+        return list;
+    }
 }

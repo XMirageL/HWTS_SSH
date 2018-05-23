@@ -39,6 +39,7 @@
         <mapping class="com.xl.entity.THngyTeacherInfo"/>
         <mapping class="com.xl.entity.THngyWorkTask"/>
         <mapping class="com.xl.entity.THngySAdminInfo"/>
+        <mapping class="com.xl.entity.THngyKindsTask"/>
 
 
     </session-factory>

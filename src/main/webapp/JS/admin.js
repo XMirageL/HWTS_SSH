@@ -64,9 +64,9 @@ $(document).ready(function () {
                     $.post("modifyNotice", {
                         notice: noticeText
                     }, function (data) {
-                        if (data == "200") {
+                        if (data == "201") {
                             swal("发布公告成功", " ", "success");
-                        } else if (data == "201") {
+                        } else if (data == "200") {
                             swal("发布公告失败", "服务器错误", "error");
                         } else {
                             swal("发布公告失败", "未知原因", "error");

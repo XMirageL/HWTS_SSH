@@ -84,6 +84,13 @@ public interface AdminService {
      * @return
      */
     String getAdminQQ(String id);
+
+    /***
+     * 查该系所有任务分类
+     * @param id
+     * @return
+     */
+    String getKindsTask(String id);
     /**
      * 编辑保存任务，更新任务的数据
      * @return 状态码

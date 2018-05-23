@@ -293,8 +293,8 @@ public class AdminServiceImpl implements AdminService {
         List<THngyAdminInfo> list = new LinkedList<>();
         list = adminRepository.findAll();
         String qq_admin = "";
-        for (int i = 0; i < list.size(); i ++){
-            if (list.get(i).getAdminInfoQq().equals(qq)){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getAdminInfoQq().equals(qq)) {
                 qq_admin = list.get(i).getAdminInfoName();
                 break;
             }
@@ -302,8 +302,8 @@ public class AdminServiceImpl implements AdminService {
 //        Object object = mainRepository.singleQuery(hql);
         System.out.println("" + qq_admin);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",Config.OK);
-        jsonObject.put("mes",qq_admin);
+        jsonObject.put("code", Config.OK);
+        jsonObject.put("mes", qq_admin);
         return jsonObject.toJSONString();
     }
 
@@ -317,13 +317,31 @@ public class AdminServiceImpl implements AdminService {
         String qq = "";
         List<THngyAdminInfo> list = new LinkedList<>();
         list = adminRepository.findAll();
-        for (int i = 0 ; i < list.size() ; i ++){
-            if (String.valueOf(list.get(i).getDepartmentId()).equals(id)){
+        for (int i = 0; i < list.size(); i++) {
+            if (String.valueOf(list.get(i).getDepartmentId()).equals(id)) {
                 qq = list.get(i).getAdminInfoQq();
                 break;
             }
         }
         return qq;
+    }
+
+    /***
+     * 查该系所有任务分类
+     * @param id
+     * @return
+     */
+    @Override
+    public String getKindsTask(String id) {
+        Long lo_id = Long.parseLong(id);
+        String sql = "select kind.kindsTaskID, kind.kindsTaskName from THngyKindsTask as kind where kind.departmentId" +
+                " = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{lo_id}, sql);
+//        for (int i = 0; i < list.size(); i++) {
+//            Object object = list.get(i);
+//            System.out.println(JSONObject.toJSONString(object));
+//        }
+        return JSONArray.toJSONString(MainUtil.getWorkInfoUti4(list));
     }
 
     /**

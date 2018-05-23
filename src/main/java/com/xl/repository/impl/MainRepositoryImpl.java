@@ -73,7 +73,7 @@ public class MainRepositoryImpl implements MainRepository {
     }
 
     public void hqltest() {
-        String hql = "select admin.adminInfoName from THngyAdminInfo as admin where admin.adminInfoQq = ?";
+        String hql = "select kind.kindsTaskID, kind.kindsTaskName from THngyKindsTask as kind where kind.departmentId = ?";
         Query query = getSession().createQuery(hql);
     }
 

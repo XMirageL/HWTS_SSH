@@ -9,6 +9,7 @@ import java.util.Objects;
 public class THngyWorkTask {
     private long workTaskId;
     private String workTaskName;
+    private long workTaskKinds;
     private String workTaskText;
     private Timestamp workTaskTime;
     private String workTaskTerm;
@@ -39,6 +40,16 @@ public class THngyWorkTask {
 
     public void setWorkTaskName(String workTaskName) {
         this.workTaskName = workTaskName;
+    }
+
+    @Basic
+    @Column(name = "Kinds_Task_ID")
+    public long getWorkTaskKinds() {
+        return workTaskKinds;
+    }
+
+    public void setWorkTaskKinds(long workTaskKinds) {
+        this.workTaskKinds = workTaskKinds;
     }
 
     @Basic
@@ -149,6 +160,7 @@ public class THngyWorkTask {
         return workTaskId == that.workTaskId &&
                 departmentId == that.departmentId &&
                 Objects.equals(workTaskName, that.workTaskName) &&
+                Objects.equals(workTaskKinds, that.workTaskKinds) &&
                 Objects.equals(workTaskText, that.workTaskText) &&
                 Objects.equals(workTaskTime, that.workTaskTime) &&
                 Objects.equals(workTaskTerm, that.workTaskTerm) &&
@@ -163,6 +175,7 @@ public class THngyWorkTask {
     @Override
     public int hashCode() {
 
-        return Objects.hash(workTaskId, workTaskName, workTaskText, workTaskTime, workTaskTerm, workTaskSchedule, qq, departmentId, spare2, spare3, spare4, spare1);
+        return Objects.hash(workTaskId, workTaskName, workTaskKinds, workTaskText, workTaskTime, workTaskTerm,
+                workTaskSchedule, qq, departmentId, spare2, spare3, spare4, spare1);
     }
 }

@@ -218,6 +218,18 @@ public class AdminAjaxController {
     }
 
     /***
+     * 查该系所有任务分类
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getKindsTask", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getKindsTask(HttpSession session) {
+        return adminService.getKindsTask(session.getAttribute("id")+"").toString();
+    }
+
+
+    /***
      * 批量导入页面信息部署
      * @return
      */

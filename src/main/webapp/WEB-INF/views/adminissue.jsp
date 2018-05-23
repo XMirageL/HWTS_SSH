@@ -228,27 +228,36 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-cubes"></i>&nbsp;任务类别：</label>
+
+                                            <div class="col-lg-8">
+                                                <select class="form-control" id="kinds">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="col-lg-3 control-label"><i
                                                     class="fa fa-users sidebar-nav-icon"></i>&nbsp;参与老师：</label>
                                             <div class="col-lg-8">
                                                 <select style="height: 100px;" multiple="multiple" id="select_teacher"
                                                         class="selectpicker" data-size="10"
                                                         data-live-search="true" data-width="100%">
-                                                    <option disabled="true" text-decoration="underline">输入关键字出现联想,红色的表示还有未完成的任务</option>
+                                                    <option disabled="true" text-decoration="underline">
+                                                        输入关键字出现联想,红色的表示还有未完成的任务
+                                                    </option>
                                                     <%
                                                         List<Map<String, Object>> teachers = (List<Map<String, Object>>) request.getAttribute("allTeacherInfo");
                                                         int tCount = teachers.size();
                                                         //获取完成任务次数的最大值
-                                                        String maxCountStr = String.valueOf(teachers.get(tCount-1).get("taskCount"));
+                                                        String maxCountStr = String.valueOf(teachers.get(tCount - 1).get("taskCount"));
                                                         int maxCount = Integer.parseInt(maxCountStr);
-                                                        for (int i = 0; i <= maxCount; i++){%>
+                                                        for (int i = 0; i <= maxCount; i++) {%>
                                                     <optgroup label="该学期安排任务次数：<%=i%> ：">
                                                         <%
-                                                            for (int j = 0; j < tCount; j++)
-                                                            {
+                                                            for (int j = 0; j < tCount; j++) {
                                                                 Map<String, Object> teacher = teachers.get(j);
-                                                                if (teacher.get("taskCount").toString().equals(String.valueOf(i)))
-                                                                {
+                                                                if (teacher.get("taskCount").toString().equals(String.valueOf(i))) {
                                                         %>
                                                         <option style="color: <%=(String.valueOf(teacher.get("unfinished")).equals("0")?"":"red")%>">
                                                             <%=teacher.get("teacherName")%>
@@ -312,7 +321,9 @@
 </body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script>
+    var ii = layer.load(2, {shade: [0.1, '#fff']});
     $.ajax({
         type: "POST",
         url: "/getAdminQQ",
@@ -323,6 +334,24 @@
         },
         error: function (data) {
 
+        }
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/getKindsTask",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            var text = "";
+            for (var i = 0; i < data.length; i++) {
+                text += "<option value=\"" + data[i].kindId + "\" id=\"op_"+data[i].kindId+"\">"+data[i].kindName+"</option>"
+            }
+            $("#kinds").html(text);
+            layer.close(ii);
+        },
+        error: function (data) {
+            layer.close(ii);
         }
     });
 </script>
