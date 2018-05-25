@@ -3,10 +3,7 @@ package com.xl.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xl.entity.*;
-import com.xl.repository.impl.AdminRepositoryImpl;
-import com.xl.repository.impl.MainRepositoryImpl;
-import com.xl.repository.impl.StaffRoomRepositoryImpl;
-import com.xl.repository.impl.TeacherRepositoryImpl;
+import com.xl.repository.impl.*;
 import com.xl.service.AdminService;
 import com.xl.utils.Config;
 import com.xl.utils.ExcelUtil;
@@ -34,6 +31,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private MainRepositoryImpl mainRepository;
+
+    @Autowired
+    private LinkRepostoryImpl linkRepostory;
+
 
     /**
      * 以Json形式返回管理员个人信息以及公告
@@ -91,7 +92,8 @@ public class AdminServiceImpl implements AdminService {
         String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
                 ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink " +
                 "as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = " +
-                "teacher.teacherId and work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskTime desc";
+                "teacher.teacherId and work.workTaskTime>=? and work.workTaskTime<=? and work.departmentId = " + dep
+                + " order by work.workTaskTime desc";
         List<Map<String, Object>> list = MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1, date2, hql));
         if (list.size() > 0) {
             json = JSONArray.toJSONString(list);
@@ -231,7 +233,7 @@ public class AdminServiceImpl implements AdminService {
      *
      */
     @Override
-    public String saveTaskTeacherLinkInfo(long did, String workName, String teacher, String workText,
+    public String saveTaskTeacherLinkInfo(long did, String workName, String teacher, String kinds, String workText,
                                           String qq) {
         //获取当前时间,保存任务信息
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -239,6 +241,7 @@ public class AdminServiceImpl implements AdminService {
         THngyWorkTask tHngyWorkTask = new THngyWorkTask();
         tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(time));
         tHngyWorkTask.setWorkTaskName(workName);
+        tHngyWorkTask.setWorkTaskKinds(Long.parseLong(kinds));
         tHngyWorkTask.setWorkTaskText(workText);
         tHngyWorkTask.setWorkTaskSchedule("未完成");
         tHngyWorkTask.setQq(qq);
@@ -273,12 +276,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String getTaskInfoForAdmin(long id) {
         String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
-                ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink " +
-                "as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = " +
-                "teacher.teacherId and work.workTaskId = ? order by work.workTaskTime desc";
+                ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText, kind.kindsTaskName, kind.kindsTaskID " +
+                "from THngyWorkTask as work ,THngyLink " +
+                "as link,THngyTeacherInfo as teacher,THngyKindsTask as kind where link.workTaskId = work.workTaskId " +
+                "and link.teacherId = " +
+                "teacher.teacherId and work.workTaskId = ? and work.workTaskKinds = kind.kindsTaskID order by work" +
+                ".workTaskTime desc";
         Object[] objects = {id};
         List<Object[]> listWork = mainRepository.complexQuery(objects, hql);
-        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUtil(listWork));
+        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUti5(listWork, null));
         return json;
     }
 
@@ -315,10 +321,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String getAdminQQ(String id) {
         String qq = "";
+        System.out.println("管理员ID：" + id);
         List<THngyAdminInfo> list = new LinkedList<>();
         list = adminRepository.findAll();
         for (int i = 0; i < list.size(); i++) {
-            if (String.valueOf(list.get(i).getDepartmentId()).equals(id)) {
+            if (String.valueOf(list.get(i).getAdminInfoId()).equals(id)) {
                 qq = list.get(i).getAdminInfoQq();
                 break;
             }
@@ -341,7 +348,7 @@ public class AdminServiceImpl implements AdminService {
 //            Object object = list.get(i);
 //            System.out.println(JSONObject.toJSONString(object));
 //        }
-        return JSONArray.toJSONString(MainUtil.getWorkInfoUti4(list));
+        return JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"kindId", "kindName"}));
     }
 
     /**
@@ -469,5 +476,35 @@ public class AdminServiceImpl implements AdminService {
             code = Config.OK;
         }
         return code;
+    }
+
+    /***
+     * 根据教师名称删除相应Link行
+     * @return
+     */
+    @Override
+    public String deleteLinkWName(String wordId, String teachName) {
+        String hql = "select link.linkId from THngyLink as link,THngyTeacherInfo as teacher where link.workTaskId = ?" +
+                " and link.teacherId = teacher.teacherId and teacher.teacherName = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(wordId), teachName}, hql);
+        linkRepostory.delete(Long.parseLong(String.valueOf(list.get(0))));
+        return "";
+    }
+
+    /***
+     * 根据教师名称增加Link
+     * @param wordId
+     * @param teachName
+     * @return
+     */
+    @Override
+    public String addLinkWName(String wordId, String teachName) {
+        String hql = "select teacher.teacherId from THngyTeacherInfo as teacher where teacher.teacherName = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{teachName}, hql);
+        THngyLink link = new THngyLink();
+        link.setWorkTaskId(Long.parseLong(wordId));
+        link.setTeacherId(Long.parseLong(String.valueOf(list.get(0))));
+        linkRepostory.save(link);
+        return "";
     }
 }

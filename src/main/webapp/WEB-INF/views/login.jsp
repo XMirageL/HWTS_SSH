@@ -178,7 +178,6 @@
                             swal("登录成功", "", "success");
                             window.location.href = "/user";
                         } else if (data == "101") {
-                            Ladda_l.stop();
                             swal("登录失败", "用户名或密码错误", "error");
                         } else if (data == "103") {
                             swal({title: "欢迎回来！", text: "管理员已登入", imageUrl: "css/admin.png", confirmButtonText: "确定",});

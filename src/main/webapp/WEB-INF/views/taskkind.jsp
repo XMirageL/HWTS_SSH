@@ -1,17 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
-  Date: 2018/3/15
-  Time: 10:36
+  Date: 2017/11/21
+  Time: 19:45
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html class=" JS no-touch" lang="zh" style="">
+<html class=" JS no-touch" lang="zh" style=""><!--<![endif]-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>导入教师注册信息</title>
+    <title>任务分类</title>
     <meta name="applicable-device" content="pc,mobile">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-transform">
@@ -68,6 +68,8 @@
     </style>
 </head>
 <body>
+
+
 <!-- Page Wrapper -->
 <div id="page-wrapper" class="page-loading-off">
     <!-- Preloader -->
@@ -111,7 +113,7 @@
                                         class="sidebar-nav-mini-hide">发布任务</span></a>
                             </li>
                             <li>
-                                <a id="taskkind" href="/taskkind"><i class="fa fa-align-justify sidebar-nav-icon"></i><span
+                                <a id="taskkind" href="#" class="active"><i class="fa fa-align-justify sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">任务分类</span></a>
                             </li>
                             <li>
@@ -120,7 +122,7 @@
                                         class="sidebar-nav-mini-hide">信息查询</span></a>
                             </li>
                             <li>
-                                <a id="import" href="" class="active"><i
+                                <a id="import" href="/importInfo"><i
                                         class="fa fa-sign-in sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">批量注册</span></a>
                             </li>
@@ -189,142 +191,48 @@
                     <!-- User Dropdown -->
                     <li class="dropdown">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="./css/Logo.png" alt="logo">
+                            <img src="./images/Logo.png" alt="logo">
                         </a>
                     </li>
                     <!-- END User Dropdown -->
                 </ul>
                 <!-- END Right Header Navigation -->
             </header>
+            <!-- END Header -->
+            <!-- Page content -->
 
-            <div id="page-content" style="min-height: 959px;">
-                <!-- Widgets Header -->
+            <div id="page-content" style="min-height: 640px;">
                 <div class="content-header">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="header-section">
-                                <h1>批量导入</h1>
+                                <h2>管理员后台</h2>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- END Widgets Header -->
-                <!-- Content -->
                 <div class="row">
-
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         <div class="widget">
                             <div class="widget-content themed-background text-light-op">
-                                <i class="fa fa-fw fa-pencil"></i> <strong>Excel表批量注册</strong>
-                            </div>
-                            <div class="widget-content block full">
-                                <div class="ibox-content">
-                                    <form id="file_form" action="./importInfo" role="form"
-                                          class="form-horizontal form-bordered" enctype="multipart/form-data"
-                                          method="post">
-
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">文件格式：</label>
-
-                                            <div class="col-lg-8">
-                                                <select name="isyaoqing" class="form-control">
-                                                    <option value="1">.xls</option>
-                                                    <option value="0">.txt</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="file_input">选择文件</label>
-                                            <div class="col-md-9">
-                                                <input type="file" id="file_input" name="record" required="">
-                                                <span class="help-block">必须严格要求格式，否则注册失败</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-offset-3 col-lg-8">
-                                                <button id="bt_import"
-                                                        class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                                        type="button">保存提交
-                                                </button>
-                                                <button
-                                                        class="btn btn-sm btn-info pull-right m-t-n-xs"
-                                                        data-toggle="modal" data-target="#Help" type="button">提交帮助
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="widget">
-                            <div class="widget-content themed-background text-light-op">
-                                <i class="fa fa-fw fa-pencil"></i> <strong>手动注册</strong>
+                                <i class="fa fa-fw fa-pencil"></i> <strong>添加任务分类</strong>
                             </div>
                             <div class="widget-content block full">
                                 <div class="ibox-content">
                                     <form action="#" role="form" class="form-horizontal" method="post">
                                         <div class="form-group">
-                                            <label class="col-lg-3 control-label">教师ID：</label>
+                                            <label class="col-lg-3 control-label"><i class="fa fa-align-justify"></i>&nbsp;分类名称：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name"  id="teacherid"
-                                                       disabled>
+                                                <input type="text" class="form-control"  id="kind_name"
+                                                       value=""
+                                                       placeholder="给新分类取个名称吧">
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">教师姓名：</label>
-
-                                            <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name" id="techername"
-                                                >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">归属教研室：</label>
-
-                                            <div class="col-lg-8">
-                                                <select name="isyaoqing" class="form-control" id="teacherstaff">
-                                                    <option value="1">5306教室</option>
-                                                    <option value="0">5305教室</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">教师邮箱：</label>
-
-                                            <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name" id="teacheremail"
-                                                >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">教师手机号：</label>
-
-                                            <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name"
-                                                       onkeyup="value=value.replace(/[^\d]/g,'')" id="teacherphone"
-                                                >
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">登录密码：</label>
-
-                                            <div class="col-lg-8">
-                                                <input type="text" class="form-control" name="web_name" value="123456" id="teacherpwd"
-                                                >
-                                            </div>
-                                            <br>
-                                        </div>
-                                        <div class="form-group">
-                                            <span class="help-block text-center">教师密码默认设置为123456，当教师初次登录时会强制要改新密码</span>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-offset-3 col-lg-8">
                                                 <button class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                                        type="button" id="bt_add">保存提交
+                                                        type="button" id="kind_submit">确认添加
                                                 </button>
                                             </div>
                                         </div>
@@ -333,52 +241,76 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="widget">
+                            <div class="widget-content themed-background text-light-op">
+                                <i class="fa fa-fw fa-pencil"></i> <strong>编辑任务分类</strong>
+                            </div>
+                            <div class="widget-content block full">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>分类ID</th>
+                                            <th>分类名称</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbod">
+                                        <tr>
+                                            <td><input type="checkbox" id="cb_1" name="checkbox" value="1"><b>1</b></td>
+                                            <td><span id="adminame_1">admin-徐磊</span></td>
+                                            <td><span id="bt_edit_1" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalEdit" onclick="setModel(1)">修改</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" id="cb_123461" name="checkbox" value="123461"><b>123461</b></td>
+                                            <td><span id="adminame_123461">admin-李泽林</span></td>
+                                            <td><span id="bt_edit_123461" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalEdit" onclick="setModel(123461)">修改</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" id="cb_123467" name="checkbox" value="123467"><b>123467</b></td>
+                                            <td><span id="adminame_123467">admin-臧胜</span></td>
+                                            <td><span id="bt_edit_123467" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalEdit" onclick="setModel(123467)">修改</span></td>
+                                        </tr></tbody>
+                                    </table>
 
-                    <div class="modal fade" id="Help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                        ×
-                                    </button>
-                                    <h4 class="modal-title" id="day_ModalLabel">
-                                        怎么用Excel批量注册教师信息
-                                    </h4>
+                                    <input name="chkAll1" onclick="checkAll(this.checked)" type="checkbox"
+                                           id="chkAll1" value="checkbox">&nbsp;全选&nbsp;
+                                    <select class="table-responsive" id="pl_edit" name="status">
+                                        <option value="0" selected="">-</option>
+                                        <option value="1">删除</option>
+                                    </select>
+                                    <input type="button" name="Submit" value="确定" onclick="pushName()">
                                 </div>
-                                <div class="modal-body">
-                                    <strong> Excel表要求文件格式：</strong>.xls<br><br>
-                                    <strong> Excel表名字要求：</strong>无要求<br><br>
-                                    <strong> Excel表大小要求：</strong>无限制<br><br>
-                                    <strong> Excel表内容格式要求：</strong>3 x *  （ 列限制3格 行无限）<br><br>
-                                    每行4列<br>第一列为<strong>教师姓名</strong><br>第二列为<strong>所示教研室</strong><br>第三列为教师归属<strong>教师邮箱</strong><br>第四列为<strong>教师联系电话</strong><br>
-                                    <br><strong>教师密码</strong>不需设置，统一默认设置为<strong>123456</strong><br><br>
-                                    <strong>格式符合的Excel表 可直接选择上传</strong><br>
-                                    例子截图如下：<br>
-                                    <img width="95%" src="./images/help_1.png" alt="说明截图">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                                    </button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal -->
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-                <!-- End Content -->
             </div>
 
-
+            <div class="text-center push-bit-top-bottom visible-xs">
+                <small class="help-block">Made BY：<br>RJXH - 移软分部</small>
+            </div>
+            <!-- END Page Content -->
         </div>
+        <!-- END Main Container -->
     </div>
+    <!-- END Page Container -->
 </div>
-</body>
 
+</body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
+<script src="./JS/taskkind.js"></script>
 <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script>
-
+    function checkAll(checked) {
+        var allCheckBoxs = document.getElementsByName("checkbox");
+        for (var i = 0; i < allCheckBoxs.length; i++) {
+            if (allCheckBoxs[i].type == "checkbox") {
+                allCheckBoxs[i].checked = checked;
+            }
+        }
+    }
 </script>
-<script src="./JS/importInfo.js"></script>
 </html>

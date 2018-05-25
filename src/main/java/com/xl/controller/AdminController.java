@@ -149,4 +149,10 @@ public class AdminController {
     public String adminquery() {
         return "adminquery";
     }
+
+
+    @GetMapping(value = "taskkind")
+    public String admintaskkind() {
+        return "taskkind";
+    }
 }

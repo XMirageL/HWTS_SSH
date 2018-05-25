@@ -1,6 +1,4 @@
-
 $(document).ready(function () {
-
 
 
     $('#task_submit').click(function () {
@@ -41,13 +39,14 @@ $(document).ready(function () {
     function ajax_task() {
         var title = $('#title').val();//任务标题
         var teacher = '';//选择的老师
+        var kinds = $('#kinds option:selected').attr('value');
         teacher += $('#select_teacher').val();
         var details = $('#details').val();//任务详情
         var qq = $('#web_qq').val();//发布者qq
         $.ajax({
             url: "/insertIssueTasks",
             type: "POST",
-            data: {workName: title, teacher: teacher, workText: details, qq: qq},
+            data: {workName: title, teacher: teacher, kinds: kinds, workText: details, qq: qq},
             dataType: "json",
             success: function (data) {
                 if (data.sCode == "200") {

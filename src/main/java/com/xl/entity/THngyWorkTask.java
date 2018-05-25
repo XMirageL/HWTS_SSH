@@ -159,8 +159,8 @@ public class THngyWorkTask {
         THngyWorkTask that = (THngyWorkTask) o;
         return workTaskId == that.workTaskId &&
                 departmentId == that.departmentId &&
+                workTaskKinds == that.workTaskKinds &&
                 Objects.equals(workTaskName, that.workTaskName) &&
-                Objects.equals(workTaskKinds, that.workTaskKinds) &&
                 Objects.equals(workTaskText, that.workTaskText) &&
                 Objects.equals(workTaskTime, that.workTaskTime) &&
                 Objects.equals(workTaskTerm, that.workTaskTerm) &&

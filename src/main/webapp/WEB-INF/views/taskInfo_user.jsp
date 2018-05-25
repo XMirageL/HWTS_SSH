@@ -208,6 +208,16 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-cubes"></i>&nbsp;任务分类：</label>
+
+                                            <div class="col-lg-7">
+                                                <select class="form-control" id="kinds"
+                                                        disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="col-lg-3 control-label"><i
                                                     class="fa fa-users sidebar-nav-icon"></i>&nbsp;参与老师：</label>
                                             <div class="col-lg-7" id="teachers">
@@ -307,6 +317,7 @@
                 var info = data[0];
                 $("#title").val(info.taskName);
                 $("#details").val(info.taskText);
+                $("#kinds").html("<option>" + info.kindText + "</option>");
                 $("#sp_1").html(info.qq);
                 var taskDate = info.taskDate.split("-");
                 $("#date").val(taskDate[0] + "年" + taskDate[1] + "月" + taskDate[2] + "日");

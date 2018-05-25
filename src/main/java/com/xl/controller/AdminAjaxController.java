@@ -62,13 +62,15 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/insertIssueTasks")
     @ResponseBody
-    public String insertIssueTasks(HttpSession session, String workName, String teacher, String workText, String
-            qq) {
+    public String insertIssueTasks(HttpSession session, String workName, String teacher, String kinds, String
+            workText, String
+                                           qq) {
         String statusCode = Config.Code201;
         String taskId = "";
         long did = Long.parseLong("" + session.getAttribute("department"));
-        if (workName.length() > 0 && teacher.length() > 0 && workText.length() > 0 && qq.length() > 0) {
-            taskId = adminService.saveTaskTeacherLinkInfo(did, workName, teacher, workText, qq);
+        if (workName.length() > 0 && teacher.length() > 0 && kinds.length() > 0 && workText.length() > 0 && qq.length
+                () > 0) {
+            taskId = adminService.saveTaskTeacherLinkInfo(did, workName, teacher, kinds, workText, qq);
             statusCode = Config.Code200;
         }
         String json = "{\"sCode\":\"" + statusCode + "\",\"taskId\":\"" + taskId + "\"}";
@@ -78,27 +80,20 @@ public class AdminAjaxController {
 
     /**
      * 编辑保存任务，更新任务的数据
-     *
-     * @param workId    工作id
-     * @param workName  工作名称
-     * @param workText  工作详情
-     * @param qq        发布者qq号
-     * @param workState 工作状态
-     * @return
      */
     @RequestMapping(value = "/updateTask")
     @ResponseBody
-    public String updateTask(String workId, String workName, String workText, String qq, String workState, String
-            workTime) {
+    public String updateTask(HttpSession session, String workId, String workName, String workKinds, String
+            oldteacher, String teacher, String workText, String qq, String workState, String
+                                     workTime) {
         if (workId.length() > 0 || workName.length() > 0 && workText.length() > 0 && qq.length() > 0
                 && workState.length() > 0 && workTime.length() > 0) {
             System.out.println(workName + "\n" + workText + "\n" + qq + "\n" + workState + "\n");
             THngyWorkTask tHngyWorkTask = new THngyWorkTask();
             tHngyWorkTask.setWorkTaskId(Long.parseLong(workId));
             tHngyWorkTask.setWorkTaskName(workName);
+            tHngyWorkTask.setWorkTaskKinds(Long.parseLong(workKinds));
             tHngyWorkTask.setWorkTaskText(workText);
-            tHngyWorkTask.setWorkTaskSchedule(workState);
-            tHngyWorkTask.setQq(qq);
             tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(workTime));
             int M = Integer.parseInt(workTime.substring(5, 7));
             if (M < 2 && M > 8)//上学期
@@ -108,7 +103,39 @@ public class AdminAjaxController {
             {
                 tHngyWorkTask.setWorkTaskTerm("下学期");
             }
-
+            tHngyWorkTask.setWorkTaskSchedule(workState);
+            tHngyWorkTask.setQq(qq);
+            tHngyWorkTask.setDepartmentId(Long.parseLong(session.getAttribute("department") + ""));
+            String[] old_t = oldteacher.split(",");
+            String[] new_t = teacher.split(",");
+            //检测新组里没有的老师 ，没有则代表 需要删除
+            for (int i = 0; i < old_t.length; i ++){
+                int sign = 0;
+                for (int k = 0 ; k < new_t.length ; k ++){
+                    if (old_t[i].equals(new_t[k])){
+                        break;
+                    } else {
+                        sign++;
+                    }
+                }
+                if (sign == new_t.length){
+                    adminService.deleteLinkWName(workId, old_t[i]);
+                }
+            }
+            //检测旧组 如未有 则为新增
+            for (int i = 0; i < new_t.length; i ++){
+                int sign = 0;
+                for (int k = 0 ; k < old_t.length ; k ++){
+                    if (old_t[k].equals(new_t[i])){
+                        break;
+                    } else {
+                        sign++;
+                    }
+                }
+                if (sign == old_t.length){
+                    adminService.addLinkWName(workId, new_t[i]);
+                }
+            }
             return adminService.updateTask(tHngyWorkTask);
         }
         return "101";
@@ -208,13 +235,14 @@ public class AdminAjaxController {
 
     /**
      * 根据Session查管理员QQ
+     *
      * @param session
      * @return
      */
     @RequestMapping(value = "getAdminQQ", produces = "text/html;charset=UTF-8;")
     @ResponseBody
     public String getAdminQQ(HttpSession session) {
-        return adminService.getAdminQQ(session.getAttribute("id")+"").toString();
+        return adminService.getAdminQQ(session.getAttribute("id") + "").toString();
     }
 
     /***
@@ -225,7 +253,8 @@ public class AdminAjaxController {
     @RequestMapping(value = "getKindsTask", produces = "text/html;charset=UTF-8;")
     @ResponseBody
     public String getKindsTask(HttpSession session) {
-        return adminService.getKindsTask(session.getAttribute("id")+"").toString();
+        String json = adminService.getKindsTask(session.getAttribute("department") + "").toString();
+        return json;
     }
 
 

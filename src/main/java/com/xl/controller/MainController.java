@@ -1,5 +1,6 @@
 package com.xl.controller;
 
+import com.xl.service.impl.AdminServiceImpl;
 import com.xl.service.impl.MainServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /***
  * 本类主要是用来查询数据再显示视图的，任何需要显示视图的页面都需要通过本类显示，不可以直接跳转过去
@@ -19,6 +22,9 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class MainController {
+    @Autowired
+    private AdminServiceImpl adminService;
+
     @Autowired
     private MainServiceImpl mainService;
     private Logger logger = LogManager.getLogger("sys_out");
@@ -113,10 +119,32 @@ public class MainController {
      * 根据用户类型返回相应的界面
      */
     @GetMapping(value = "/taskInfo")
-    public String taskInfo(HttpSession session) {
+    public String taskInfo(HttpSession session,HttpServletRequest req) {
         String userType = (String) session.getAttribute("userType");
 
         if (userType.equals("0")) {
+            //获取当前时间
+            String time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            int M = Integer.parseInt((String) time.subSequence(5, 7));
+            int Y = Integer.parseInt((String) time.subSequence(0, 4));
+            String dateStr1 = null;
+            String dateStr2 = null;
+            if (M < 2 && M > 8)//下学期
+            {
+                dateStr1 = String.valueOf(Y) + "-08-01";
+                dateStr2 = String.valueOf(Y + 1) + "-02-01";
+            } else//上学期
+            {
+                dateStr1 = String.valueOf(Y) + "-02-01";
+                dateStr2 = String.valueOf(Y) + "-08-01";
+            }
+            //将字符串转为数据库能识别的时间
+            java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
+            java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
+            System.out.println(date1 + "\n" + date2);
+
+            req.setAttribute("allTeacherInfo", adminService.teacherReportsQuery("" + session.getAttribute("department"),
+                    date1, date2));
             return "taskInfo_admin";
         } else {
             return "taskInfo_user";

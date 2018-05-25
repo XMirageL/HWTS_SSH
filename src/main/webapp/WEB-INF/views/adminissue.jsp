@@ -114,6 +114,10 @@
                                         class="sidebar-nav-mini-hide">发布任务</span></a>
                             </li>
                             <li>
+                                <a id="taskkind" href="/taskkind"><i class="fa fa-align-justify sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">任务分类</span></a>
+                            </li>
+                            <li>
                                 <a id="select" href="/adminquery"><i
                                         class="fa fa-calendar-check-o sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">信息查询</span></a>
@@ -305,6 +309,35 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12">
+                        <div class="widget">
+                            <div class="widget-content themed-background text-light-op">
+                                <i class="fa fa-fw fa-pencil"></i> <strong>添加任务分类</strong>
+                            </div>
+                            <div class="widget-content block full">
+                                <div class="ibox-content">
+                                    <form action="#" role="form" class="form-horizontal" method="post">
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-align-justify"></i>&nbsp;分类名称：</label>
+
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" maxlength="18" id="kind_name"
+                                                       value=""
+                                                       placeholder="给新分类取个名称吧">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-3 col-lg-8">
+                                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs"
+                                                        type="button" id="kind_submit">确认添加
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -344,11 +377,16 @@
         dataType: "json",
         success: function (data) {
             var text = "";
-            for (var i = 0; i < data.length; i++) {
-                text += "<option value=\"" + data[i].kindId + "\" id=\"op_"+data[i].kindId+"\">"+data[i].kindName+"</option>"
+            if (data.length == 0) {
+                $("#kinds").html("<option>-请先到分类列表里添加任务分类-</option>");
+                layer.close(ii);
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    text += "<option value=\"" + data[i].kindId + "\" id=\"op_" + data[i].kindId + "\">" + data[i].kindName + "</option>"
+                }
+                $("#kinds").html(text);
+                layer.close(ii);
             }
-            $("#kinds").html(text);
-            layer.close(ii);
         },
         error: function (data) {
             layer.close(ii);

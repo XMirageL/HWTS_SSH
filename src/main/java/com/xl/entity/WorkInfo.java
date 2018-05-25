@@ -3,6 +3,7 @@ package com.xl.entity;
 
 public class WorkInfo {
     private String workId = "";
+    private String workKinds = "";
     private String workTaskTime = "";
     private String workTaskName = "";
     private String teacherName = "";
@@ -44,6 +45,14 @@ public class WorkInfo {
         this.teacherId = teacherId;
     }
 
+    public String getWorkKinds() {
+        return workKinds;
+    }
+
+    public void setWorkKinds(String workKinds) {
+        this.workKinds = workKinds;
+    }
+
     public WorkInfo() {
 
     }
@@ -56,6 +65,7 @@ public class WorkInfo {
                 ", workTaskName='" + workTaskName + '\'' +
                 ", teacherName='" + teacherName + '\'' +
                 ", workTaskSchedule='" + workTaskSchedule + '\'' +
+                ", workKinds='" + workKinds + '\'' +
                 '}';
     }
 
@@ -69,6 +79,7 @@ public class WorkInfo {
         this.workTaskSchedule = String.valueOf(objects[4]);
         this.qq = String.valueOf(objects[6]);
         this.taskText = String.valueOf(objects[7]);
+//        this.workKinds = String.valueOf(objects[8]);
     }
 
     public String getWorkTaskTime() {
