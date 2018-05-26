@@ -57,78 +57,7 @@
     <!-- Page Container -->
     <div id="page-container" class="header-fixed-top sidebar-visible-lg-full">
         <!-- Main Sidebar -->
-        <div id="sidebar">
-            <!-- Sidebar Brand -->
-            <div id="sidebar-brand" class="themed-background">
-                <a href="./" class="sidebar-title">
-                    <i class="fa fa-cloud"></i> <span class="sidebar-nav-mini-hide">任务分发系统 V1.0</span>
-                </a>
-            </div>
-            <!-- END Sidebar Brand -->
-
-            <!-- Wrapper for scrolling functionality -->
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 516px;">
-                <div id="sidebar-scroll" style="overflow: hidden; width: auto; height: 516px;">
-                    <!-- Sidebar Content -->
-                    <div class="sidebar-content">
-                        <!-- Sidebar Navigation -->
-                        <ul class="sidebar-nav">
-
-                            <li>
-                                <a id="user" href="/user"><i class="fa fa-child sidebar-nav-icon"></i><span
-                                        class="sidebar-nav-mini-hide">用户中心</span></a>
-                            </li>
-                            <li>
-                                <a id="plan" href="/userplan"><i
-                                        class="fa fa-calendar-check-o sidebar-nav-icon"></i><span
-                                        class="sidebar-nav-mini-hide">工作进度</span></a>
-                            </li>
-                            <li>
-                                <a id="list" href="/taskInfo_list"><i
-                                        class="fa fa-list sidebar-nav-icon"></i><span
-                                        class="sidebar-nav-mini-hide">任务列表</span></a>
-                            </li>
-                            <li>
-                                <a id="help" href="/userinfo" class="active"><i
-                                        class="fa fa-info-circle sidebar-nav-icon"></i><span
-                                        class="sidebar-nav-mini-hide">个人资料</span></a>
-                            </li>
-                            <li>
-                                <a id="index" href="/loginOut"><i class="fa fa-power-off sidebar-nav-icon"></i><span
-                                        class="sidebar-nav-mini-hide">注销登录</span></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" id="gongdan" class="sidebar-nav-menu"><i
-                                        class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i
-                                        class="fa fa-info sidebar-nav-icon"></i><span
-                                        class="sidebar-nav-mini-hide">关于我们</span></a>
-                                <ul>
-                                    <li>
-                                        <a href="http://www.hunangy.com/">湖南工院</a>
-                                    </li>
-                                    <li>
-                                        <a href="./">软件协会</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <!-- END Sidebar Navigation -->
-
-                    </div>
-                    <!-- END Sidebar Content -->
-                </div>
-            </div>
-            <!-- END Wrapper for scrolling functionality -->
-
-            <!-- Sidebar Extra Info -->
-            <div id="sidebar-extra-info" class="sidebar-content sidebar-nav-mini-hide">
-                <div class="text-center">
-                    <small><a target="_blank">任务分发系统 V1.0</a><br></small>
-                    <small><span>2017</span> &copy; <a href="./" target="_blank">RJXH</a></small>
-                </div>
-            </div>
-            <!-- END Sidebar Extra Info -->
-        </div>
+        <jsp:include page="head_teacher.jsp"/>
         <!-- END Main Sidebar -->
 
         <!-- Main Container -->
