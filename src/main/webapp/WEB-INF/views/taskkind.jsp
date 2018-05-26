@@ -300,19 +300,63 @@
         }
     }
 
-
+    function pushName() {
+        if ($("#pl_edit").val() == 0) {
+            swal("请选择一个事件", "", "info");
+            return;
+        } else if ($("#pl_edit").val() == 1 || $("#pl_edit").val() == "1") {
+            swal({
+                title: "确认删除吗？",
+                text: "删除该分类将会删除分类下的所有任务",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+            }, function () {
+                var id = document.getElementsByName('checkbox');
+                var value = new Array();
+                for (var i = 0; i < id.length; i++) {
+                    if (id[i].checked)
+                        value.push(id[i].value);
+                }
+                $.ajax({
+                    url: "/delKinds",
+                    type: "POST",
+                    data: {
+                        text: value.toString()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 200) {
+                            swal("删除成功", "", "success");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal("删除失败", "code:" + data, "success");
+                        }
+                    },
+                    error: function () {
+                        alert("服务器错误");
+                    }
+                });
+            });
+        }
+    }
 
     function sp_click(sp) {
         var sp_id = $(sp).attr("value");
-        $("#kindInput_"+sp_id).css("display","");
-        $("#kindInput_"+sp_id).focus()
-        $("#kindInput_"+sp_id).select();
-        $("#kindName_"+sp_id).css("display","none");
-        $(document).keypress(function(e) {
+        $("#kindInput_" + sp_id).css("display", "");
+        $("#kindInput_" + sp_id).focus()
+        $("#kindInput_" + sp_id).select();
+        $("#kindName_" + sp_id).css("display", "none");
+        $(document).keypress(function (e) {
             // 回车键事件
-            if(e.which == 13) {
+            if (e.which == 13) {
                 var ii = layer.load(2, {shade: [0.1, '#fff']});
-                var kindName = $("#kindInput_"+sp_id).val();
+                var kindName = $("#kindInput_" + sp_id).val();
                 $.ajax({
                     url: "/updateKinds",
                     type: "POST",
@@ -322,12 +366,12 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        if (data == 200){
+                        if (data == 200) {
                             setTimeout(function () {
                                 location.reload();
                             }, 1000);
                         } else {
-                            swal("修改失败！", "建议重新登录尝试code:"+data, "warning");
+                            swal("修改失败！", "建议重新登录尝试code:" + data, "warning");
                         }
                     },
                     error: function () {
@@ -335,9 +379,9 @@
                 });
             }
         });
-        $("#kindInput_"+sp_id).blur(function () {
+        $("#kindInput_" + sp_id).blur(function () {
             var ii = layer.load(2, {shade: [0.1, '#fff']});
-            var kindName = $("#kindInput_"+sp_id).val();
+            var kindName = $("#kindInput_" + sp_id).val();
             $.ajax({
                 url: "/updateKinds",
                 type: "POST",
@@ -347,12 +391,12 @@
                 },
                 dataType: "json",
                 success: function (data) {
-                    if (data == 200){
+                    if (data == 200) {
                         setTimeout(function () {
                             location.reload();
                         }, 1000);
                     } else {
-                        swal("修改失败！", "建议重新登录尝试code:"+data, "warning");
+                        swal("修改失败！", "建议重新登录尝试code:" + data, "warning");
                     }
                 },
                 error: function () {
@@ -371,14 +415,14 @@
             data: {},
             dataType: "json",
             success: function (data) {
-                if (data.length != 0){
+                if (data.length != 0) {
                     var text = "";
-                    for (var i = 0 ; i < data.length; i ++){
+                    for (var i = 0; i < data.length; i++) {
                         text += "\n" +
                             "                                        <tr>\n" +
-                            "                                            <td><input type=\"checkbox\" id=\"cb_"+data[i].kindsId+"\" name=\"checkbox\" value=\""+data[i].kindsId+"\"><b>"+data[i].kindsId+"</b></td>\n" +
-                            "                                            <td><span onclick=\"sp_click(this)\" id=\"kindName_"+data[i].kindsId+"\" value=\""+data[i].kindsId+"\">"+data[i].kindsName+"</span>\n" +
-                            "                                            <input style=\"width: 75px;display: none\" type=\"text\" id=\"kindInput_"+data[i].kindsId+"\" value=\""+data[i].kindsName+"\"></td>\n" +
+                            "                                            <td><input type=\"checkbox\" id=\"cb_" + data[i].kindsId + "\" name=\"checkbox\" value=\"" + data[i].kindsId + "\"><b>" + data[i].kindsId + "</b></td>\n" +
+                            "                                            <td><span onclick=\"sp_click(this)\" id=\"kindName_" + data[i].kindsId + "\" value=\"" + data[i].kindsId + "\">" + data[i].kindsName + "</span>\n" +
+                            "                                            <input style=\"width: 75px;display: none\" type=\"text\" id=\"kindInput_" + data[i].kindsId + "\" value=\"" + data[i].kindsName + "\"></td>\n" +
                             "                                            <td><span class=\"btn btn-warning btn-xs\">点击文字直接修改</span></td>\n" +
                             "                                        </tr>"
                     }

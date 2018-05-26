@@ -38,6 +38,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private KindsOfTaskRepositoryImpl kindsOfTaskRepository;
 
+    @Autowired
+    private WorkTaskRepositoryImpl workTaskRepository;
+
     /**
      * 以Json形式返回管理员个人信息以及公告
      *
@@ -534,9 +537,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String getAllKinds(String dep) {
         String json = "";
-        String sql = "select kinds.kindsTaskID, kinds.kindsTaskName from THngyKindsTask as kinds where kinds.departmentId = ?";
+        String sql = "select kinds.kindsTaskID, kinds.kindsTaskName from THngyKindsTask as kinds where kinds" +
+                ".departmentId = ?";
         List<Object[]> objects = mainRepository.complexQuery(new Object[]{Long.parseLong(dep)}, sql);
-        json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main( objects,new Object[]{"kindsId", "kindsName"}));
+        json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(objects, new Object[]{"kindsId", "kindsName"}));
         return json;
     }
 
@@ -547,6 +551,34 @@ public class AdminServiceImpl implements AdminService {
         kindsTask.setDepartmentId(Long.parseLong(dep));
         kindsTask.setKindsTaskName(kindname);
         kindsOfTaskRepository.saveOrUpdate(kindsTask);
+        return Config.OK;
+    }
+
+    /**
+     * 批量删除分类
+     *
+     * @param dep
+     * @param text
+     * @return
+     */
+    @Override
+    public String deleteKinds(String dep, String text) {
+        String[] ss = text.split(",");
+        for (int i = 0; i < ss.length; i++) {
+            String hql = "select link.linkId from THngyLink as link, THngyWorkTask as work where link.workTaskId = work.workTaskId and work.workTaskKinds = ?";
+            List<Object[]> list1 = mainRepository.complexQuery(new Object[]{Long.parseLong(ss[i])}, hql);
+            for (int k = 0 ; k <list1.size() ; k ++){
+                Long aLong = Long.parseLong(String.valueOf(list1.get(k)));
+                linkRepostory.delete(aLong);
+            }
+            hql = "select task.workTaskId from THngyWorkTask as task where task.workTaskKinds = ?";
+            List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(ss[i])}, hql);
+            for (int k = 0 ; k <list.size() ; k ++){
+                Long l = Long.parseLong(String.valueOf(list.get(k)));
+                workTaskRepository.delete(l);
+            }
+            kindsOfTaskRepository.delete(Long.parseLong(ss[i]));
+        }
         return Config.OK;
     }
 }

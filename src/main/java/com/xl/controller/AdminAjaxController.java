@@ -313,11 +313,34 @@ public class AdminAjaxController {
         return json;
     }
 
+    /**
+     * 修改分类
+     *
+     * @param session
+     * @param kindId
+     * @param kindName
+     * @return
+     */
     @RequestMapping(value = "updateKinds", produces = "text/html;charset=UTF-8;")
     @ResponseBody
     public String updateKinds(HttpSession session, String kindId, String kindName) {
         String json = Config.NO;
         json = adminService.updateKinds(kindId, session.getAttribute("department") + "", kindName);
+        return json;
+    }
+
+    /**
+     * 批量删除分类
+     *
+     * @param session
+     * @param text
+     * @return
+     */
+    @RequestMapping(value = "delKinds", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String deleteKinds(HttpSession session, String text) {
+        String json = Config.NO;
+        json = adminService.deleteKinds(session.getAttribute("department") + "", text);
         return json;
     }
 }

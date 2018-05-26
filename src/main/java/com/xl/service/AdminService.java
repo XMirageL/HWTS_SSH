@@ -163,5 +163,20 @@ public interface AdminService {
      */
     String getAllKinds(String dep);
 
+    /**
+     * 更新分类信息
+     * @param kindId
+     * @param dep
+     * @param kindname
+     * @return
+     */
     String updateKinds(String kindId, String dep, String kindname);
+
+    /**
+     * 批量删除分类
+     * @param dep
+     * @param text
+     * @return
+     */
+    String deleteKinds(String dep, String text);
 }

@@ -50,7 +50,7 @@ public class WorkTaskRepositoryImpl implements WorkTaskRepository{
 
     @Override
     public void delete(Long id) {
-
+        getSession().delete(getSession().get(THngyWorkTask.class, id));
     }
 
     @Override

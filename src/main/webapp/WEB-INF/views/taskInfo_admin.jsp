@@ -109,6 +109,11 @@
                                         class="sidebar-nav-mini-hide">发布任务</span></a>
                             </li>
                             <li>
+                                <a id="taskkind" href="/taskInfo_list" class="active"><i
+                                        class="fa fa-align-justify sidebar-nav-icon"></i><span
+                                        class="sidebar-nav-mini-hide">任务分类</span></a>
+                            </li>
+                            <li>
                                 <a id="help" href="/adminquery"><i class="fa fa-users sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">信息查询</span></a>
                             </li>
