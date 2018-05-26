@@ -147,4 +147,21 @@ public interface AdminService {
      * @return
      */
     String addLinkWName(String wordId, String teachName);
+
+    /***
+     * 增加新分类
+     * @param dep
+     * @param kindsname
+     * @return
+     */
+    String addKinds(String dep, String kindsname);
+
+    /**
+     * 获取所有任务分类
+     * @param dep
+     * @return
+     */
+    String getAllKinds(String dep);
+
+    String updateKinds(String kindId, String dep, String kindname);
 }

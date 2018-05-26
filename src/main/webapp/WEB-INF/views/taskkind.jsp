@@ -113,7 +113,8 @@
                                         class="sidebar-nav-mini-hide">发布任务</span></a>
                             </li>
                             <li>
-                                <a id="taskkind" href="#" class="active"><i class="fa fa-align-justify sidebar-nav-icon"></i><span
+                                <a id="taskkind" href="#" class="active"><i
+                                        class="fa fa-align-justify sidebar-nav-icon"></i><span
                                         class="sidebar-nav-mini-hide">任务分类</span></a>
                             </li>
                             <li>
@@ -224,7 +225,7 @@
                                             <label class="col-lg-3 control-label"><i class="fa fa-align-justify"></i>&nbsp;分类名称：</label>
 
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control"  id="kind_name"
+                                                <input type="text" class="form-control" id="kind_name"
                                                        value=""
                                                        placeholder="给新分类取个名称吧">
                                             </div>
@@ -244,7 +245,7 @@
                     <div class="col-sm-12">
                         <div class="widget">
                             <div class="widget-content themed-background text-light-op">
-                                <i class="fa fa-fw fa-pencil"></i> <strong>编辑任务分类</strong>
+                                <i class="fa fa-fw fa-pencil"></i> <strong>所有任务分类</strong>
                             </div>
                             <div class="widget-content block full">
                                 <div class="table-responsive">
@@ -256,21 +257,7 @@
                                         </tr>
                                         </thead>
                                         <tbody id="tbod">
-                                        <tr>
-                                            <td><input type="checkbox" id="cb_1" name="checkbox" value="1"><b>1</b></td>
-                                            <td><span id="adminame_1">admin-徐磊</span></td>
-                                            <td><span id="bt_edit_1" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalEdit" onclick="setModel(1)">修改</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" id="cb_123461" name="checkbox" value="123461"><b>123461</b></td>
-                                            <td><span id="adminame_123461">admin-李泽林</span></td>
-                                            <td><span id="bt_edit_123461" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalEdit" onclick="setModel(123461)">修改</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" id="cb_123467" name="checkbox" value="123467"><b>123467</b></td>
-                                            <td><span id="adminame_123467">admin-臧胜</span></td>
-                                            <td><span id="bt_edit_123467" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalEdit" onclick="setModel(123467)">修改</span></td>
-                                        </tr></tbody>
+                                        </tbody>
                                     </table>
 
                                     <input name="chkAll1" onclick="checkAll(this.checked)" type="checkbox"
@@ -301,7 +288,7 @@
 </body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
-<script src="./JS/taskkind.js"></script>
+<%--<script src="./JS/taskkind.js"></script>--%>
 <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script>
     function checkAll(checked) {
@@ -312,5 +299,134 @@
             }
         }
     }
+
+
+
+    function sp_click(sp) {
+        var sp_id = $(sp).attr("value");
+        $("#kindInput_"+sp_id).css("display","");
+        $("#kindInput_"+sp_id).focus()
+        $("#kindInput_"+sp_id).select();
+        $("#kindName_"+sp_id).css("display","none");
+        $(document).keypress(function(e) {
+            // 回车键事件
+            if(e.which == 13) {
+                var ii = layer.load(2, {shade: [0.1, '#fff']});
+                var kindName = $("#kindInput_"+sp_id).val();
+                $.ajax({
+                    url: "/updateKinds",
+                    type: "POST",
+                    data: {
+                        kindId: sp_id,
+                        kindName: kindName
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 200){
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal("修改失败！", "建议重新登录尝试code:"+data, "warning");
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        });
+        $("#kindInput_"+sp_id).blur(function () {
+            var ii = layer.load(2, {shade: [0.1, '#fff']});
+            var kindName = $("#kindInput_"+sp_id).val();
+            $.ajax({
+                url: "/updateKinds",
+                type: "POST",
+                data: {
+                    kindId: sp_id,
+                    kindName: kindName
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data == 200){
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        swal("修改失败！", "建议重新登录尝试code:"+data, "warning");
+                    }
+                },
+                error: function () {
+                }
+            });
+        })
+//        alert($(sp).attr("value"));
+    }
+
+    $(document).ready(function () {
+
+
+        $.ajax({
+            url: "/getAllKinds",
+            type: "POST",
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                if (data.length != 0){
+                    var text = "";
+                    for (var i = 0 ; i < data.length; i ++){
+                        text += "\n" +
+                            "                                        <tr>\n" +
+                            "                                            <td><input type=\"checkbox\" id=\"cb_"+data[i].kindsId+"\" name=\"checkbox\" value=\""+data[i].kindsId+"\"><b>"+data[i].kindsId+"</b></td>\n" +
+                            "                                            <td><span onclick=\"sp_click(this)\" id=\"kindName_"+data[i].kindsId+"\" value=\""+data[i].kindsId+"\">"+data[i].kindsName+"</span>\n" +
+                            "                                            <input style=\"width: 75px;display: none\" type=\"text\" id=\"kindInput_"+data[i].kindsId+"\" value=\""+data[i].kindsName+"\"></td>\n" +
+                            "                                            <td><span class=\"btn btn-warning btn-xs\">点击文字直接修改</span></td>\n" +
+                            "                                        </tr>"
+                    }
+                    $("#tbod").html(text);
+                }
+            },
+            error: function () {
+            }
+        });
+
+        $("#kind_submit").click(function () {
+            var kind_name = $("#kind_name").val();
+            if (kind_name == "") {
+                swal("请不要留空！", "", "warning");
+                return;
+            } else {
+                swal({
+                    title: "确定添加吗？",
+                    text: "确定添加此分类吗",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        url: "/addTaskKinds",
+                        type: "POST",
+                        data: {
+                            kind_name: kind_name
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 200) {
+                                swal("添加成功！", "", "success");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 1000);
+                            }
+                        },
+                        error: function () {
+                        }
+                    });
+                });
+            }
+        })
+
+    });
+
 </script>
 </html>

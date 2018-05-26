@@ -109,30 +109,30 @@ public class AdminAjaxController {
             String[] old_t = oldteacher.split(",");
             String[] new_t = teacher.split(",");
             //检测新组里没有的老师 ，没有则代表 需要删除
-            for (int i = 0; i < old_t.length; i ++){
+            for (int i = 0; i < old_t.length; i++) {
                 int sign = 0;
-                for (int k = 0 ; k < new_t.length ; k ++){
-                    if (old_t[i].equals(new_t[k])){
+                for (int k = 0; k < new_t.length; k++) {
+                    if (old_t[i].equals(new_t[k])) {
                         break;
                     } else {
                         sign++;
                     }
                 }
-                if (sign == new_t.length){
+                if (sign == new_t.length) {
                     adminService.deleteLinkWName(workId, old_t[i]);
                 }
             }
             //检测旧组 如未有 则为新增
-            for (int i = 0; i < new_t.length; i ++){
+            for (int i = 0; i < new_t.length; i++) {
                 int sign = 0;
-                for (int k = 0 ; k < old_t.length ; k ++){
-                    if (old_t[k].equals(new_t[i])){
+                for (int k = 0; k < old_t.length; k++) {
+                    if (old_t[k].equals(new_t[i])) {
                         break;
                     } else {
                         sign++;
                     }
                 }
-                if (sign == old_t.length){
+                if (sign == old_t.length) {
                     adminService.addLinkWName(workId, new_t[i]);
                 }
             }
@@ -281,6 +281,43 @@ public class AdminAjaxController {
             teacheremail, String teacherphone, String teacherpwd) {
         String json = Config.NO;
         json = adminService.addTeacher(teacherid, techername, teacherstaff, teacheremail, teacherphone, teacherpwd);
+        return json;
+    }
+
+    /***
+     * 添加任务分类
+     *
+     * @param session
+     * @param kind_name
+     * @return
+     */
+    @RequestMapping(value = "addTaskKinds", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String addTaskKinds(HttpSession session, String kind_name) {
+        String json = Config.NO;
+        json = adminService.addKinds(session.getAttribute("department") + "", kind_name);
+        json = Config.OK;
+        return json;
+    }
+
+    /***
+     * 获取所有任务信息 展现在列表
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getAllKinds", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getAllKinds(HttpSession session) {
+        String json = Config.NO;
+        json = adminService.getAllKinds(session.getAttribute("department") + "");
+        return json;
+    }
+
+    @RequestMapping(value = "updateKinds", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String updateKinds(HttpSession session, String kindId, String kindName) {
+        String json = Config.NO;
+        json = adminService.updateKinds(kindId, session.getAttribute("department") + "", kindName);
         return json;
     }
 }

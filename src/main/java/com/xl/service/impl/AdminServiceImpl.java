@@ -35,6 +35,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private LinkRepostoryImpl linkRepostory;
 
+    @Autowired
+    private KindsOfTaskRepositoryImpl kindsOfTaskRepository;
 
     /**
      * 以Json形式返回管理员个人信息以及公告
@@ -506,5 +508,45 @@ public class AdminServiceImpl implements AdminService {
         link.setTeacherId(Long.parseLong(String.valueOf(list.get(0))));
         linkRepostory.save(link);
         return "";
+    }
+
+    /***
+     * 增加新分类
+     * @param dep
+     * @param kindsname
+     * @return
+     */
+    @Override
+    public String addKinds(String dep, String kindsname) {
+        THngyKindsTask kindsTask = new THngyKindsTask();
+        kindsTask.setDepartmentId(Long.parseLong(dep));
+        kindsTask.setKindsTaskName(kindsname);
+        kindsOfTaskRepository.save(kindsTask);
+        return "";
+    }
+
+    /**
+     * 获取所有任务分类
+     *
+     * @param dep
+     * @return
+     */
+    @Override
+    public String getAllKinds(String dep) {
+        String json = "";
+        String sql = "select kinds.kindsTaskID, kinds.kindsTaskName from THngyKindsTask as kinds where kinds.departmentId = ?";
+        List<Object[]> objects = mainRepository.complexQuery(new Object[]{Long.parseLong(dep)}, sql);
+        json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main( objects,new Object[]{"kindsId", "kindsName"}));
+        return json;
+    }
+
+    @Override
+    public String updateKinds(String kindId, String dep, String kindname) {
+        THngyKindsTask kindsTask = new THngyKindsTask();
+        kindsTask.setKindsTaskID(Long.parseLong(kindId));
+        kindsTask.setDepartmentId(Long.parseLong(dep));
+        kindsTask.setKindsTaskName(kindname);
+        kindsOfTaskRepository.saveOrUpdate(kindsTask);
+        return Config.OK;
     }
 }
