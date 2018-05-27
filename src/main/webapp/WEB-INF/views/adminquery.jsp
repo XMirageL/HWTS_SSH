@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>管理员查找</title>
+    <title>任务管理</title>
     <meta name="applicable-device" content="pc,mobile">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-transform">
@@ -204,6 +204,54 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12">
+                        <div class="widget">
+                            <div class="widget-content themed-background text-light -op">
+                                <i class="fa fa-fw fa-pencil"></i> <strong>任务列表</strong>&nbsp;<a class="btn btn-info btn-xs">下载</a>
+                            </div>
+                            <div class="widget-content padded">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>时间(年/月/日)</th>
+                                            <th>任务名称</th>
+                                            <th>所属教师</th>
+                                            <th>发布者</th>
+                                            <th>状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbod">
+                                        <tr>
+                                            <td><b>1</b></td>
+                                            <td><span id="adminame_1">admin-徐磊</span></td>
+                                            <td><span id="admindepartment_1" value="1">信息工程学院</span></td>
+                                            <td><span id="admindpwd_1">123456</span></td>
+                                            <td id="adminmail_1"><span class="text-info">未完成</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>123461</b>
+                                            </td>
+                                            <td><span id="adminame_123461">admin-李泽林</span></td>
+                                            <td><span id="admindepartment_123461" value="2">机械工程学院</span></td>
+                                            <td><span id="admindpwd_123461">123456</span></td>
+                                            <td id="adminmail_123461"><span class="text-info">未完成</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>123467</b>
+                                            </td>
+                                            <td><span id="adminame_123467">admin-臧胜</span></td>
+                                            <td><span id="admindepartment_123467" value="3">商贸旅游学院</span></td>
+                                            <td><span id="admindpwd_123467">123456</span></td>
+                                            <td id="adminmail_123467"><span class="text-info">未完成</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12" id="tableQuery" style="display: none">
                         <!--动态获取表格-->
                     </div>
@@ -228,10 +276,10 @@
 <script src="./JS/app.js"></script>
 <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script>
-    $("#idown1").click(function(){
+    $("#idown1").click(function () {
         $("#text1").slideToggle();
     });
-    $("#idown2").click(function(){
+    $("#idown2").click(function () {
         $("#text2").slideToggle();
     });
 </script>

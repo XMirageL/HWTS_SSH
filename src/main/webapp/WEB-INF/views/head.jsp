@@ -41,7 +41,7 @@
                     <li>
                         <a id="help" href="/adminquery" <% if (url.equals("/WEB-INF/views/adminquery.jsp")){%>class="active" <%}%>><i
                                 class="fa fa-calendar-check-o sidebar-nav-icon"></i><span
-                                class="sidebar-nav-mini-hide">信息查询</span></a>
+                                class="sidebar-nav-mini-hide">任务管理</span></a>
                     </li>
                     <li>
                         <a id="import" href="/importInfo" <% if (url.equals("/WEB-INF/views/importInfo.jsp")){%>class="active" <%}%>><i

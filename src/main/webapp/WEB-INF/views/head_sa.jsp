@@ -29,6 +29,10 @@
                                 class="sidebar-nav-mini-hide">超管中心</span></a>
                     </li>
                     <li>
+                        <a id="index" href="/loginOut"><i class="fa fa-power-off sidebar-nav-icon"></i><span
+                                class="sidebar-nav-mini-hide">注销登录</span></a>
+                    </li>
+                    <li>
                         <a href="javascript:void(0)" id="gongdan" class="sidebar-nav-menu"><i
                                 class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i
                                 class="fa fa-info sidebar-nav-icon"></i><span

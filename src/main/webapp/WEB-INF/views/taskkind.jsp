@@ -334,6 +334,7 @@
     $(document).ready(function () {
 
 
+        var ii = layer.load(2, {shade: [0.1, '#fff']});
         $.ajax({
             url: "/getAllKinds",
             type: "POST",
@@ -353,6 +354,7 @@
                     }
                     $("#tbod").html(text);
                 }
+                layer.close(ii);
             },
             error: function () {
             }

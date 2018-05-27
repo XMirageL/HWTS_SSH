@@ -160,7 +160,6 @@ public class AdminServiceImpl implements AdminService {
                 ".teacherId not in (select link.teacherId from THngyLink as link,THngyWorkTask as work where link" +
                 ".workTaskId=work.workTaskId and work.workTaskTime>=? and work.workTaskTime<=? )";
         List<Object[]> listTeacher = mainRepository.dateQuery(date1, date2, hql);
-        System.out.println("第一个size" + listTeacher.size());
         if (listTeacher.size() != 0) {
             for (int i = 0; i < listTeacher.size(); ++i) {
                 Object[] object1 = listTeacher.get(i);
