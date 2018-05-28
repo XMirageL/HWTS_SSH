@@ -1,68 +1,171 @@
 $(document).ready(function () {
-    window.onload = function () {
-        var mydate = new Date();
-        var now_year = mydate.getFullYear();
-        var now_month = mydate.getMonth() + 1;
-        var select_year = "<option value=" + now_year + " selected>" + now_year + "</option>";
-        for (var i = now_year + 2; i > 2010; i--) {
-            select_year += "<option value=" + i + ">" + i + "</option>";
+    var ii = layer.load(2, {shade: [0.1, '#fff']});
+    $.ajax({
+        type: "POST",
+        url: "/getAllInfo",
+        error: function () {
+
+        },
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            var text = "<option value=\"0\" id=\"admin_0\">-</option>";
+            for (var i = 0; i < data.length; i++) {
+                text += "<option value=\"" + data[i].adminId + "\" id=\"admin_" + data[i].adminId + "\">" + data[i].adminName + "</option>"
+            }
+            $("#admin").html(text);
+            ajax_2();
         }
-        $("#select_year").append(select_year);
-        $("#select_year_1").append(select_year);
-        $("#select_year_sign").append(select_year);
-        $("#select_year_sign_1").append(select_year);
-        if (now_month < 8 && now_month > 2) {
-            $("#fHalf").attr("selected", "selected");
-        } else {
-            $("#sHalf").attr("selected", "selected");
-        }
-        if (now_month < 8 && now_month > 2) {
-            $("#fHalf_1").attr("selected", "selected");
-        } else {
-            $("#sHalf_1").attr("selected", "selected");
-        }
-    }
-    $('#btn_taskQuery').click(function () {
-        $("#btn_taskQuery").attr("disabled", true);
-        var ii = layer.load(2, {shade: [0.1, '#fff']});
-        var year = $("#select_year").val();
-        var hyear = $("#select_hyear").val();
-        var year_1 = $("#select_year_1").val();
-        var hyear_1 = $("#select_hyear_1").val();
-        $('#tableQuery').show();
-        $("#tableQuery").empty();
+    });
+
+    function ajax_2() {
         $.ajax({
             type: "POST",
-            url: "/taskQuery",
+            url: "/getAllTeacher",
             error: function () {
-                $("#btn_taskQuery").attr("disabled", false);
-                //服务器返回失败调用的方法
-                layer.close(ii);
-                alert("服务器错误");
+
             },
-            data: {year: year, hyear: hyear, year_1: year_1, hyear_1: hyear_1},
+            data: {},
             dataType: "json",
             success: function (data) {
-                if (data == "101") {
-                    swal("没有查找到数据");
-                    $("#btn_taskQuery").attr("disabled", false);
-                } else {
-                    taskQueryResult(data);
+                var text = "<option value=\"0\" id=\"teacher_0\">-</option>";
+                for (var i = 0; i < data.length; i++) {
+                    text += "<option value=\"" + data[i].teacherId + "\" id=\"admin_" + data[i].teacherId + "\">" + data[i].teacherName + "</option>"
                 }
+                $("#teacher").html(text);
+                ajax_3();
+            }
+        });
+    }
+
+    function ajax_3() {
+        $.ajax({
+            type: "POST",
+            url: "/taskQueryAll",
+            error: function () {
+            },
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                var text = "";
+                for (var i = data.length - 1; i >= 0; i--) {
+                    var teacher = "";
+                    var teacher_name = data[i].taskTeacherName.split(",");
+                    var teacher_id = data[i].taskTeacherID.split(",");
+                    for (var k = 0; k < teacher_id.length; k++) {
+                        teacher += "<a href=\"teacherInfo?id=" + teacher_id[k] + "\">" + teacher_name[k] + "</a>,"
+                    }
+                    text += "<tr>\n" +
+                        "                                <td class=\"text-center\">\n" +
+                        "                                    " + data[i].taskId + "" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <strong>" + data[i].taskTime + "</strong>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <a href=\"/taskInfo?id=" + data[i].taskId + "\">" + data[i].taskName + "</a>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                   " + teacher.substring(0, teacher.length - 2) + "\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <a href=\"teacherInfo?id=" + data[i].taskAdminName + "\">" + data[i].taskAdminName + "</a>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <span class=\"label label-" + (data[i].taskStatus == "未完成" ? "warning" : "success") + "\">" + data[i].taskStatus + "</span>\n" +
+                        "                                </td>\n" +
+                        "                                <td class=\"text-center\">\n" +
+                        "                                    <a href=\"/taskInfo?id=" + data[i].taskId + "\" \n" +
+                        "                                       class=\"btn btn-effect-ripple btn-xs btn-success\">\n" +
+                        "                                        <i class=\"fa fa-pencil\"></i></a><a href=\"javascript:void(0)\"\n" +
+                        "                                                                           data-toggle=\"tooltip\"\n" +
+                        "                                                                           title=\"Delete User\"\n" +
+                        "                                                                           class=\"btn btn-effect-ripple btn-xs btn-danger\"><i\n" +
+                        "                                        class=\"fa fa-times\">\n" +
+                        "                                </i></a>\n" +
+                        "                                </td>\n" +
+                        "                            </tr>"
+                }
+                $('#example-datatable').DataTable().destroy();
+                // $('#example-datatable').empty();
+                $("#tboo").html(text);
+                UiTables.init();
                 layer.close(ii);
             }
         });
-    });
+    }
 
-    $('#btn_teacherQuery').click(function () {
-        $("#btn_teacherQuery").attr("disabled", true);
+    $("#btn_taskQuery").click(function () {
         var ii = layer.load(2, {shade: [0.1, '#fff']});
-        var year = $("#select_year").val();
-        var hyear = $("#select_hyear").val();
-        var year_1 = $("#select_year_1").val();
-        var hyear_1 = $("#select_hyear_1").val();
-        $('#tableQuery').show();
-        $("#tableQuery").empty();
+        $("#select_finsh_1").css("display", "");
+        $("#select_finsh_2").css("display", "none");
+        var year = $("#select_hyear").val();
+        var hyear = $("#select_hyear_1").val();
+        var status = $("#status").val();
+        var admin = $("#admin").val();
+        $.ajax({
+            type: "POST",
+            url: "/taskQuery2",
+            error: function () {
+
+            },
+            data: {year: year, hyear: hyear, status: status, admin: admin},
+            dataType: "json",
+            success: function (data) {
+                var text = "";
+                for (var i = data.length - 1; i >= 0; i--) {
+                    var teacher = "";
+                    var teacher_name = data[i].taskTeacherName.split(",");
+                    var teacher_id = data[i].taskTeacherID.split(",");
+                    for (var k = 0; k < teacher_id.length; k++) {
+                        teacher += "<a href=\"teacherInfo?id=" + teacher_id[k] + "\">" + teacher_name[k] + "</a>,"
+                    }
+                    text += "<tr>\n" +
+                        "                                <td class=\"text-center\">\n" +
+                        "                                    " + data[i].taskId + "" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <strong>" + data[i].taskTime + "</strong>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <a href=\"/taskInfo?id=" + data[i].taskId + "\">" + data[i].taskName + "</a>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                   " + teacher.substring(0, teacher.length - 2) + "\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <a href=\"teacherInfo?id=" + data[i].taskAdminName + "\">" + data[i].taskAdminName + "</a>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <span class=\"label label-" + (data[i].taskStatus == "未完成" ? "warning" : "success") + "\">" + data[i].taskStatus + "</span>\n" +
+                        "                                </td>\n" +
+                        "                                <td class=\"text-center\">\n" +
+                        "                                    <a href=\"/taskInfo?id=" + data[i].taskId + "\" \n" +
+                        "                                       class=\"btn btn-effect-ripple btn-xs btn-success\">\n" +
+                        "                                        <i class=\"fa fa-pencil\"></i></a><a href=\"javascript:void(0)\"\n" +
+                        "                                                                           data-toggle=\"tooltip\"\n" +
+                        "                                                                           title=\"Delete User\"\n" +
+                        "                                                                           class=\"btn btn-effect-ripple btn-xs btn-danger\"><i\n" +
+                        "                                        class=\"fa fa-times\">\n" +
+                        "                                </i></a>\n" +
+                        "                                </td>\n" +
+                        "                            </tr>"
+                }
+                $('#example-datatable').DataTable().destroy();
+                // $('#example-datatable').empty();
+                $("#tboo").html(text);
+                UiTables.init();
+                layer.close(ii);
+            }
+        });
+    })
+
+    $("#btn_teacherQuery").click(function () {
+        var ii = layer.load(2, {shade: [0.1, '#fff']});
+        $("#select_finsh_1").css("display", "none");
+        $("#select_finsh_2").css("display", "");
+        var year = $("#sign_hyear").val();
+        var hyear = $("#sign_hyear_1").val();
         $.ajax({
             type: "POST",
             url: "/teacherQuery",
@@ -72,139 +175,29 @@ $(document).ready(function () {
                 alert("服务器错误");
                 layer.close(ii);
             },
-            data: {year: year, hyear: hyear, year_1: year_1, hyear_1: hyear_1},
+            data: {year: year, hyear: hyear},
             dataType: "json",
             success: function (data) {
-                if (data == "101") {
-                    swal("没有查找到数据");
-                    $("#btn_teacherQuery").attr("disabled", false);
-                } else {
-                    teachersQueryResult(data);
+                var text = "";
+                for (var i = 0; i < data.length; i++) {
+                    text += "\n" +
+                        "                            <tr>\n" +
+                        "                                <td>\n" +
+                        "                                    <a href=\"teacherInfo?id=" + data[i].teacherId + "\">" + data[i].teacherName + "</a>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    " + data[i].taskCount + "\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <span class=\"" + (data[i].unfinished == "0" ? " " : "text-danger") + "\">" + data[i].unfinished + "</span>\n" +
+                        "                                </td>\n" +
+                        "                            </tr>"
                 }
+                $("#tboo1").html(text);
                 layer.close(ii);
             }
         });
-    });
 
+    })
 
-    //查询任务表结果显示
-    function taskQueryResult(data) {
-        var year = $("#select_year").val();
-        var hyear = $("#select_hyear").val();
-        var year_1 = $("#select_year_1").val();
-        var hyear_1 = $("#select_hyear_1").val();
-        var tableStr = " <div class=\"widget\">" +
-            "                            <div class=\"widget-content themed-background text-light-op\">" +
-            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>任务详情表</strong>&nbsp;" +
-            "<a href=\"downloadTask?year=" + year + "&hyear=" + hyear + "&year_1=" + year_1 + "&hyear_1=" + hyear_1 + "\" class=\"btn btn-info btn-xs\">下载</a>" +
-            "                                <div class=\"pull-right\">" +
-            "                                    <i id=\"idown2\" class=\"fa fa-chevron-down sidebar-nav-indicator sidebar-nav-mini-hide  \"></i>" +
-            "                                </div>" +
-            "                            </div>" +
-            "                            <div id=\"text2\" class=\"widget-content padded\">" +
-            "                                <div class=\"form-group\">" +
-            "                                    <table class=\"table table-bordered\">" +
-            "                                        <tbody>" +
-            "                                        <tr>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>时间(年/月/日)</b></span>" +
-            "                                            </td>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>任务名称</b></span>" +
-            "                                            </td>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>所属教师</b></span>" +
-            "                                            </td>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>状态</b></span>" +
-            "                                            </td>" +
-            "                                        </tr>";
-        for (var i = 0; i < data.length; i++) {
-            //获取日期
-            var taskDate = data[i].taskDate;
-            //获取状态
-            var taskState = data[i].taskState;
-            //获取任务名称和id
-            var taskName = data[i].taskName;
-            var taskId = data[i].taskId;
-
-            var taskStr = "<a href=\"/taskInfo?id=" + taskId + "\">" + taskName + "</a>";
-            //获取所有教师并设置a标签的链接
-            var tsStr = "";
-            var teachers = data[i].teachers.split(",");
-            var teachersId = data[i].teachersId.split(",");
-            for (var j = 0; j < teachers.length; j++) {
-                tsStr += "<a href=\"teacherInfo?id=" + teachersId[j] + "\">" + teachers[j] + "</a>,";
-            }
-            tsStr = tsStr.substring(0, tsStr.length - 1);
-
-            tableStr += "<tr>" +
-                "<td align=\"center\">" + taskDate + "</td>" +
-                "<td align=\"center\">" + taskStr + "</td>" +
-                "<td align=\"center\">" + tsStr + "</td>" +
-                "<td align=\"center\"><span class=\"text-" + (taskState == "未完成" ? "info" : "success") + "\">" + (taskState == "未完成" ? "未完成" : "已完成") + "</span></td>" +
-                "</tr>";
-        }
-        tableStr += "</tbody>" +
-            "                                    </table>" +
-            "                                </div>" +
-            "                            </div>" +
-            "                        </div>";
-        $('#tableQuery').append(tableStr);
-        $("#text2").hide();
-
-        setTimeout(function () {
-            $("#text2").slideDown();
-            $("#btn_taskQuery").attr("disabled", false);
-        }, 200);
-    }
-
-
-    //查询教师表详情显示
-    function teachersQueryResult(data) {
-        var year = $("#select_year").val();
-        var hyear = $("#select_hyear").val();
-        var tableStr = " <div class=\"widget\">" +
-            "                            <div class=\"widget-content themed-background text-light-op\">" +
-            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>教师详情表</strong>&nbsp;" +
-            "<a href=\"downloadTeacher?year=" + year + "&hyear=" + hyear + "\" class=\"btn btn-info btn-xs\">下载</a>" +
-            "                                <div class=\"pull-right\">" +
-            "                                    <i id=\"idown2\" class=\"fa fa-chevron-down sidebar-nav-indicator sidebar-nav-mini-hide  \"></i>" +
-            "                                </div>" +
-            "                            </div>" +
-            "                            <div id=\"text2\" class=\"widget-content padded\">" +
-            "                                <div class=\"form-group\">" +
-            "                                    <table class=\"table table-bordered\">" +
-            "                                        <tbody>" +
-            "                                        <tr>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>教师名称</b></span>" +
-            "                                            </td>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>已安排任务数</b></span>" +
-            "                                            </td>" +
-            "                                            <td align=\"center\"><span style=\"color:silver;\"><b>未完成数</b></span>" +
-            "                                            </td>" +
-            "                                        </tr>";
-        for (var i = 0; i < data.length; i++) {
-            //获取老师名字
-            var teacherName = data[i].teacherName;
-            var teacherId = data[i].teacherId;
-            var taskCount = data[i].taskCount;
-            var unfinished = data[i].unfinished;
-
-            var teacherStr = "<a href=\"/teacherInfo?id=" + teacherId + "\">" + teacherName + "</a>";
-            tableStr += "<tr>" +
-                "<td align=\"center\">" + teacherStr + "</td>" +
-                "<td align=\"center\">" + taskCount + "</td>" +
-                "<td align=\"center\"><span class=\"" + (unfinished == "0" ? " " : "text-danger") + "\">" + unfinished + "</span></td>";
-        }
-
-        tableStr += "</tbody>" +
-            "                                    </table>" +
-            "                                </div>" +
-            "                            </div>" +
-            "                        </div>";
-        $('#tableQuery').append(tableStr);
-        $("#text2").hide();
-
-        setTimeout(function () {
-            $("#text2").slideDown();
-            $("#btn_teacherQuery").attr("disabled", false);
-        }, 200);
-    }
 });

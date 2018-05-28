@@ -109,6 +109,12 @@ public interface AdminService {
      */
     List<Map<String, Object>> taskReportsQuery(String dep, Date date1, Date date2);
 
+
+    List<Map<String, Object>> taskReportsQuery2(String dep, Date date1, Date date2, String status, String admin);
+
+
+    List<Map<String, Object>> taskReportsQuery3(String dep, Date date1, Date date2);
+
     /**
      * 根据时间查询工作报表
      */
@@ -179,4 +185,18 @@ public interface AdminService {
      * @return
      */
     String deleteKinds(String dep, String text);
+
+    /**
+     * 获取所有管理员信息
+     * @param dep
+     * @return
+     */
+    String getAllInfo(String dep);
+
+    /***
+     * 获取所有老师
+     * @param dep
+     * @return
+     */
+    String getAllTeacher(String dep);
 }

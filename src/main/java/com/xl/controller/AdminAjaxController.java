@@ -173,6 +173,36 @@ public class AdminAjaxController {
         return json;
     }
 
+    @RequestMapping(value = "taskQuery2", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String taskQuery2(HttpSession session, String year, String hyear, String status, String admin) {
+        String json = "";
+        java.sql.Date date1 = java.sql.Date.valueOf(year);
+        java.sql.Date date2 = java.sql.Date.valueOf(hyear);
+        System.out.println(date1 + "\n" + date2);
+        json = JSONArray.toJSONString(adminService.taskReportsQuery2(session.getAttribute("department") + "",
+                date1,
+                date2, status, admin));
+        System.out.println(json);
+        return json;
+    }
+
+    //查询所有任务
+    @RequestMapping(value = "taskQueryAll", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String taskQueryAll(HttpSession session) {
+        String json = "";
+        java.sql.Date date1 = java.sql.Date.valueOf("2000-01-01");
+        java.sql.Date date2 = java.sql.Date.valueOf("2099-01-01");
+
+        System.out.println(date1 + "\n" + date2);
+        json = JSONArray.toJSONString(adminService.taskReportsQuery3(session.getAttribute("department") + "",
+                date1,
+                date2));
+        System.out.println(json);
+        return json;
+    }
+
     /***
      * 根据时间查询用户工作报表
      * @param year 年
@@ -181,11 +211,9 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "teacherQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String teacherQuery(HttpSession session, String year, String hyear, String year_1, String hyear_1) {
-        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = year_1 + ("上学期".equals(hyear_1) ? "-02-01" : "-08-01");
-        java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
-        java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
+    public String teacherQuery(HttpSession session, String year, String hyear) {
+        java.sql.Date date1 = java.sql.Date.valueOf(year);
+        java.sql.Date date2 = java.sql.Date.valueOf(hyear);
         System.out.println(date1 + "\n" + date2);
         List<Map<String, Object>> list = adminService.teacherReportsQuery("" + session.getAttribute("department"),
                 date1,
@@ -341,6 +369,28 @@ public class AdminAjaxController {
     public String deleteKinds(HttpSession session, String text) {
         String json = Config.NO;
         json = adminService.deleteKinds(session.getAttribute("department") + "", text);
+        return json;
+    }
+
+    /***
+     * 获取本系所有管理员信息
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getAllInfo", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getAllInfo(HttpSession session) {
+        String json = Config.NO;
+        json = adminService.getAllInfo(session.getAttribute("department") + "");
+        return json;
+    }
+
+
+    @RequestMapping(value = "getAllTeacher", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getAllTeacher(HttpSession session) {
+        String json = Config.NO;
+        json = adminService.getAllTeacher(session.getAttribute("department") + "");
         return json;
     }
 }

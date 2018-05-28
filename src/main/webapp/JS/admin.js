@@ -121,7 +121,8 @@ $(document).ready(function () {
     function taskQueryResult(data) {
         var tableStr = " <div class=\"widget\">" +
             "                            <div class=\"widget-content themed-background text-light-op\">" +
-            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>最近任务(一个月)</strong>&nbsp;" +
+            "                                <i class=\"fa fa-fw fa-pencil\"></i> <strong>最新10个任务</strong>&nbsp;<a href=\"./adminque\"\n" +
+            "                                             class=\"btn btn-info btn-xs\">查看全部</a>" +
             // "<a href=\"downloadTask?year="+year+"&hyear="+hyear+"\" class=\"btn btn-info btn-xs\">下载</a>" +
             "                                <div class=\"pull-right\">" +
             "                                    <i id=\"idown2\" class=\"fa fa-chevron-down sidebar-nav-indicator sidebar-nav-mini-hide  \"></i>" +
@@ -141,7 +142,7 @@ $(document).ready(function () {
             "                                            <td align=\"center\"><span style=\"color:silver;\"><b>状态</b></span>" +
             "                                            </td>" +
             "                                        </tr>";
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < 10; i++) {
             //获取日期
             var taskDate = data[i].taskDate;
             //获取状态

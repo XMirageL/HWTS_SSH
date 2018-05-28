@@ -33,16 +33,16 @@
                                 class="fa fa-users sidebar-nav-icon"></i><span
                                 class="sidebar-nav-mini-hide">发布任务</span></a>
                     </li>
+                    <a id="help" href="/adminque" <% if (url.equals("/WEB-INF/views/adminque.jsp")){%>class="active" <%}%>><i
+                            class="fa fa-th-large fa-fw sidebar-nav-icon"></i><span
+                            class="sidebar-nav-mini-hide">任务管理</span></a>
+                    </li>
                     <li>
                         <a id="taskkind" href="/taskkind" <% if (url.equals("/WEB-INF/views/taskkind.jsp")){%>class="active" <%}%>><i
                                 class="fa fa-align-justify sidebar-nav-icon"></i><span
                                 class="sidebar-nav-mini-hide">任务分类</span></a>
                     </li>
                     <li>
-                        <a id="help" href="/adminquery" <% if (url.equals("/WEB-INF/views/adminquery.jsp")){%>class="active" <%}%>><i
-                                class="fa fa-calendar-check-o sidebar-nav-icon"></i><span
-                                class="sidebar-nav-mini-hide">任务管理</span></a>
-                    </li>
                     <li>
                         <a id="import" href="/importInfo" <% if (url.equals("/WEB-INF/views/importInfo.jsp")){%>class="active" <%}%>><i
                                 class="fa fa-sign-in sidebar-nav-icon"></i><span

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/11/21
@@ -121,15 +121,12 @@
                                             <div class="input-group">
                                                 <div class="input-group-addon"><strong>完成状态：</strong></div>
                                                 <select class="form-control btn-block" id="status">
-                                                    <option value="1" id="st_0">-</option>
-                                                    <option value="2" id="st_2">已完成</option>
-                                                    <option value="3" id="st_3">未完成</option>
+                                                    <option value="0" id="st_0">-</option>
+                                                    <option value="1" id="st_2">已完成</option>
+                                                    <option value="2" id="st_3">未完成</option>
                                                 </select>
                                                 <div class="input-group-addon"><strong>发布者：</strong></div>
                                                 <select class="form-control btn-block" id="admin">
-                                                    <option value="1" id="admin_1">-</option>
-                                                    <option value="2" id="admin_2">admin-徐磊</option>
-                                                    <option value="3" id="admin_3">admin-臧胜</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -170,10 +167,8 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-addon"><strong>指定教师：</strong></div>
-                                                <select class="form-control btn-block" id="teacher">
-                                                    <option value="1" id="teacher_1">-</option>
-                                                    <option value="2" id="teacher_2">李俊成</option>
-                                                    <option value="3" id="teacher_3">谢顶峰</option>
+                                                <select name="example-chosen-multiple" class="select-chosen"
+                                                        id="teacher" data-placeholder="指定教师..." style="width: 250px;" multiple>
                                                 </select>
                                             </div>
                                         </div>
@@ -192,7 +187,9 @@
                 <div class="block full" id="select_finsh_1">
                     <div class="block-title">
                         <h2>
-                            教师任务次数列表&nbsp;<a href="downloadTask?year=2018&amp;hyear=上学期&amp;year_1=2018&amp;hyear_1=下学期" class="btn btn-info btn-xs"><i class="fa fa-file-excel-o"></i> 查询结果以Excel导出</a></h2>
+                            任务列表&nbsp;<a href="downloadTask?year=2018&amp;hyear=上学期&amp;year_1=2018&amp;hyear_1=下学期"
+                                         class="btn btn-info btn-xs"><i class="fa fa-file-excel-o"></i> 查询结果以Excel导出</a>
+                        </h2>
                     </div>
                     <div class="table-responsive">
                         <table id="example-datatable" class="table table-striped table-bordered table-vcenter">
@@ -210,10 +207,10 @@
                                 <th style="width: 120px;">
                                     所属教师
                                 </th>
-                                <th >
+                                <th>
                                     发布者
                                 </th>
-                                <th >
+                                <th>
                                     状态
                                 </th>
                                 <th class="text-center" style="width: 75px;">
@@ -221,115 +218,36 @@
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td class="text-center">
-                                    1
-                                </td>
-                                <td>
-                                    <strong>2018-05-19</strong>
-                                </td>
-                                <td>
-                                    <a href="/taskInfo?id=1248">系部2发布任务测试</a>
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">啊某某</a>,<a href="teacherInfo?id=1008">李友好</a>,<a href="teacherInfo?id=1010">刘曼春</a>
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">admin-李泽林</a>
-                                </td>
-                                <td>
-                                    <span class="label label-warning">未完成</span>
-                                </td>
-                                <td class="text-center">
-                                    <a href="javascript:void(0)" data-toggle="tooltip" title="Edit User"
-                                       class="btn btn-effect-ripple btn-xs btn-success">
-                                        <i class="fa fa-pencil"></i></a><a href="javascript:void(0)"
-                                                                           data-toggle="tooltip"
-                                                                           title="Delete User"
-                                                                           class="btn btn-effect-ripple btn-xs btn-danger"><i
-                                        class="fa fa-times">
-                                </i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    2
-                                </td>
-                                <td>
-                                    <strong>2018-05-18</strong>
-                                </td>
-                                <td>
-                                    <a href="/taskInfo?id=1248">系部1发布任务测试</a>
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">徐某某</a>,<a href="teacherInfo?id=1008">李友好</a>,<a href="teacherInfo?id=1010">刘曼春</a>
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">admin-徐磊</a>
-                                </td>
-                                <td>
-                                    <span class="label label-success">已完成</span>
-                                </td>
-                                <td class="text-center">
-                                    <a href="javascript:void(0)" data-toggle="tooltip" title="Edit User"
-                                       class="btn btn-effect-ripple btn-xs btn-success">
-                                        <i class="fa fa-pencil"></i></a><a href="javascript:void(0)"
-                                                                           data-toggle="tooltip"
-                                                                           title="Delete User"
-                                                                           class="btn btn-effect-ripple btn-xs btn-danger"><i
-                                        class="fa fa-times">
-                                </i></a>
-                                </td>
-                            </tr>
+                            <tbody id="tboo">
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="block full" id="select_finsh_2">
+                <div class="block full" id="select_finsh_2" style="display:none;">
                     <div class="block-title">
                         <h2>
-                            任务列表&nbsp;<a href="downloadTask?year=2018&amp;hyear=上学期&amp;year_1=2018&amp;hyear_1=下学期" class="btn btn-info btn-xs"><i class="fa fa-file-excel-o"></i> 查询结果以Excel导出</a></h2>
+                            教师任务次数列表&nbsp;<a href="downloadTask?year=2018&amp;hyear=上学期&amp;year_1=2018&amp;hyear_1=下学期"
+                                             class="btn btn-info btn-xs"><i class="fa fa-file-excel-o"></i> 查询结果以Excel导出</a>
+                        </h2>
                     </div>
                     <div class="table-responsive">
-                        <table id="example-datatable_1" class="table table-striped table-bordered table-vcenter">
+                        <table id="example-datatable_1"
+                               class="table table-striped table-bordered table-vcenter leetable">
                             <thead>
                             <tr>
-                                <th class="text-center">
-                                    教师ID
-                                </th>
                                 <th>
                                     教师名称
                                 </th>
                                 <th>
                                     任务次数
                                 </th>
+                                <th>
+                                    未完成数
+                                </th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td class="text-center">
-                                    1
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">啊某某</a>
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">5</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    2
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">稍某某</a>
-                                </td>
-                                <td>
-                                    <a href="teacherInfo?id=1016">10</a>
-                                </td>
-                            </tr>
+                            <tbody id="tboo1">
                             </tbody>
                         </table>
                     </div>
@@ -349,6 +267,8 @@
 <script src="./appui/js/plugins/ckeditor/ckeditor.js"></script>
 <script src="./appui/js/pages/formsComponents.js"></script>
 <script src="./appui/js/pages/uiTables.js"></script>
+<script src="./appui/js/plugins/ckeditor/ckeditor.js"></script>
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script src="./JS/adminque.js"></script>
 <script>
     $(function () {
@@ -360,7 +280,7 @@
     var date = new Date();
     var seperator1 = "-";
     var year = date.getFullYear();
-    var month = date.getMonth() + 1;
+    var month = date.getMonth();
     var strDate = date.getDate();
     var month_1 = month + 1;
     if (month >= 1 && month <= 9) {

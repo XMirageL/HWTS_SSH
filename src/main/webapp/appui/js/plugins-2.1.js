@@ -3997,7 +3997,7 @@
                     sSortDescending: ": activate to sort column descending"
                 },
                 oPaginate: {sFirst: "First", sLast: "Last", sNext: "Next", sPrevious: "Previous"},
-                sEmptyTable: "No data available in table",
+                sEmptyTable: "没有符合查找条件的结果",
                 sInfo: "Showing _START_ to _END_ of _TOTAL_ entries",
                 sInfoEmpty: "Showing 0 to 0 of 0 entries",
                 sInfoFiltered: "(filtered from _MAX_ total entries)",
@@ -4007,7 +4007,7 @@
                 sLengthMenu: "Show _MENU_ entries",
                 sLoadingRecords: "Loading...",
                 sProcessing: "Processing...",
-                sSearch: "Search:",
+                sSearch: "Search..:",
                 sSearchPlaceholder: "",
                 sUrl: "",
                 sZeroRecords: "No matching records found"

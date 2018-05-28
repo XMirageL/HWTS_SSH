@@ -86,20 +86,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String getAdminHomePageInfo_1(String dep) {
         String json = Config.Code101;
-        //获取当前时间和前一个月的时间
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        java.sql.Date date2 = java.sql.Date.valueOf(format.format(c.getTime()));
-        c.add(Calendar.MONTH, -1);
-        java.sql.Date date1 = java.sql.Date.valueOf(format.format(c.getTime()));
-        System.out.println("时间一：" + date2.toString() + "时间二：" + date1);
         String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
                 ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText from THngyWorkTask as work ,THngyLink " +
                 "as link,THngyTeacherInfo as teacher where link.workTaskId = work.workTaskId and link.teacherId = " +
-                "teacher.teacherId and work.workTaskTime>=? and work.workTaskTime<=? and work.departmentId = " + dep
-                + " order by work.workTaskTime desc";
-        List<Map<String, Object>> list = MainUtil.getWorkInfoUtil(mainRepository.dateQuery(date1, date2, hql));
+                "teacher.teacherId and work.departmentId = " + dep + " order by work.workTaskTime DESC";
+        List<Map<String, Object>> list = MainUtil.getWorkInfoUtil(mainRepository.complexQuery(new Object[]{}, hql));
         if (list.size() > 0) {
             json = JSONArray.toJSONString(list);
         }
@@ -153,6 +144,8 @@ public class AdminServiceImpl implements AdminService {
     public List<Map<String, Object>> teacherReportsQuery(String dep, java.sql.Date date1, java.sql.Date date2) {
         List<Map<String, Object>> list = new ArrayList<>();
 
+        //某原因 需要加1才是实际查询日期 后期排查修复
+        date2.setDate(date2.getDate() + 1);
         //查没有任务的
         String hql = "select teacher.teacherId,teacher.teacherName from THngyTeacherInfo as teacher, THngyStaffRoom  " +
                 "as staff where teacher.staffRoomId = staff.staffRoomId and staff.departmentId = " + dep + " and " +
@@ -385,6 +378,91 @@ public class AdminServiceImpl implements AdminService {
         return list;
     }
 
+    @Override
+    public List<Map<String, Object>> taskReportsQuery2(String dep, java.sql.Date date1, java.sql.Date date2, String
+            status, String admin) {
+        //某原因 需要加1才是实际查询日期 后期排查修复
+        date2.setDate(date2.getDate() + 1);
+
+        System.out.println(status + " " + admin);
+        String hql = "";
+        if (status.equals("0") && admin.equals("0")) {
+            //两个 -
+            hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "THngyLink " +
+                    "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
+                    " and link.workTaskId = work" +
+                    ".workTaskId and link.teacherId = " +
+                    "teacher.teacherId and work.qq = admin.adminInfoQq and work.workTaskTime>=? and work" +
+                    ".workTaskTime<=? order by work.workTaskId " +
+                    "desc";
+        } else if (!status.equals("0") && admin.equals("0")) {
+            //状态有 管理员-
+            String sta = "";
+            if (status.equals("1")) {
+                System.out.println("筛选所有已完成任务");
+                sta = "已完成";
+            } else if (status.equals("2")) {
+                System.out.println("筛选所有未完成任务");
+                sta = "未完成";
+            }
+            hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "THngyLink " +
+                    "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
+                    " and link.workTaskId = work" +
+                    ".workTaskId and link.teacherId = " +
+                    "teacher.teacherId and work.qq = admin.adminInfoQq and work.workTaskSchedule = '" + sta + "' and " +
+                    "work.workTaskTime>=? and work" +
+                    ".workTaskTime<=? order by work.workTaskId " +
+                    "desc";
+        } else if (status.equals("0") && !admin.equals("0")) {
+            //状态- 管理员无
+            hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "THngyLink " +
+                    "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
+                    " and link.workTaskId = work.workTaskId and link.teacherId = " +
+                    "teacher.teacherId and work.qq = admin.adminInfoQq and admin.adminInfoId = " + Long.parseLong
+                    (admin) + " and " +
+                    "work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskId desc";
+        } else {
+            String sta = "";
+            if (status.equals("1")) {
+                sta = "已完成";
+            } else if (status.equals("2")) {
+                sta = "未完成";
+            }
+            //状态- 管理员-
+            hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "THngyLink " +
+                    "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
+                    " and link.workTaskId = work.workTaskId and link.teacherId = " +
+                    "teacher.teacherId and work.qq = admin.adminInfoQq and admin.adminInfoId = " + Long.parseLong
+                    (admin) + " and work.workTaskSchedule = '" + sta + "' and " +
+                    "work.workTaskTime>=? and work.workTaskTime<=? order by work.workTaskId desc";
+        }
+        List<Map<String, Object>> list = MainUtil.getWorkInfoUtil1(mainRepository.dateQuery(date1, date2, hql));
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> taskReportsQuery3(String dep, java.sql.Date date1, java.sql.Date date2) {
+        String hql = "";
+        hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
+                "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ,THngyLink " +
+                "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
+                " and link.workTaskId = work" +
+                ".workTaskId and link.teacherId = " +
+                "teacher.teacherId and work.qq = admin.adminInfoQq and work.workTaskTime>=? and work" +
+                ".workTaskTime<=? order by work.workTaskId " +
+                "desc";
+        List<Map<String, Object>> list = MainUtil.getWorkInfoUtil1(mainRepository.dateQuery(date1, date2, hql));
+        return list;
+    }
+
     /**
      * 根据时间查询工作报表
      *
@@ -564,20 +642,52 @@ public class AdminServiceImpl implements AdminService {
     public String deleteKinds(String dep, String text) {
         String[] ss = text.split(",");
         for (int i = 0; i < ss.length; i++) {
-            String hql = "select link.linkId from THngyLink as link, THngyWorkTask as work where link.workTaskId = work.workTaskId and work.workTaskKinds = ?";
+            String hql = "select link.linkId from THngyLink as link, THngyWorkTask as work where link.workTaskId = " +
+                    "work.workTaskId and work.workTaskKinds = ?";
             List<Object[]> list1 = mainRepository.complexQuery(new Object[]{Long.parseLong(ss[i])}, hql);
-            for (int k = 0 ; k <list1.size() ; k ++){
+            for (int k = 0; k < list1.size(); k++) {
                 Long aLong = Long.parseLong(String.valueOf(list1.get(k)));
                 linkRepostory.delete(aLong);
             }
             hql = "select task.workTaskId from THngyWorkTask as task where task.workTaskKinds = ?";
             List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(ss[i])}, hql);
-            for (int k = 0 ; k <list.size() ; k ++){
+            for (int k = 0; k < list.size(); k++) {
                 Long l = Long.parseLong(String.valueOf(list.get(k)));
                 workTaskRepository.delete(l);
             }
             kindsOfTaskRepository.delete(Long.parseLong(ss[i]));
         }
         return Config.OK;
+    }
+
+    /**
+     * 获取所有管理员信息
+     *
+     * @param dep
+     * @return
+     */
+    @Override
+    public String getAllInfo(String dep) {
+        String hql = "select admin.adminInfoId, admin.adminInfoName from THngyAdminInfo as admin WHERE admin" +
+                ".departmentId = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(dep)}, hql);
+        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"adminId", "adminName"
+        }));
+        return json;
+    }
+
+    /***
+     * 获取所有老师
+     * @param dep
+     * @return
+     */
+    @Override
+    public String getAllTeacher(String dep) {
+        String hql = "select teacher.teacherId, teacher.teacherName from THngyTeacherInfo as teacher ,THngyStaffRoom " +
+                "as staff WHERE teacher.staffRoomId = staff.staffRoomId and staff.departmentId = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(dep)}, hql);
+        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"teacherId", "teacherName"
+        }));
+        return json;
     }
 }

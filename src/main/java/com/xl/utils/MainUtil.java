@@ -41,8 +41,8 @@ public class MainUtil {
             tId += ",";
         }
         map.put("taskName", object1[2].toString());
-        map.put("teachers", tName.substring(0,tName.length()-1));
-        map.put("teachersId", tId.substring(0, tId.length()-1));
+        map.put("teachers", tName.substring(0, tName.length() - 1));
+        map.put("teachersId", tId.substring(0, tId.length() - 1));
         map.put("taskState", object1[4].toString());
         map.put("qq", object1[6].toString());
         map.put("taskText", object1[7].toString());
@@ -60,14 +60,6 @@ public class MainUtil {
         for (int i = 0; i < listWork.size(); ++i) {
             Map<String, Object> map = new HashMap<String, Object>();
             Object[] object1 = listWork.get(i);
-//            for (int k = 0 ; k < object1.length; k ++){
-//                System.out.println(object1[k]);
-//
-//
-//
-//
-//            }
-//            System.out.println("");
             flag = object1[0];
             workInfo = new WorkInfo();
             while (flag.equals(object1[0])) {
@@ -94,6 +86,82 @@ public class MainUtil {
         }
         return list;
     }
+
+    public static List<Map<String, Object>> getWorkInfoUtil5(List<Object[]> listWork, String status) {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Object flag = null;
+        String teacherName = "";
+        String teacherId = "";
+        for (int i = 0; i < listWork.size(); i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            Object[] object1 = listWork.get(i);
+            if (!object1[7].toString().equals(status)){
+                continue;
+            }
+            flag = object1[0];
+
+            teacherName += object1[3];
+            teacherId += object1[4];
+            teacherName += ",";
+            teacherId += ",";
+            if (i != listWork.size() - 1) {
+                Object[] objects = listWork.get(i + 1);
+                if (flag.equals(objects[0])) {
+                    continue;
+                }
+            }
+
+            map.put("taskId", object1[0]);
+            map.put("taskTime", object1[1].toString().substring(0,10));
+            map.put("taskName", object1[2]);
+            map.put("taskTeacherName", teacherName.substring(0,teacherName.length()-1));
+            map.put("taskTeacherID", teacherId.substring(0,teacherId.length()-1));
+            map.put("taskAdminName", object1[5]);
+            map.put("taskAdminId", object1[6]);
+            map.put("taskStatus", object1[7]);
+            list.add(map);
+            teacherId = "";
+            teacherName = "";
+        }
+        return list;
+    }
+
+    public static List<Map<String, Object>> getWorkInfoUtil1(List<Object[]> listWork) {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Object flag = null;
+        String teacherName = "";
+        String teacherId = "";
+        for (int i = 0; i < listWork.size(); i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            Object[] object1 = listWork.get(i);
+            flag = object1[0];
+
+            teacherName += object1[3];
+            teacherId += object1[4];
+            teacherName += ",";
+            teacherId += ",";
+            if (i != listWork.size() - 1) {
+                Object[] objects = listWork.get(i + 1);
+                if (flag.equals(objects[0])) {
+                    continue;
+                }
+            }
+
+            map.put("taskId", object1[0]);
+            map.put("taskTime", object1[1].toString().substring(0,10));
+            map.put("taskName", object1[2]);
+            map.put("taskTeacherName", teacherName.substring(0,teacherName.length()-1));
+            map.put("taskTeacherID", teacherId.substring(0,teacherId.length()-1));
+            map.put("taskAdminName", object1[5]);
+            map.put("taskAdminId", object1[6]);
+            map.put("taskStatus", object1[7]);
+            list.add(map);
+            teacherId = "";
+            teacherName = "";
+        }
+        return list;
+    }
+
 
     public static List<Map<String, Object>> getWorkInfoUti2(List<Object[]> listWork) {
         WorkInfo workInfo = null;
