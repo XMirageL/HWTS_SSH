@@ -197,4 +197,8 @@ public interface AdminService {
      * @return
      */
     List<Map<String, Object>> getAllTeacher(String dep);
+
+    String updateTaskStatus(String status, String taskI);
+
+    String deleteTask(String taskid);
 }

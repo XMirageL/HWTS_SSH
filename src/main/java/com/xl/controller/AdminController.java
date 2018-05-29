@@ -72,12 +72,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/downloadTask")
-    public void downloadTask(HttpServletResponse response, HttpSession session, String year, String hyear, String
-            year_1, String hyear_1) {
-        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = year_1 + ("上学期".equals(hyear_1) ? "-02-01" : "-08-01");
-        java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
-        java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
+    public void downloadTask(HttpServletResponse response, HttpSession session, String year, String hyear) {
+        java.sql.Date date1 = java.sql.Date.valueOf(year);
+        java.sql.Date date2 = java.sql.Date.valueOf(hyear);
+        date2.setDate(date2.getDate() + 1);
         //输出
         System.out.println("下载" + date1 + "~" + date2 + "任务详情表");
         String fileName = year + hyear + "任务详情表";
@@ -98,11 +96,9 @@ public class AdminController {
     @RequestMapping(value = "/downloadTeacher")
     public void downloadTeacher(HttpServletResponse response, HttpSession session, String year, String
             hyear) {
-        String dateStr1 = year + ("上学期".equals(hyear) ? "-02-01" : "-08-01");
-        String dateStr2 = ("上学期".equals(hyear) ? year + "-08-01" : String.valueOf(Integer.parseInt(year) + 1) +
-                "-02-01");
-        java.sql.Date date1 = java.sql.Date.valueOf(dateStr1);
-        java.sql.Date date2 = java.sql.Date.valueOf(dateStr2);
+        java.sql.Date date1 = java.sql.Date.valueOf(year);
+        java.sql.Date date2 = java.sql.Date.valueOf(hyear);
+        date2.setDate(date2.getDate() + 1);
         //输出
         System.out.println("下载" + date1 + "~" + date2 + "教师详情表");
         String fileName = year + hyear + "教师详情表";

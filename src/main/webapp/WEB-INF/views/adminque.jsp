@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="./appui/css/themes-2.1.css">
 
     <script src="./appui/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- sweealert CSS & JS in here -->
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 
 
     <style>
@@ -199,7 +202,7 @@
                 <div class="block full" id="select_finsh_1">
                     <div class="block-title">
                         <h2>
-                            任务列表&nbsp;<a href="downloadTask?year=2018&amp;hyear=上学期&amp;year_1=2018&amp;hyear_1=下学期"
+                            任务列表&nbsp;<a id="excel_1" href="downloadTask?year=2000-01-01&hyear=2099-01-01"
                                          class="btn btn-info btn-xs"><i class="fa fa-file-excel-o"></i> 查询结果以Excel导出</a>
                         </h2>
                     </div>
@@ -239,7 +242,7 @@
                 <div class="block full" id="select_finsh_2" style="display:none;">
                     <div class="block-title">
                         <h2>
-                            教师任务次数列表&nbsp;<a href="downloadTask?year=2018&amp;hyear=上学期&amp;year_1=2018&amp;hyear_1=下学期"
+                            教师任务次数列表&nbsp;<a id="excel_2" href="./"
                                              class="btn btn-info btn-xs"><i class="fa fa-file-excel-o"></i> 查询结果以Excel导出</a>
                         </h2>
                     </div>

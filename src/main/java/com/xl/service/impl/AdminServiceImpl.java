@@ -10,6 +10,7 @@ import com.xl.utils.ExcelUtil;
 import com.xl.utils.MainUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -730,5 +731,43 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return listMap;
+    }
+
+    @Override
+    public String updateTaskStatus(String status, String taskI) {
+        String sta = "";
+        if (status.equals("0")) {
+            sta = "已完成";
+        } else {
+            sta = "未完成";
+        }
+        System.out.println(status + sta);
+        List<THngyWorkTask> tHngyWorkTask = workTaskRepository.findAll();
+        for (int i = 0; i < tHngyWorkTask.size(); i++) {
+            THngyWorkTask tHngyWorkTask1 = tHngyWorkTask.get(i);
+            if (tHngyWorkTask1.getWorkTaskId() == Long.parseLong(taskI)) {
+                tHngyWorkTask1.setWorkTaskSchedule(sta);
+                workTaskRepository.save(tHngyWorkTask1);
+                System.out.println("任务状态已更新");
+                break;
+            }
+        }
+        return Config.OK;
+    }
+
+    @Override
+    public String deleteTask(String taskid) {
+        String hql = "select link.linkId, link.workTaskId from THngyLink as link, THngyWorkTask as task WHERE link" +
+                ".workTaskId = task" +
+                ".workTaskId and task.workTaskId = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(taskid)}, hql);
+        for (int i = 0; i < list.size(); i++) {
+            Object[] o = list.get(i);
+            System.out.println("删除关联link：" + o[0]);
+            linkRepostory.delete(Long.parseLong(String.valueOf(o[0])));
+        }
+        workTaskRepository.delete(Long.parseLong(taskid));
+        System.out.println("删除任务：" + taskid);
+        return Config.OK;
     }
 }

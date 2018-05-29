@@ -19,17 +19,17 @@ public class WorkTaskRepositoryImpl implements WorkTaskRepository{
     }
     @Override
     public THngyWorkTask load(Long id) {
-        return null;
+        return getSession().get(THngyWorkTask.class, id);
     }
 
     @Override
     public THngyWorkTask get(Long id) {
-        return null;
+        return getSession().get(THngyWorkTask.class, id);
     }
 
     @Override
     public List<THngyWorkTask> findAll() {
-        String hql = "from THngyWorkTask";
+        String hql = "FROM THngyWorkTask";
         return getSession().createQuery(hql).list();
     }
 
@@ -40,12 +40,12 @@ public class WorkTaskRepositoryImpl implements WorkTaskRepository{
 
     @Override
     public Long save(THngyWorkTask entity) {
-        return null;
+        return (Long) getSession().save(entity);
     }
 
     @Override
     public void saveOrUpdate(THngyWorkTask entity) {
-
+        getSession().update(entity);
     }
 
     @Override
@@ -55,6 +55,6 @@ public class WorkTaskRepositoryImpl implements WorkTaskRepository{
 
     @Override
     public void flush() {
-
+        getSession().flush();
     }
 }

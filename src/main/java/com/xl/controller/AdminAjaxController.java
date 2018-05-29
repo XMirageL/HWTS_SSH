@@ -217,7 +217,7 @@ public class AdminAjaxController {
         System.out.println(date1 + "\n" + date2);
         List<Map<String, Object>> list = adminService.teacherReportsQuery("" + session.getAttribute("department"),
                 date1,
-                date2,teacher);
+                date2, teacher);
         if (list == null) {
             return "101";
         }
@@ -383,6 +383,22 @@ public class AdminAjaxController {
         String json = Config.NO;
         json = adminService.getAllInfo(session.getAttribute("department") + "");
         return json;
+    }
+
+    @RequestMapping(value = "setTaskStatus", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String setTaskStatus(HttpSession session, String status, String taskId) {
+        String json = Config.NO;
+        adminService.updateTaskStatus(status, taskId);
+        return Config.OK;
+    }
+
+    @RequestMapping(value = "delTask", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String delTask(HttpSession session, String taskId) {
+        String json = Config.NO;
+        adminService.deleteTask(taskId);
+        return Config.OK;
     }
 
 
