@@ -1,9 +1,7 @@
 package com.xl.service;
 
 import com.xl.entity.THngyWorkTask;
-import org.springframework.http.HttpRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
@@ -47,7 +45,7 @@ public interface AdminService {
      * 根据时间获取教师工作状态(查询时间内完成任务数)
      * @return 报表
      */
-    List<Map<String, Object>> teacherReportsQuery(String dep, Date date1, Date date2);
+    List<Map<String, Object>> teacherReportsQuery(String dep, Date date1, Date date2, String teacher);
 
     /***
      * Excel批量注册 教师信息
@@ -198,5 +196,5 @@ public interface AdminService {
      * @param dep
      * @return
      */
-    String getAllTeacher(String dep);
+    List<Map<String, Object>> getAllTeacher(String dep);
 }

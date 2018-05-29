@@ -144,7 +144,7 @@ public class MainController {
             System.out.println(date1 + "\n" + date2);
 
             req.setAttribute("allTeacherInfo", adminService.teacherReportsQuery("" + session.getAttribute("department"),
-                    date1, date2));
+                    date1, date2, ""));
             return "taskInfo_admin";
         } else {
             return "taskInfo_user";

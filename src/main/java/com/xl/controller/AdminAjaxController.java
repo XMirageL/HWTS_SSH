@@ -211,13 +211,13 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "teacherQuery", produces = "text/html;charset=UTF-8;")
     @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
-    public String teacherQuery(HttpSession session, String year, String hyear) {
+    public String teacherQuery(HttpSession session, String year, String hyear, String teacher) {
         java.sql.Date date1 = java.sql.Date.valueOf(year);
         java.sql.Date date2 = java.sql.Date.valueOf(hyear);
         System.out.println(date1 + "\n" + date2);
         List<Map<String, Object>> list = adminService.teacherReportsQuery("" + session.getAttribute("department"),
                 date1,
-                date2);
+                date2,teacher);
         if (list == null) {
             return "101";
         }
@@ -386,11 +386,11 @@ public class AdminAjaxController {
     }
 
 
-    @RequestMapping(value = "getAllTeacher", produces = "text/html;charset=UTF-8;")
-    @ResponseBody
-    public String getAllTeacher(HttpSession session) {
-        String json = Config.NO;
-        json = adminService.getAllTeacher(session.getAttribute("department") + "");
-        return json;
-    }
+//    @RequestMapping(value = "getAllTeacher", produces = "text/html;charset=UTF-8;")
+//    @ResponseBody
+//    public String getAllTeacher(HttpSession session) {
+//        String json = Config.NO;
+//        json = adminService.getAllTeacher(session.getAttribute("department") + "");
+//        return json;
+//    }
 }

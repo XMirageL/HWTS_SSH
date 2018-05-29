@@ -14,7 +14,7 @@ $(document).ready(function () {
                 text += "<option value=\"" + data[i].adminId + "\" id=\"admin_" + data[i].adminId + "\">" + data[i].adminName + "</option>"
             }
             $("#admin").html(text);
-            ajax_2();
+            ajax_3();
         }
     });
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
             data: {},
             dataType: "json",
             success: function (data) {
-                var text = "<option value=\"0\" id=\"teacher_0\">-</option>";
+                var text = "";
                 for (var i = 0; i < data.length; i++) {
                     text += "<option value=\"" + data[i].teacherId + "\" id=\"admin_" + data[i].teacherId + "\">" + data[i].teacherName + "</option>"
                 }
@@ -161,11 +161,16 @@ $(document).ready(function () {
     })
 
     $("#btn_teacherQuery").click(function () {
-        var ii = layer.load(2, {shade: [0.1, '#fff']});
+        // var ii = layer.load(2, {shade: [0.1, '#fff']});
         $("#select_finsh_1").css("display", "none");
         $("#select_finsh_2").css("display", "");
         var year = $("#sign_hyear").val();
         var hyear = $("#sign_hyear_1").val();
+        var teacher = $("#teacher").val();
+        if (teacher != null){
+            teacher = teacher.toString();
+        }
+        // alert($("#teacher").val());
         $.ajax({
             type: "POST",
             url: "/teacherQuery",
@@ -175,7 +180,7 @@ $(document).ready(function () {
                 alert("服务器错误");
                 layer.close(ii);
             },
-            data: {year: year, hyear: hyear},
+            data: {year: year, hyear: hyear, teacher: teacher},
             dataType: "json",
             success: function (data) {
                 var text = "";

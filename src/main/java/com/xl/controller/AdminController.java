@@ -60,7 +60,7 @@ public class AdminController {
         System.out.println(date1 + "\n" + date2);
 
         req.setAttribute("allTeacherInfo", adminService.teacherReportsQuery("" + session.getAttribute("department"),
-                date1, date2));
+                date1, date2, ""));
         return "adminissue";
     }
 
@@ -109,7 +109,7 @@ public class AdminController {
         String columnNames[] = {"ID", "姓名", "已安排任务数", "未完成数"};// 列名
         String keys[] = {"teacherId", "teacherName", "taskCount", "unfinished"};// map中的key
         adminService.downloadReports(response, adminService.teacherReportsQuery("" + session.getAttribute
-                        ("department"), date1, date2), fileName, columnNames,
+                        ("department"), date1, date2, ""), fileName, columnNames,
                 keys);
     }
 
@@ -158,7 +158,8 @@ public class AdminController {
 
 
     @GetMapping(value = "adminque")
-    public String adminque() {
+    public String adminque(HttpServletRequest req, HttpSession session) {
+        req.setAttribute("allTeacherInfo1", adminService.getAllTeacher(session.getAttribute("department") + ""));
         return "adminque";
     }
 }

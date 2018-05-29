@@ -1,4 +1,5 @@
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/11/21
@@ -167,8 +168,19 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-addon"><strong>指定教师：</strong></div>
-                                                <select name="example-chosen-multiple" class="select-chosen"
-                                                        id="teacher" data-placeholder="指定教师..." style="width: 250px;" multiple>
+                                                <div id="select_teacher">
+                                                    <select name="example-chosen-multiple" class="select-chosen"
+                                                            id="teacher" data-placeholder="指定教师..."
+                                                            style="width: 250px;" multiple>
+                                                        <%
+                                                            List<Map<String, Object>> teachers = (List<Map<String, Object>>) request.getAttribute("allTeacherInfo1");
+                                                            for (int i = 0; i < teachers.size(); i ++){
+                                                                Map<String, Object> teacher = teachers.get(i);
+                                                                %><option value="<%=teacher.get("teacherId").toString()%>"><%=teacher.get("teacherName").toString()%></option> <%
+                                                            }
+                                                        %>
+                                                    </select>
+                                                </div>
                                                 </select>
                                             </div>
                                         </div>

@@ -141,8 +141,16 @@ public class AdminServiceImpl implements AdminService {
      * @return 报表
      */
     @Override
-    public List<Map<String, Object>> teacherReportsQuery(String dep, java.sql.Date date1, java.sql.Date date2) {
+    public List<Map<String, Object>> teacherReportsQuery(String dep, java.sql.Date date1, java.sql.Date date2, String
+            teacher) {
         List<Map<String, Object>> list = new ArrayList<>();
+        String[] teacher_sp = new String[10];
+        if (teacher.length() != 0) {
+            teacher_sp = teacher.split(",");
+            for (int i = 0; i < teacher_sp.length; i++) {
+                System.out.println(teacher_sp[i]);
+            }
+        }
 
         //某原因 需要加1才是实际查询日期 后期排查修复
         date2.setDate(date2.getDate() + 1);
@@ -157,6 +165,17 @@ public class AdminServiceImpl implements AdminService {
             for (int i = 0; i < listTeacher.size(); ++i) {
                 Object[] object1 = listTeacher.get(i);
                 Map<String, Object> map = new HashMap<>();
+                if (teacher.length() != 0) {
+                    int sign = 0;
+                    for (int k = 0; k < teacher_sp.length; k++) {
+                        if (teacher_sp[k].equals(String.valueOf(object1[0]))) {
+                            sign++;
+                        }
+                    }
+                    if (sign == 0) {
+                        continue;
+                    }
+                }
                 map.put("teacherId", String.valueOf(object1[0]));
                 map.put("teacherName", String.valueOf(object1[1]));
                 map.put("taskCount", 0);
@@ -179,6 +198,17 @@ public class AdminServiceImpl implements AdminService {
             for (int i = 0; i < listWork.size(); ++i) {
                 Object[] object1 = listWork.get(i);
                 Map<String, Object> map = new HashMap<>();
+                if (teacher.length() != 0) {
+                    int sign = 0;
+                    for (int k = 0; k < teacher_sp.length; k++) {
+                        if (teacher_sp[k].equals(String.valueOf(object1[0]))) {
+                            sign++;
+                        }
+                    }
+                    if (sign == 0) {
+                        continue;
+                    }
+                }
                 map.put("teacherId", String.valueOf(object1[0]));
                 map.put("teacherName", String.valueOf(object1[1]));
                 map.put("taskCount", object1[2]);
@@ -682,12 +712,23 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public String getAllTeacher(String dep) {
+    public List<Map<String, Object>> getAllTeacher(String dep) {
+        List<Map<String, Object>> listMap = new ArrayList<>();
         String hql = "select teacher.teacherId, teacher.teacherName from THngyTeacherInfo as teacher ,THngyStaffRoom " +
                 "as staff WHERE teacher.staffRoomId = staff.staffRoomId and staff.departmentId = ?";
         List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(dep)}, hql);
-        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"teacherId", "teacherName"
-        }));
-        return json;
+//        String json = JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"teacherId",
+// "teacherName"
+//        }));
+        if (list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Object[] objects = list.get(i);
+                Map<String, Object> map = new HashMap<>();
+                map.put("teacherId", String.valueOf(objects[0]));
+                map.put("teacherName", String.valueOf(objects[1]));
+                listMap.add(map);
+            }
+        }
+        return listMap;
     }
 }
