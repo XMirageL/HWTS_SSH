@@ -48,6 +48,13 @@ public class MainUtil {
         map.put("taskText", object1[7].toString());
         map.put("kindId", object1[9].toString());
         map.put("kindText", object1[8].toString());
+        map.put("taskDate1", String.valueOf(object1[10]).substring(0, String.valueOf(object1[10]).length() - 2));
+        if (object1[11] == null){
+            map.put("taskDate2", "");
+        } else {
+            map.put("taskDate2", String.valueOf(object1[11]).substring(0, String.valueOf(object1[11]).length() - 2));
+        }
+        map.put("taskDate3", String.valueOf(object1[12]).substring(0, String.valueOf(object1[12]).length() - 2));
         list.add(map);
 
         return list;

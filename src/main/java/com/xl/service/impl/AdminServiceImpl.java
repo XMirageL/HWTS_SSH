@@ -305,7 +305,7 @@ public class AdminServiceImpl implements AdminService {
     public String getTaskInfoForAdmin(long id) {
         String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
                 ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText, kind.kindsTaskName, kind.kindsTaskID " +
-                "from THngyWorkTask as work ,THngyLink " +
+                ", work.workTaskTime1, work.workTaskTime2, work.workTaskTime3 from THngyWorkTask as work ,THngyLink " +
                 "as link,THngyTeacherInfo as teacher,THngyKindsTask as kind where link.workTaskId = work.workTaskId " +
                 "and link.teacherId = " +
                 "teacher.teacherId and work.workTaskId = ? and work.workTaskKinds = kind.kindsTaskID order by work" +

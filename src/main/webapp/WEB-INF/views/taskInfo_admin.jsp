@@ -243,8 +243,8 @@
                                             </label>
                                             <div class="col-lg-7">
                                                 <select class="form-control" id="taskState" disabled>
-                                                    <option style="color: red" value="未完成">未完成</option>
-                                                    <option style="color: green" value="已完成">已完成</option>
+                                                    <option value="未完成">未完成</option>
+                                                    <option value="已完成">已完成</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -253,6 +253,33 @@
 
                                             <div class="col-lg-7">
                                                 <input type="text" class="form-control" id="date"
+                                                       value="" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;任务开始日期：</label>
+
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="date1"
+                                                       value="" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;实际完成日期：</label>
+
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="date2"
+                                                       value="" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;任务结算日期：</label>
+
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="date3"
                                                        value="" disabled>
                                             </div>
                                         </div>
@@ -272,9 +299,6 @@
                                             </center>
                                         </div>
 
-
-                                        <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
-                                        <script src="./JS/taskInfo.js"></script>
                                         <%--<span class="help-block text-center"><a--%>
                                         <%--href="http://shang.qq.com/v3/widget.html" target="_blank">需开通QQ在线沟通组件权限，已开通的请忽略</a></span>--%>
                                         <%--<div class="form-group">--%>
@@ -307,6 +331,9 @@
 </body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
 <script src="./JS/app.js"></script>
+
+<script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
+<script src="./JS/taskInfo.js"></script>
 <script>
 </script>
 </html>

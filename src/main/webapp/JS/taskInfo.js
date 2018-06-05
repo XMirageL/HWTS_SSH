@@ -20,8 +20,11 @@ if (id != null) {
             $("#title").val(info.taskName);
             $("#details").val(info.taskText);
             $("#qq").val(info.qq);
-            $("#kinds").html("<option value=\"" + info.kindId + "\" id=\"op_" + info.kindId + "\">" + info.kindText + "</option>")
+            $("#kinds").html("<option value=\"" + info.kindId + "\" id=\"op_" + info.kindId + "\">" + info.kindText + "</option>");
             $("#date").val(info.taskDate);
+            $("#date1").val(info.taskDate1);
+            $("#date2").val(info.taskDate2);
+            $("#date3").val(info.taskDate3);
             var tsStr = "";
             var teachers = info.teachers.split(",");
             var teachersId = info.teachersId.split(",");

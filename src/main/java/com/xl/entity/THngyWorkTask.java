@@ -12,6 +12,9 @@ public class THngyWorkTask {
     private long workTaskKinds;
     private String workTaskText;
     private Timestamp workTaskTime;
+    private Timestamp workTaskTime1;
+    private Timestamp workTaskTime2;
+    private Timestamp workTaskTime3;
     private String workTaskTerm;
     private String workTaskSchedule;
     private String qq;
@@ -70,6 +73,37 @@ public class THngyWorkTask {
 
     public void setWorkTaskTime(Timestamp workTaskTime) {
         this.workTaskTime = workTaskTime;
+    }
+
+
+    @Basic
+    @Column(name = "Work_task_TIME1")
+    public Timestamp getWorkTaskTime1() {
+        return workTaskTime1;
+    }
+
+    public void setWorkTaskTime1(Timestamp workTaskTime1) {
+        this.workTaskTime1 = workTaskTime1;
+    }
+
+    @Basic
+    @Column(name = "Work_task_TIME2")
+    public Timestamp getWorkTaskTime2() {
+        return workTaskTime2;
+    }
+
+    public void setWorkTaskTime2(Timestamp workTaskTime2) {
+        this.workTaskTime2 = workTaskTime2;
+    }
+
+    @Basic
+    @Column(name = "Work_task_TIME3")
+    public Timestamp getWorkTaskTime3() {
+        return workTaskTime3;
+    }
+
+    public void setWorkTaskTime3(Timestamp workTaskTime3) {
+        this.workTaskTime3 = workTaskTime3;
     }
 
     @Basic
@@ -163,6 +197,9 @@ public class THngyWorkTask {
                 Objects.equals(workTaskName, that.workTaskName) &&
                 Objects.equals(workTaskText, that.workTaskText) &&
                 Objects.equals(workTaskTime, that.workTaskTime) &&
+                Objects.equals(workTaskTime1, that.workTaskTime1) &&
+                Objects.equals(workTaskTime2, that.workTaskTime2) &&
+                Objects.equals(workTaskTime3, that.workTaskTime3) &&
                 Objects.equals(workTaskTerm, that.workTaskTerm) &&
                 Objects.equals(workTaskSchedule, that.workTaskSchedule) &&
                 Objects.equals(qq, that.qq) &&
@@ -175,7 +212,8 @@ public class THngyWorkTask {
     @Override
     public int hashCode() {
 
-        return Objects.hash(workTaskId, workTaskName, workTaskKinds, workTaskText, workTaskTime, workTaskTerm,
+        return Objects.hash(workTaskId, workTaskName, workTaskKinds, workTaskText, workTaskTime, workTaskTime1,
+                workTaskTime2, workTaskTime3, workTaskTerm,
                 workTaskSchedule, qq, departmentId, spare2, spare3, spare4, spare1);
     }
 }

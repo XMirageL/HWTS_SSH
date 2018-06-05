@@ -73,8 +73,13 @@ public class MainRepositoryImpl implements MainRepository {
     }
 
     public void hqltest() {
-        String hql = "select link.linkId, link.workTaskId from THngyLink as link, THngyWorkTask as task WHERE link.workTaskId = task" +
-                ".workTaskId and task.workTaskId = ?";
+        String hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,work" +
+                ".workTaskSchedule,teacher.teacherId,work.qq,work.workTaskText, kind.kindsTaskName, kind.kindsTaskID " +
+                ", work.workTaskTime1, work.workTaskTime2, work.workTaskTime3 from THngyWorkTask as work ,THngyLink " +
+                "as link,THngyTeacherInfo as teacher,THngyKindsTask as kind where link.workTaskId = work.workTaskId " +
+                "and link.teacherId = " +
+                "teacher.teacherId and work.workTaskId = ? and work.workTaskKinds = kind.kindsTaskID order by work" +
+                ".workTaskTime desc";
         Query query = getSession().createQuery(hql);
     }
 
