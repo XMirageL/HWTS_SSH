@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -83,8 +84,9 @@ public class AdminAjaxController {
      */
     @RequestMapping(value = "/updateTask")
     @ResponseBody
-    public String updateTask(HttpSession session, String workId, String workName, String workKinds, String
-            oldteacher, String teacher, String workText, String qq, String workState, String
+    public String updateTask(HttpSession session, String workId, String workName, String startDate, String endDate,
+                             String workKinds, String
+                                     oldteacher, String teacher, String workText, String qq, String workState, String
                                      workTime) {
         if (workId.length() > 0 || workName.length() > 0 && workText.length() > 0 && qq.length() > 0
                 && workState.length() > 0 && workTime.length() > 0) {
@@ -94,6 +96,16 @@ public class AdminAjaxController {
             tHngyWorkTask.setWorkTaskName(workName);
             tHngyWorkTask.setWorkTaskKinds(Long.parseLong(workKinds));
             tHngyWorkTask.setWorkTaskText(workText);
+            tHngyWorkTask.setWorkTaskTime1(java.sql.Timestamp.valueOf(startDate));
+            if (workState.equals("已完成")) {
+                Date d = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+//                System.out.println(sdf.format(d));
+                tHngyWorkTask.setWorkTaskTime2(java.sql.Timestamp.valueOf(sdf.format(d)));
+            } else {
+                tHngyWorkTask.setWorkTaskTime2(null);
+            }
+            tHngyWorkTask.setWorkTaskTime3(java.sql.Timestamp.valueOf(endDate));
             tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(workTime));
             int M = Integer.parseInt(workTime.substring(5, 7));
             if (M < 2 && M > 8)//上学期

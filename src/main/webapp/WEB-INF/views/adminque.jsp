@@ -15,7 +15,6 @@
 <head>
     <meta charset="utf-8">
     <title>任务管理</title>
-    <meta name="description" content="AppUI is a Web App Bootstrap Admin Template. ">
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">

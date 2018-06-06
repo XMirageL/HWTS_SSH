@@ -38,10 +38,8 @@ if (id != null) {
             $("#teachers").append(tsStr);
             if (info.taskState == "已完成") {
                 $("#taskState option[value='已完成']").attr("selected", true);
-                $("#taskState").css("color", "green");
             } else {
                 $("#taskState option[value='未完成']").attr("selected", true);
-                $("#taskState").css("color", "red");
             }
             setPoint();
         }
@@ -89,12 +87,16 @@ $("#editInfo").click(function () {
     $("#kinds").attr("disabled", false);
     $("#notice-text").attr("disabled", false);
     $("#taskState").attr("disabled", false);
+    $("#date1").attr("disabled", false);
+    $("#date3").attr("disabled", false);
 });
 
 
 $("#saveInfo").click(function () {
     var workName = $("#title").val();
     var workKinds = $("#kinds").val();
+    var startDate = $("#date1").val();
+    var endDate = $("#date3").val();
     var teacher = '';//选择的老师
     teacher += $('#select_teacher').val();
     var workText = $("#details").val();
@@ -129,6 +131,8 @@ $("#saveInfo").click(function () {
                     data: {
                         workId: id,
                         workName: workName,
+                        startDate: startDate,
+                        endDate: endDate,
                         workKinds: workKinds,
                         oldteacher: old_teache.toString(),
                         teacher: teacher.toString(),
