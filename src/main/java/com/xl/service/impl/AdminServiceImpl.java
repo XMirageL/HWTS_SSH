@@ -8,6 +8,7 @@ import com.xl.service.AdminService;
 import com.xl.utils.Config;
 import com.xl.utils.ExcelUtil;
 import com.xl.utils.MainUtil;
+import com.xl.utils.SendMail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.rmi.runtime.Log;
@@ -41,6 +42,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private WorkTaskRepositoryImpl workTaskRepository;
+
+    @Autowired
+    private MailInfoRepositoryImpl mailInfoRepository;
 
     /**
      * 以Json形式返回管理员个人信息以及公告
@@ -442,7 +446,8 @@ public class AdminServiceImpl implements AdminService {
                 sta = "未完成";
             }
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work" +
+                    ".workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work" +
@@ -454,7 +459,8 @@ public class AdminServiceImpl implements AdminService {
         } else if (status.equals("0") && !admin.equals("0")) {
             //状态- 管理员无
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work" +
+                    ".workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work.workTaskId and link.teacherId = " +
@@ -470,7 +476,8 @@ public class AdminServiceImpl implements AdminService {
             }
             //状态- 管理员-
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work" +
+                    ".workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work.workTaskId and link.teacherId = " +
@@ -486,7 +493,8 @@ public class AdminServiceImpl implements AdminService {
     public List<Map<String, Object>> taskReportsQuery3(String dep, java.sql.Date date1, java.sql.Date date2) {
         String hql = "";
         hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ,THngyLink " +
+                "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work" +
+                ".workTaskTime3 from THngyWorkTask as work ,THngyLink " +
                 "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                 " and link.workTaskId = work" +
                 ".workTaskId and link.teacherId = " +
@@ -750,6 +758,12 @@ public class AdminServiceImpl implements AdminService {
             THngyWorkTask tHngyWorkTask1 = tHngyWorkTask.get(i);
             if (tHngyWorkTask1.getWorkTaskId() == Long.parseLong(taskI)) {
                 tHngyWorkTask1.setWorkTaskSchedule(sta);
+                if (status.equals("0")) {
+                    String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                    tHngyWorkTask1.setWorkTaskTime2(java.sql.Timestamp.valueOf(time));
+                } else {
+                    tHngyWorkTask1.setWorkTaskTime2(null);
+                }
                 workTaskRepository.save(tHngyWorkTask1);
                 System.out.println("任务状态已更新");
                 break;
@@ -771,6 +785,52 @@ public class AdminServiceImpl implements AdminService {
         }
         workTaskRepository.delete(Long.parseLong(taskid));
         System.out.println("删除任务：" + taskid);
+        return Config.OK;
+    }
+
+    @Override
+    public String setMailTest(String acoount, String pwd) {
+        SendMail sendMail = new SendMail();
+        String[] toWho = new String[1];
+        toWho[0] = acoount;
+        if (sendMail.send1("湖南工院任务分发系统", "这是一份来自【任务分发系统】的发信配置测试邮件", toWho, acoount, pwd)) {
+            return Config.OK;
+        } else {
+            return Config.NO;
+        }
+    }
+
+    @Override
+    public String getMailInfo(String id) {
+        String sql = "select mail.mailAccount, mail.mailPwd from THngyMailInfo as mail where mail.adminInfoId = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(id)}, sql);
+        if (list.size() == 0) {
+            return Config.NO;
+        }
+        return JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"account", "pwd"}));
+    }
+
+    @Override
+    public String updateMailInfo(String id, String acoount, String pwd) {
+        List<THngyMailInfo> list = mailInfoRepository.findAll();
+        for (int i = 0; i < list.size(); i++) {
+            THngyMailInfo mailInfo = list.get(i);
+            if (String.valueOf(mailInfo.getAdminInfoId()).equals(id)){
+                System.out.println("邮箱信息修改");
+                mailInfo.setMailAccount(acoount);
+                mailInfo.setMailPwd(pwd);
+                mainRepository.update(mailInfo);
+//                mailInfoRepository.save(mailInfo);
+                return Config.OK;
+            }
+        }
+        System.out.println("邮箱信息增加");
+        THngyMailInfo mailInfo1 = new THngyMailInfo();
+        mailInfo1.setMailAccount(acoount);
+        mailInfo1.setAdminInfoId(Long.parseLong(id));
+        mailInfo1.setMailPwd(pwd);
+        mailInfo1.setMailTemplate("*************************");
+        mainRepository.save(mailInfo1);
         return Config.OK;
     }
 }

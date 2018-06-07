@@ -13,7 +13,7 @@ public class Config
     /***
      * 发件人邮箱授权码
      */
-    public static final String EmailPassWorld = "14   ";
+    public static final String EmailPassWorld = "lzeedrybyavuibad";
     /***
      * 登录
      */

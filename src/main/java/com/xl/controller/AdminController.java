@@ -158,4 +158,9 @@ public class AdminController {
         req.setAttribute("allTeacherInfo1", adminService.getAllTeacher(session.getAttribute("department") + ""));
         return "adminque";
     }
+
+    @GetMapping(value = "adminmail")
+    public String adminmail() {
+        return "admin_mail";
+    }
 }

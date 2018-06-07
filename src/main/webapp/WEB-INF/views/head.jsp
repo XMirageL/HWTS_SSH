@@ -43,10 +43,14 @@
                                 class="sidebar-nav-mini-hide">任务分类</span></a>
                     </li>
                     <li>
-                    <li>
                         <a id="import" href="/importInfo" <% if (url.equals("/WEB-INF/views/importInfo.jsp")){%>class="active" <%}%>><i
                                 class="fa fa-sign-in sidebar-nav-icon"></i><span
                                 class="sidebar-nav-mini-hide">批量注册</span></a>
+                    </li>
+                    <li>
+                        <a id="mail" href="/adminmail" <% if (url.equals("/WEB-INF/views/admin_mail.jsp")){%>class="active" <%}%>><i
+                                class="fa fa-envelope sidebar-nav-icon"></i><span
+                                class="sidebar-nav-mini-hide">发信配置</span></a>
                     </li>
                     <li>
                         <a id="index" href="/loginOut"><i class="fa fa-power-off sidebar-nav-icon"></i><span

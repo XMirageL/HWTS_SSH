@@ -22,9 +22,9 @@ if (id != null) {
             $("#qq").val(info.qq);
             $("#kinds").html("<option value=\"" + info.kindId + "\" id=\"op_" + info.kindId + "\">" + info.kindText + "</option>");
             $("#date").val(info.taskDate);
-            $("#date1").val(info.taskDate1);
+            $("#date1").val(info.taskDate1.substring(0, 10));
             $("#date2").val(info.taskDate2);
-            $("#date3").val(info.taskDate3);
+            $("#date3").val(info.taskDate3.substring(0, 10));
             var tsStr = "";
             var teachers = info.teachers.split(",");
             var teachersId = info.teachersId.split(",");
@@ -131,8 +131,8 @@ $("#saveInfo").click(function () {
                     data: {
                         workId: id,
                         workName: workName,
-                        startDate: startDate,
-                        endDate: endDate,
+                        startDate: startDate + " 00:00:00",
+                        endDate: endDate + " 00:00:00",
                         workKinds: workKinds,
                         oldteacher: old_teache.toString(),
                         teacher: teacher.toString(),

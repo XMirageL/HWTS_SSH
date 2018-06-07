@@ -25,19 +25,19 @@ public class SendMail {
 
 
     // //Test
-    public static void main(String args[]) {
-        String[] toEmail = new String[1];
-        toEmail[0] = "1755650745@qq.com";
-//        new SendMail().send("傻逼","傻逼",toEmail);
-        SendMail sendMail = new SendMail();
-        if (sendMail.send("傻逼", "傻逼", toEmail)) {
-            System.out.println("邮件发送成功");
-        } else {
-            System.out.println("发送失败请检查密匙是否正确");
-        }
-    }
+//    public static void main(String args[]) {
+//        String[] toEmail = new String[1];
+//        toEmail[0] = "1755650745@qq.com";
+////        new SendMail().send("傻逼","傻逼",toEmail);
+//        SendMail sendMail = new SendMail();
+//        if (sendMail.send("傻逼", "傻逼", toEmail)) {
+//            System.out.println("邮件发送成功");
+//        } else {
+//            System.out.println("发送失败请检查密匙是否正确");
+//        }
+//    }
 
-    public boolean send(String Subject, String Text, String[] toEmail) {
+    public boolean send1(String title, String Text, String[] toEmail, String account, String pwd) {
 
         //返回一个标识，邮件是否发送成功了
         boolean right = true;
@@ -54,14 +54,14 @@ public class SendMail {
             Session session = Session.getInstance(properties);
             Message message = new MimeMessage(session);
             // 设置发件人邮箱地址
-            message.setFrom(new InternetAddress(Config.FromMail));
+            message.setFrom(new InternetAddress(account));
             // 设置收件人地址
             message.setRecipients(RecipientType.TO, internetAddresses);
             // 设置邮件标题和内容
-            message.setSubject(Subject);
+            message.setSubject(title);
             message.setText(Text);
             Transport transport = session.getTransport();
-            transport.connect(Config.FromMail, Config.EmailPassWorld);// 密码为授权码
+            transport.connect(account, pwd);// 密码为授权码
             transport.sendMessage(message, message.getAllRecipients());// 发送邮件
         } catch (Exception e) {
             right = false;
@@ -71,4 +71,39 @@ public class SendMail {
         }
         return right;
     }
+
+//    public boolean send(String Subject, String Text, String[] toEmail) {
+//
+//        //返回一个标识，邮件是否发送成功了
+//        boolean right = true;
+//        try {
+//            InternetAddress[] internetAddresses = getInternetAddresses(toEmail);
+//            Properties properties = new Properties();
+//            properties.put("mail.transport.protocol", "smtp");// 连接协议
+//            properties.put("mail.smtp.host", "smtp.qq.com");// 主机名
+//            properties.put("mail.smtp.port", 465);// 端口号
+//            properties.put("mail.smtp.auth", "true");
+//            properties.put("mail.smtp.ssl.enable", "true");// 设置是否使用ssl安全连接 ---一般都使用
+//            properties.put("mail.debug", "true");// 设置是否显示debug信息 true 会在控制台显示相关信息
+//            // 得到会话对象
+//            Session session = Session.getInstance(properties);
+//            Message message = new MimeMessage(session);
+//            // 设置发件人邮箱地址
+//            message.setFrom(new InternetAddress(Config.FromMail));
+//            // 设置收件人地址
+//            message.setRecipients(RecipientType.TO, internetAddresses);
+//            // 设置邮件标题和内容
+//            message.setSubject(Subject);
+//            message.setText(Text);
+//            Transport transport = session.getTransport();
+//            transport.connect(Config.FromMail, Config.EmailPassWorld);// 密码为授权码
+//            transport.sendMessage(message, message.getAllRecipients());// 发送邮件
+//        } catch (Exception e) {
+//            right = false;
+//            e.printStackTrace();
+//            System.err.println("！！！！！！邮件发送出现异常，club.zslsj.utils包下SendMail类的send方法！！！！！！");
+//            return false;
+//        }
+//        return right;
+//    }
 }

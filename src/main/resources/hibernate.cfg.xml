@@ -40,6 +40,7 @@
         <mapping class="com.xl.entity.THngyWorkTask"/>
         <mapping class="com.xl.entity.THngySAdminInfo"/>
         <mapping class="com.xl.entity.THngyKindsTask"/>
+        <mapping class="com.xl.entity.THngyMailInfo"/>
 
 
     </session-factory>

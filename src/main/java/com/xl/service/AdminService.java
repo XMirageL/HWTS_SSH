@@ -206,4 +206,10 @@ public interface AdminService {
     String updateTaskStatus(String status, String taskI);
 
     String deleteTask(String taskid);
+
+    String setMailTest(String acoount,String pwd);
+
+    String getMailInfo(String id);
+
+    String updateMailInfo(String id, String acoount,String pwd);
 }

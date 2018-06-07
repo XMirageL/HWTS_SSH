@@ -99,10 +99,11 @@ public class AdminAjaxController {
             tHngyWorkTask.setWorkTaskText(workText);
             tHngyWorkTask.setWorkTaskTime1(java.sql.Timestamp.valueOf(startDate));
             if (workState.equals("已完成")) {
-                Date d = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-//                System.out.println(sdf.format(d));
-                tHngyWorkTask.setWorkTaskTime2(java.sql.Timestamp.valueOf(sdf.format(d)));
+
+                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                System.out.println(time);
+
+                tHngyWorkTask.setWorkTaskTime2(java.sql.Timestamp.valueOf(time));
             } else {
                 tHngyWorkTask.setWorkTaskTime2(null);
             }
@@ -412,6 +413,25 @@ public class AdminAjaxController {
         String json = Config.NO;
         adminService.deleteTask(taskId);
         return Config.OK;
+    }
+
+    @RequestMapping(value = "setMailTest", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String setMailSend(HttpSession session, String acoount, String pwd) {
+        String json = Config.NO;
+        return adminService.setMailTest(acoount, pwd);
+    }
+
+    @RequestMapping(value = "getMailInfo", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getMailInfo(HttpSession session) {
+        return adminService.getMailInfo(session.getAttribute("id") + "");
+    }
+
+    @RequestMapping(value = "updateMainInfo", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String updateMainInfo(HttpSession session, String acoount, String pwd) {
+        return adminService.updateMailInfo(session.getAttribute("id") + "", acoount, pwd);
     }
 
 

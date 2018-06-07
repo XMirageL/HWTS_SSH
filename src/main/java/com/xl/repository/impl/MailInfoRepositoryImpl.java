@@ -1,7 +1,7 @@
 package com.xl.repository.impl;
 
-import com.xl.entity.THngySAdminInfo;
-import com.xl.repository.SAdminRepository;
+import com.xl.entity.THngyMailInfo;
+import com.xl.repository.MailInfoRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class SAdminRepositoryImpl implements SAdminRepository {
+public class MailInfoRepositoryImpl implements MailInfoRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -20,39 +20,39 @@ public class SAdminRepositoryImpl implements SAdminRepository {
     }
 
     @Override
-    public THngySAdminInfo load(Long id) {
-        return getSession().get(THngySAdminInfo.class, id);
+    public THngyMailInfo load(Long id) {
+        return getSession().get(THngyMailInfo.class, id);
     }
 
     @Override
-    public THngySAdminInfo get(Long id) {
-        return getSession().get(THngySAdminInfo.class, id);
+    public THngyMailInfo get(Long id) {
+        return getSession().get(THngyMailInfo.class, id);
     }
 
     @Override
-    public List<THngySAdminInfo> findAll() {
-        String hql = "FROM THngySAdminInfo";
+    public List<THngyMailInfo> findAll() {
+        String hql = "FROM THngyMailInfo";
         return getSession().createQuery(hql).list();
     }
 
     @Override
-    public void persist(THngySAdminInfo entity) {
+    public void persist(THngyMailInfo entity) {
 
     }
 
     @Override
-    public Long save(THngySAdminInfo entity) {
+    public Long save(THngyMailInfo entity) {
         return (Long) getSession().save(entity);
     }
 
     @Override
-    public void saveOrUpdate(THngySAdminInfo entity) {
+    public void saveOrUpdate(THngyMailInfo entity) {
         getSession().update(entity);
     }
 
     @Override
     public void delete(Long id) {
-        getSession().delete(getSession().get(THngySAdminInfo.class, id));
+        getSession().delete(getSession().get(THngyMailInfo.class, id));
     }
 
     @Override

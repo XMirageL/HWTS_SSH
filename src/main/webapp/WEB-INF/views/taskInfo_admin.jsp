@@ -27,7 +27,7 @@
     <link href="./css/bootstrap-select.css" rel="stylesheet">
 
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./appui/css/main-2.1.css">
 
     <!-- Bootstrap is included in its original form, unaltered -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
 
     <!-- Related styles of various icon packs and plugins -->
-    <link rel="stylesheet" href="./css/plugins.css">
+    <link rel="stylesheet" href="./appui/css/plugins-2.1.css">
 
 
     <!-- sweealert CSS & JS in here -->
@@ -261,8 +261,9 @@
                                             <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;任务开始日期：</label>
 
                                             <div class="col-lg-7">
-                                                <input type="text" class="form-control" id="date1"
-                                                       value="" disabled>
+                                                <input type="text" id="date1"
+                                                       class="form-control input-datepicker"
+                                                       data-date-format="yyyy-mm-dd" disabled>
                                             </div>
                                         </div>
 
@@ -279,8 +280,9 @@
                                             <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;任务结算日期：</label>
 
                                             <div class="col-lg-7">
-                                                <input type="text" class="form-control" id="date3"
-                                                       value="" disabled>
+                                                <input type="text" id="date3"
+                                                       class="form-control input-datepicker"
+                                                       data-date-format="yyyy-mm-dd" disabled>
                                             </div>
                                         </div>
 
@@ -330,8 +332,8 @@
 
 </body>
 <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
-<script src="./JS/app.js"></script>
-
+<script src="./appui/js/app-2.1.js"></script>
+<script src="./appui/js/plugins-2.1.js"></script>
 <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script src="./JS/taskInfo.js"></script>
 <script>

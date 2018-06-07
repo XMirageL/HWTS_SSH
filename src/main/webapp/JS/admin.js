@@ -142,31 +142,39 @@ $(document).ready(function () {
             "                                            <td align=\"center\"><span style=\"color:silver;\"><b>状态</b></span>" +
             "                                            </td>" +
             "                                        </tr>";
-        for (var i = 0; i < 10; i++) {
-            //获取日期
-            var taskDate = data[i].taskDate;
-            //获取状态
-            var taskState = data[i].taskState;
-            //获取任务名称和id
-            var taskName = data[i].taskName;
-            var taskId = data[i].taskId;
+        if (data == 101 || data == "101") {
 
-            var taskStr = "<a href=\"/taskInfo?id=" + taskId + "\">" + taskName + "</a>";
-            //获取所有教师并设置a标签的链接
-            var tsStr = "";
-            var teachers = data[i].teachers.split(",");
-            var teachersId = data[i].teachersId.split(",");
-            for (var j = 0; j < teachers.length; j++) {
-                tsStr += "<a target='_blank' href=\"teacherInfo?id=" + teachersId[j] + "\">" + teachers[j] + "</a>,";
+        } else {
+            for (var i = 0; i < 10; i++) {
+                if (i == data.length) {
+                    layer.close(ii);
+                    break;
+                }
+                //获取日期
+                var taskDate = data[i].taskDate;
+                //获取状态
+                var taskState = data[i].taskState;
+                //获取任务名称和id
+                var taskName = data[i].taskName;
+                var taskId = data[i].taskId;
+
+                var taskStr = "<a href=\"/taskInfo?id=" + taskId + "\">" + taskName + "</a>";
+                //获取所有教师并设置a标签的链接
+                var tsStr = "";
+                var teachers = data[i].teachers.split(",");
+                var teachersId = data[i].teachersId.split(",");
+                for (var j = 0; j < teachers.length; j++) {
+                    tsStr += "<a target='_blank' href=\"teacherInfo?id=" + teachersId[j] + "\">" + teachers[j] + "</a>,";
+                }
+                tsStr = tsStr.substring(0, tsStr.length - 1);
+
+                tableStr += "<tr>" +
+                    "<td align=\"center\">" + taskDate + "</td>" +
+                    "<td align=\"center\">" + taskStr + "</td>" +
+                    "<td align=\"center\">" + tsStr + "</td>" +
+                    "<td align=\"center\"><span class=\"text-" + (taskState == "未完成" ? "info" : "success") + "\">" + (taskState == "未完成" ? "未完成" : "已完成") + "</span></td>" +
+                    "</tr>";
             }
-            tsStr = tsStr.substring(0, tsStr.length - 1);
-
-            tableStr += "<tr>" +
-                "<td align=\"center\">" + taskDate + "</td>" +
-                "<td align=\"center\">" + taskStr + "</td>" +
-                "<td align=\"center\">" + tsStr + "</td>" +
-                "<td align=\"center\"><span class=\"text-" + (taskState == "未完成" ? "info" : "success") + "\">" + (taskState == "未完成" ? "未完成" : "已完成") + "</span></td>" +
-                "</tr>";
         }
         tableStr += "</tbody>" +
             "                                    </table>" +
