@@ -38,6 +38,10 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <!--计划任务&自动任务 监听器-->
+  <listener>
+    <listener-class>com.xl.utils.ContextListener</listener-class>
+  </listener>
 
   <filter>
     <filter-name>hiddenHttpMethodFilter</filter-name>
