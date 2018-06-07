@@ -162,6 +162,8 @@ public class MainUtil {
             map.put("taskAdminName", object1[5]);
             map.put("taskAdminId", object1[6]);
             map.put("taskStatus", object1[7]);
+            map.put("startDate", object1[8].toString().substring(0,10));
+            map.put("endDate", object1[9].toString().substring(0,10));
             list.add(map);
             teacherId = "";
             teacherName = "";

@@ -118,7 +118,10 @@ $(document).ready(function () {
                         "                                    " + data[i].taskId + "" +
                         "                                </td>\n" +
                         "                                <td>\n" +
-                        "                                    <strong>" + data[i].taskTime + "</strong>\n" +
+                        "                                    <strong>" + data[i].startDate + "</strong>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <strong>" + data[i].endDate + "</strong>\n" +
                         "                                </td>\n" +
                         "                                <td>\n" +
                         "                                    <a id=\"title_" + data[i].taskId + "\"  href=\"/taskInfo?id=" + data[i].taskId + "\">" + data[i].taskName + "</a>\n" +
@@ -183,7 +186,10 @@ $(document).ready(function () {
                         "                                    " + data[i].taskId + "" +
                         "                                </td>\n" +
                         "                                <td>\n" +
-                        "                                    <strong>" + data[i].taskTime + "</strong>\n" +
+                        "                                    <strong>" + data[i].startDate + "</strong>\n" +
+                        "                                </td>\n" +
+                        "                                <td>\n" +
+                        "                                    <strong>" + data[i].endDate + "</strong>\n" +
                         "                                </td>\n" +
                         "                                <td>\n" +
                         "                                    <a id=\"title_" + data[i].taskId + "\" href=\"/taskInfo?id=" + data[i].taskId + "\">" + data[i].taskName + "</a>\n" +

@@ -213,7 +213,10 @@
                                     ID
                                 </th>
                                 <th>
-                                    时间(年/月/日)
+                                    任务开始日期
+                                </th>
+                                <th>
+                                    任务结束日期
                                 </th>
                                 <th>
                                     任务名称
@@ -281,7 +284,6 @@
 <script src="./appui/js/plugins/ckeditor/ckeditor.js"></script>
 <script src="./appui/js/pages/formsComponents.js"></script>
 <script src="./appui/js/pages/uiTables.js"></script>
-<script src="./appui/js/plugins/ckeditor/ckeditor.js"></script>
 <script src="//lib.baomitu.com/layer/2.3/layer.js"></script>
 <script src="./JS/adminque.js"></script>
 <script>

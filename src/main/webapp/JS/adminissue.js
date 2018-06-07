@@ -7,6 +7,8 @@ $(document).ready(function () {
         teacher += $('#select_teacher').val();
         var details = $('#details').val();//任务详情
         var qq = $('#web_qq').val();//发布者qq
+        var startDate = $('#startDate').val();  //任务开始日期
+        var endDate = $('#endDate').val();      //任务结束日期
         if (title == "") {
             $('#title').focus();
             swal("发布错误", "标题未输入", "error");
@@ -18,6 +20,8 @@ $(document).ready(function () {
         } else if (qq == "") {
             $('#web_qq').focus();
             swal("发布错误", "qq未输入", "error");
+        } else if (startDate == "" || endDate == "") {
+            swal("发布错误", "日期未输入", "error");
         } else {
 
             swal({
@@ -43,10 +47,20 @@ $(document).ready(function () {
         teacher += $('#select_teacher').val();
         var details = $('#details').val();//任务详情
         var qq = $('#web_qq').val();//发布者qq
+        var startDate = $('#startDate').val();  //任务开始日期
+        var endDate = $('#endDate').val();      //任务结束日期
         $.ajax({
             url: "/insertIssueTasks",
             type: "POST",
-            data: {workName: title, teacher: teacher, kinds: kinds, workText: details, qq: qq},
+            data: {
+                workName: title,
+                teacher: teacher,
+                kinds: kinds,
+                workText: details,
+                qq: qq,
+                startDate: startDate,
+                endDate: endDate
+            },
             dataType: "json",
             success: function (data) {
                 if (data.sCode == "200") {

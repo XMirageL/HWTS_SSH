@@ -262,12 +262,15 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public String saveTaskTeacherLinkInfo(long did, String workName, String teacher, String kinds, String workText,
-                                          String qq) {
+                                          String qq, String startDate, String endDate) {
         //获取当前时间,保存任务信息
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         int M = Integer.parseInt((String) time.subSequence(5, 7));
         THngyWorkTask tHngyWorkTask = new THngyWorkTask();
         tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(time));
+        tHngyWorkTask.setWorkTaskTime1(java.sql.Timestamp.valueOf(startDate + " 00:00:00"));
+        tHngyWorkTask.setWorkTaskTime2(null);
+        tHngyWorkTask.setWorkTaskTime3(java.sql.Timestamp.valueOf(endDate + " 00:00:00"));
         tHngyWorkTask.setWorkTaskName(workName);
         tHngyWorkTask.setWorkTaskKinds(Long.parseLong(kinds));
         tHngyWorkTask.setWorkTaskText(workText);
@@ -439,7 +442,7 @@ public class AdminServiceImpl implements AdminService {
                 sta = "未完成";
             }
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work" +
@@ -451,7 +454,7 @@ public class AdminServiceImpl implements AdminService {
         } else if (status.equals("0") && !admin.equals("0")) {
             //状态- 管理员无
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work.workTaskId and link.teacherId = " +
@@ -467,7 +470,7 @@ public class AdminServiceImpl implements AdminService {
             }
             //状态- 管理员-
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work.workTaskId and link.teacherId = " +
@@ -483,7 +486,7 @@ public class AdminServiceImpl implements AdminService {
     public List<Map<String, Object>> taskReportsQuery3(String dep, java.sql.Date date1, java.sql.Date date2) {
         String hql = "";
         hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ,THngyLink " +
+                "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ,THngyLink " +
                 "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                 " and link.workTaskId = work" +
                 ".workTaskId and link.teacherId = " +

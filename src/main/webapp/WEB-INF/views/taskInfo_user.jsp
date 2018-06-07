@@ -197,6 +197,33 @@
                                                        value="" disabled>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;任务开始日期：</label>
+
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="date1"
+                                                       value="" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;实际完成日期：</label>
+
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="date2"
+                                                       value="" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"><i class="fa fa-calendar-o"></i>&nbsp;任务结算日期：</label>
+
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="date3"
+                                                       value="" disabled>
+                                            </div>
+                                        </div>
                                         <%--<span class="help-block text-center"><a--%>
                                         <%--href="http://shang.qq.com/v3/widget.html" target="_blank">需开通QQ在线沟通组件权限，已开通的请忽略</a></span>--%>
                                         <%--<div class="form-group">--%>
@@ -250,8 +277,10 @@
                 $("#details").val(info.taskText);
                 $("#kinds").html("<option>" + info.kindText + "</option>");
                 $("#sp_1").html(info.qq);
-                var taskDate = info.taskDate.split("-");
-                $("#date").val(taskDate[0] + "年" + taskDate[1] + "月" + taskDate[2] + "日");
+                $("#date").val(info.taskDate);
+                $("#date1").val(info.taskDate1);
+                $("#date2").val(info.taskDate2);
+                $("#date3").val(info.taskDate3);
                 var tsStr = "";
                 var teachers = info.teachers.split(",");
                 var teachersId = info.teachersId.split(",");

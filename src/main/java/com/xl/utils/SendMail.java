@@ -13,34 +13,35 @@ import java.util.Properties;
  *发送邮件的工具类
  * author:臧胜
  */
-public class SendMail
-{
-    public InternetAddress[] getInternetAddresses(String[] Email) throws AddressException
-    {
+public class SendMail {
+    public InternetAddress[] getInternetAddresses(String[] Email) throws AddressException {
         InternetAddress[] internetAddresses = new InternetAddress[Email.length];
-        for (int i = 0; i < Email.length; ++i)
-        {
-            System.out.println("第"+i+"个是"+Email[i]);
+        for (int i = 0; i < Email.length; ++i) {
+            System.out.println("第" + i + "个是" + Email[i]);
             internetAddresses[i] = new InternetAddress(Email[i]);
         }
         return internetAddresses;
     }
 
 
-// //Test
-//    public static void main(String args[]){
-//        String[] toEmail = new String[1];
-//        toEmail[0] = "1278991552@qq.com";
+    // //Test
+    public static void main(String args[]) {
+        String[] toEmail = new String[1];
+        toEmail[0] = "1755650745@qq.com";
 //        new SendMail().send("傻逼","傻逼",toEmail);
-//    }
+        SendMail sendMail = new SendMail();
+        if (sendMail.send("傻逼", "傻逼", toEmail)) {
+            System.out.println("邮件发送成功");
+        } else {
+            System.out.println("发送失败请检查密匙是否正确");
+        }
+    }
 
-    public  boolean send(String Subject, String Text, String[] toEmail)
-    {
+    public boolean send(String Subject, String Text, String[] toEmail) {
 
         //返回一个标识，邮件是否发送成功了
         boolean right = true;
-        try
-        {
+        try {
             InternetAddress[] internetAddresses = getInternetAddresses(toEmail);
             Properties properties = new Properties();
             properties.put("mail.transport.protocol", "smtp");// 连接协议
@@ -62,11 +63,11 @@ public class SendMail
             Transport transport = session.getTransport();
             transport.connect(Config.FromMail, Config.EmailPassWorld);// 密码为授权码
             transport.sendMessage(message, message.getAllRecipients());// 发送邮件
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             right = false;
             e.printStackTrace();
             System.err.println("！！！！！！邮件发送出现异常，club.zslsj.utils包下SendMail类的send方法！！！！！！");
+            return false;
         }
         return right;
     }

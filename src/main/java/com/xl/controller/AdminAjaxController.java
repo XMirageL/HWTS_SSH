@@ -65,13 +65,14 @@ public class AdminAjaxController {
     @ResponseBody
     public String insertIssueTasks(HttpSession session, String workName, String teacher, String kinds, String
             workText, String
-                                           qq) {
+                                           qq, String startDate, String endDate) {
         String statusCode = Config.Code201;
         String taskId = "";
         long did = Long.parseLong("" + session.getAttribute("department"));
         if (workName.length() > 0 && teacher.length() > 0 && kinds.length() > 0 && workText.length() > 0 && qq.length
                 () > 0) {
-            taskId = adminService.saveTaskTeacherLinkInfo(did, workName, teacher, kinds, workText, qq);
+            taskId = adminService.saveTaskTeacherLinkInfo(did, workName, teacher, kinds, workText, qq, startDate,
+                    endDate);
             statusCode = Config.Code200;
         }
         String json = "{\"sCode\":\"" + statusCode + "\",\"taskId\":\"" + taskId + "\"}";
