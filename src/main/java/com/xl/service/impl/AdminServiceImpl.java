@@ -802,12 +802,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String getMailInfo(String id) {
-        String sql = "select mail.mailAccount, mail.mailPwd from THngyMailInfo as mail where mail.adminInfoId = ?";
+        String sql = "select mail.mailAccount, mail.mailPwd, mail.mailTemplate from THngyMailInfo as mail where mail" +
+                ".adminInfoId = ?";
         List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(id)}, sql);
         if (list.size() == 0) {
             return Config.NO;
         }
-        return JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"account", "pwd"}));
+        return JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"account", "pwd",
+                "template_text"}));
     }
 
     @Override
@@ -815,7 +817,7 @@ public class AdminServiceImpl implements AdminService {
         List<THngyMailInfo> list = mailInfoRepository.findAll();
         for (int i = 0; i < list.size(); i++) {
             THngyMailInfo mailInfo = list.get(i);
-            if (String.valueOf(mailInfo.getAdminInfoId()).equals(id)){
+            if (String.valueOf(mailInfo.getAdminInfoId()).equals(id)) {
                 System.out.println("邮箱信息修改");
                 mailInfo.setMailAccount(acoount);
                 mailInfo.setMailPwd(pwd);
@@ -831,6 +833,21 @@ public class AdminServiceImpl implements AdminService {
         mailInfo1.setMailPwd(pwd);
         mailInfo1.setMailTemplate("*************************");
         mainRepository.save(mailInfo1);
+        return Config.OK;
+    }
+
+    @Override
+    public String updateMailInfo1(String id, String template_text) {
+        List<THngyMailInfo> list = mailInfoRepository.findAll();
+        for (int i = 0; i < list.size(); i++) {
+            THngyMailInfo mailInfo = list.get(i);
+            if (String.valueOf(mailInfo.getAdminInfoId()).equals(id)) {
+                mailInfo.setMailTemplate(template_text);
+                mainRepository.update(mailInfo);
+//                mailInfoRepository.save(mailInfo);
+                return Config.OK;
+            }
+        }
         return Config.OK;
     }
 }

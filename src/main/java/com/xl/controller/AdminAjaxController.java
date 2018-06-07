@@ -434,6 +434,12 @@ public class AdminAjaxController {
         return adminService.updateMailInfo(session.getAttribute("id") + "", acoount, pwd);
     }
 
+    @RequestMapping(value = "updateMainInfo1", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String updateMainInfo1(HttpSession session, String template_text) {
+        return adminService.updateMailInfo1(session.getAttribute("id") + "", template_text);
+    }
+
 
 //    @RequestMapping(value = "getAllTeacher", produces = "text/html;charset=UTF-8;")
 //    @ResponseBody

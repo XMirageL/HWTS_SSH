@@ -107,11 +107,14 @@
                             <div class="widget-content padded">
                                 <div class="widget-content padded">
                                     <form action="./" role="form" method="post">
-                                        <div class="alert alert-info alert-dismissable" style="background: #d9edf7;color: #31708f;">
+                                        <div class="alert alert-info alert-dismissable"
+                                             style="background: #d9edf7;color: #31708f;">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                                ×</button>
+                                                ×
+                                            </button>
                                             <p>
-                                                每个管理员需要配置自己的发信信息，用于发布任务时作提醒邮件发送<br>【注意：任何修改QQ密码的操作，都将重置QQ邮箱授权码，所以如果改了QQ密码，请重新获取并设置授权码】</p>
+                                                每个管理员需要配置自己的发信信息，用于发布任务时作提醒邮件发送<br>【注意：任何修改QQ密码的操作，都将重置QQ邮箱授权码，所以如果改了QQ密码，请重新获取并设置授权码】
+                                            </p>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
@@ -138,19 +141,21 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-addon"><strong>邮箱账号：</strong></div>
-                                                <input id="mail_account" type="text" class="form-control" name="mail_name"
-                                                       >
+                                                <input id="mail_account" type="text" class="form-control"
+                                                       name="mail_name"
+                                                >
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-addon"><strong>邮箱授权码：</strong></div>
                                                 <input id="mail_pwd" type="text" class="form-control" name="mail_pwd"
-                                                       >
+                                                >
                                             </div>
                                         </div>
                                         <span class="help-block text-center">如果为QQ邮箱需先开通SMTP，且要填写QQ邮箱独立密码。邮箱SMTP服务器可以百度一下，例如QQ邮箱的即为 smtp.qq.com。邮箱SMTP端口默认为25，SSL的端口是465。<a
-                                                href="http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=1001256" target="_blank">【详情帮助】</a></span>
+                                                href="http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=1001256"
+                                                target="_blank">【详情帮助】</a></span>
                                         <div class="form-group">
                                             <input type="button" name="submit" value="保存设置"
                                             <%--onclick="if(!confirm('是否确认？')) return false;"--%>
@@ -163,6 +168,48 @@
                         </div>
                     </div>
                     <!--资料卡结束-->
+
+                    <div class="col-sm-6">
+                        <div class="widget">
+                            <div class="widget-content themed-background text-light-op">
+                                <i class="fa fa-fw fa-pencil"></i> <strong>发信模板配置</strong>
+                            </div>
+                            <div class="widget-content padded">
+                                <div class="widget-content padded">
+                                    <form action="./" role="form" method="post">
+                                        <div class="alert alert-info alert-dismissable"
+                                             style="background: #d9edf7;color: #31708f;">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <p>
+                                                不会配置请不要乱配置，不会按默认配置即可。此模板配置支持HTML5语句。<br>变量如下：<br>
+
+                                                <a class="btn btn-primary btn-xs">[teacher_name]</a>：接受邮件的教师名称</p>
+                                                <a class="btn btn-primary btn-xs">[work_name]</a>：任务名称</p>
+                                                <a class="btn btn-primary btn-xs">[work_time_start]</a>：任务开始时间</p>
+                                                <a class="btn btn-primary btn-xs">[work_time_end]</a>：任务开始时间</p>
+                                                <a class="btn btn-primary btn-xs">[status]</a>：任务时间点触发的状态名称（已下发，已开始，已结束...）</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><strong>模板内容：</strong></div>
+                                                <textarea type="text" class="form-control" rows="4" id="template"></textarea>
+                                            </div>
+                                        </div>
+                                        <span class="help-block text-center">您可以在这里预览您的HTML5效果<a
+                                                href="http://www.w3school.com.cn/tiy/t.asp?f=html_intro"
+                                                target="_blank">【点击尝试】</a></span>
+                                        <div class="form-group">
+                                            <input type="button" name="submit" value="保存设置"
+                                            <%--onclick="if(!confirm('是否确认？')) return false;"--%>
+                                                   class="btn btn-info btn-block" id="btn_mail1">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div>

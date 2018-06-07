@@ -207,9 +207,11 @@ public interface AdminService {
 
     String deleteTask(String taskid);
 
-    String setMailTest(String acoount,String pwd);
+    String setMailTest(String acoount, String pwd);
 
     String getMailInfo(String id);
 
-    String updateMailInfo(String id, String acoount,String pwd);
+    String updateMailInfo(String id, String acoount, String pwd);
+
+    String updateMailInfo1(String id, String template_text);
 }
