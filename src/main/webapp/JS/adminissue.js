@@ -26,7 +26,7 @@ $(document).ready(function () {
 
             swal({
                 title: "确认发布吗？",
-                text: "提交运行ajax请求",
+                text: "",
                 type: "info",
                 showCancelButton: true,
                 closeOnConfirm: false,

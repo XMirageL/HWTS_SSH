@@ -831,7 +831,8 @@ public class AdminServiceImpl implements AdminService {
         mailInfo1.setMailAccount(acoount);
         mailInfo1.setAdminInfoId(Long.parseLong(id));
         mailInfo1.setMailPwd(pwd);
-        mailInfo1.setMailTemplate("*************************");
+        mailInfo1.setMailTemplate("<h2>您好，[teacher_name]，您的任务[work_name][status]，开始时间为[work_time_start" +
+                "]，结束时间为[work_time_end]，请知悉。</h2>");
         mainRepository.save(mailInfo1);
         return Config.OK;
     }
@@ -846,6 +847,62 @@ public class AdminServiceImpl implements AdminService {
                 mainRepository.update(mailInfo);
 //                mailInfoRepository.save(mailInfo);
                 return Config.OK;
+            }
+        }
+        return Config.OK;
+    }
+
+    /**
+     * 发信请求方法
+     *
+     * @param adminId 发信人ID (管理员)
+     * @param task_id 任务ID
+     * @param status  任务要通知的状态(0 已下发, 1 已开始, 2 已完成 3 已结束)
+     * @return 201 = 此管理员未配置发信信息
+     */
+    @Override
+    public String setMailSend1(String adminId, String task_id, String status) {
+        String sql = "SELECT mail.mailAccount, mail.mailPwd, mail.mailTemplate from THngyMailInfo as mail where mail" +
+                ".adminInfoId = ?";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{Long.parseLong(adminId)}, sql);
+        if (list.size() == 0) {
+            return Config.NO;
+        }
+        Object[] objects = list.get(0);
+        String mail_Account = objects[0].toString();            //发信帐号
+        String mail_pwd = objects[1].toString();                //发信授权码
+        String mail_template = objects[2].toString();           //发信模板
+        sql = "SELECT link.teacherId, teacher.teacherName , work.workTaskName, work.workTaskTime1, work" +
+                ".workTaskTime3, teacher.teacherEmail FROM THngyWorkTask as work , THngyLink as link, " +
+                "THngyTeacherInfo as teacher WHERE work.workTaskId = link.workTaskId and link.teacherId = teacher" +
+                ".teacherId and work.workTaskId = ?";
+        List<Object[]> list_teacher = mainRepository.complexQuery(new Object[]{Long.parseLong(task_id)}, sql);
+        String[] teacher_id = new String[list_teacher.size()];     //存储所有要发送邮件的教师的id
+        String[] teacher_name = new String[list_teacher.size()];     //存储所有要发送邮件的教师的名称
+        String[] teacher_mail = new String[list_teacher.size()];     //存储所有要发送邮件的教师的邮件地址
+        String taskTitle = "";                                  //存放 任务标题
+        String taskTime1 = "";                                  //存放 任务起始时间
+        String taskTime2 = "";                                  //存放 任务结束时间
+        for (int i = 0; i < list_teacher.size(); i++) {
+            Object[] object_teacher = list_teacher.get(i);
+            teacher_id[i] = object_teacher[0].toString();
+            teacher_name[i] = object_teacher[1].toString();
+            taskTitle = object_teacher[2].toString();
+            taskTime1 = object_teacher[3].toString().substring(0, object_teacher[2].toString().length() - 2);
+            taskTime2 = object_teacher[4].toString().substring(0, object_teacher[2].toString().length() - 2);
+            teacher_mail[i] = object_teacher[5].toString();
+        }
+        String[] text = MainUtil.getTemplateToText(mail_template, status, teacher_name, taskTitle, taskTime1,
+                taskTime2);   //模板转换后的文本
+        SendMail sendMail = new SendMail();
+        for (int i = 0; i < list_teacher.size(); i++) {
+            String[] to = new String[1];
+            to[0] = teacher_mail[i];
+            if (sendMail.send1("任务分发系统提醒", text[i], to, mail_Account, mail_pwd)){
+                System.out.println(teacher_name[i]+"已成功发送邮件");
+            } else {
+                System.out.println(teacher_name[i]+"发送邮件失败");
+                return "202";
             }
         }
         return Config.OK;

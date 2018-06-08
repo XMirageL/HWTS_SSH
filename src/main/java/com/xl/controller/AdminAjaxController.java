@@ -102,7 +102,11 @@ public class AdminAjaxController {
 
                 String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                 System.out.println(time);
-
+                if (adminService.setMailSend1(session.getAttribute("id") + "", workId, "2").equals(Config.OK)) {
+                    System.out.println("任务完成提醒邮件已群发至教师");
+                } else {
+                    System.out.println("任务完成提醒邮件群发失败");
+                }
                 tHngyWorkTask.setWorkTaskTime2(java.sql.Timestamp.valueOf(time));
             } else {
                 tHngyWorkTask.setWorkTaskTime2(null);
@@ -404,6 +408,14 @@ public class AdminAjaxController {
     public String setTaskStatus(HttpSession session, String status, String taskId) {
         String json = Config.NO;
         adminService.updateTaskStatus(status, taskId);
+        if (status.equals("1")) {
+        } else {
+            if (adminService.setMailSend1(session.getAttribute("id") + "", taskId, "2").equals(Config.OK)) {
+                System.out.println("任务完成提醒邮件已群发至教师");
+            } else {
+                System.out.println("任务完成提醒邮件群发失败");
+            }
+        }
         return Config.OK;
     }
 
@@ -440,6 +452,11 @@ public class AdminAjaxController {
         return adminService.updateMailInfo1(session.getAttribute("id") + "", template_text);
     }
 
+    @RequestMapping(value = "setMailSend1", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String setMailSend1(HttpSession session, String id, String status) {
+        return adminService.setMailSend1(session.getAttribute("id") + "", id, status);
+    }
 
 //    @RequestMapping(value = "getAllTeacher", produces = "text/html;charset=UTF-8;")
 //    @ResponseBody

@@ -9,11 +9,11 @@ public class Config
     /***
      * 发件人邮箱
      */
-    public static final String FromMail = "438893761@qq.com";
+    public static final String FromMail = "44658735@qq.com";
     /***
      * 发件人邮箱授权码
      */
-    public static final String EmailPassWorld = "lzeedrybyavuibad";
+    public static final String EmailPassWorld = "qzencgbvgftgcbbb";
     /***
      * 登录
      */

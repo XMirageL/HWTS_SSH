@@ -14,7 +14,7 @@ if (id != null) {
 
             var info = data[0];
             if (info == null) {
-                alert("获取数据失败");
+                swal("服务器错误", "","error");
                 window.history.go(-1);
             }
             $("#title").val(info.taskName);
@@ -68,11 +68,42 @@ function setPoint() {
     });
 }
 
+
 $("#sendEmail").click(function () {
     swal({
-        title: "该功能正在内测中",
+        title: "确认发邮件通知老师吗",
+        text: "发信之前请检查【发信配置】页面是否配置好发信信息，否则将发送失败",
+        type: "info",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+    }, function () {
+        $.ajax({
+            type: "POST",
+            url: "/setMailSend1",
+            error: function () {
+                //服务器返回失败调用的方法
+                alert("服务器错误");
+            },
+            data: {id: id, status: 0},
+            dataType: "json",
+            success: function (data) {
+                if (data == 201 || data == "201"){
+                    swal("请先配置发信信息", "检测到未配置发信信息，无法发信！请前往【发信配置】处配置您的发信信息","error");
+                } else if (data == 202 || data == "202"){
+                    swal("发送失败", "请检测发信授权码是否正确/过期","error");
+                } else if (data == 200 || data == "200"){
+                    swal("已发送完毕", "老师已得到邮件提醒","success");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+            }
+        });
     });
-})
+});
 
 $("#editInfo").click(function () {
     old_teache += $('#select_teacher').val();
@@ -117,7 +148,7 @@ $("#saveInfo").click(function () {
         if (id != null) {
             swal({
                 title: "确认保存吗？",
-                text: "提交运行ajax请求",
+                text: "",
                 type: "info",
                 showCancelButton: true,
                 closeOnConfirm: false,

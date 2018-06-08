@@ -214,4 +214,13 @@ public interface AdminService {
     String updateMailInfo(String id, String acoount, String pwd);
 
     String updateMailInfo1(String id, String template_text);
+
+    /**
+     * 发信请求方法
+     * @param adminId 发信人ID (管理员)
+     * @param task_id 任务ID
+     * @param status 任务要通知的状态(0 已下发, 1 已开始, 2 已完成 3 已结束)
+     * @return
+     */
+    String setMailSend1(String adminId,String task_id, String status);
 }

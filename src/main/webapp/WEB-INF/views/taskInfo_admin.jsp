@@ -169,8 +169,7 @@
 
                                             <div class="col-lg-7" id="teachers">
                                                 <input id="sendEmail" type="button" class="btn btn-sm btn-info"
-                                                       data-toggle="tooltip"
-                                                       data-placement="top" title="发送邮件给相应老师" value="发邮件"
+                                                     value="发邮件"
                                                        style="float: right;">
 
                                             </div>

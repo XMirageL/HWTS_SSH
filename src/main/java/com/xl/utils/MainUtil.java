@@ -49,7 +49,7 @@ public class MainUtil {
         map.put("kindId", object1[9].toString());
         map.put("kindText", object1[8].toString());
         map.put("taskDate1", String.valueOf(object1[10]).substring(0, String.valueOf(object1[10]).length() - 2));
-        if (object1[11] == null){
+        if (object1[11] == null) {
             map.put("taskDate2", "");
         } else {
             map.put("taskDate2", String.valueOf(object1[11]).substring(0, String.valueOf(object1[11]).length() - 2));
@@ -102,7 +102,7 @@ public class MainUtil {
         for (int i = 0; i < listWork.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             Object[] object1 = listWork.get(i);
-            if (!object1[7].toString().equals(status)){
+            if (!object1[7].toString().equals(status)) {
                 continue;
             }
             flag = object1[0];
@@ -119,10 +119,10 @@ public class MainUtil {
             }
 
             map.put("taskId", object1[0]);
-            map.put("taskTime", object1[1].toString().substring(0,10));
+            map.put("taskTime", object1[1].toString().substring(0, 10));
             map.put("taskName", object1[2]);
-            map.put("taskTeacherName", teacherName.substring(0,teacherName.length()-1));
-            map.put("taskTeacherID", teacherId.substring(0,teacherId.length()-1));
+            map.put("taskTeacherName", teacherName.substring(0, teacherName.length() - 1));
+            map.put("taskTeacherID", teacherId.substring(0, teacherId.length() - 1));
             map.put("taskAdminName", object1[5]);
             map.put("taskAdminId", object1[6]);
             map.put("taskStatus", object1[7]);
@@ -155,15 +155,15 @@ public class MainUtil {
             }
 
             map.put("taskId", object1[0]);
-            map.put("taskTime", object1[1].toString().substring(0,10));
+            map.put("taskTime", object1[1].toString().substring(0, 10));
             map.put("taskName", object1[2]);
-            map.put("taskTeacherName", teacherName.substring(0,teacherName.length()-1));
-            map.put("taskTeacherID", teacherId.substring(0,teacherId.length()-1));
+            map.put("taskTeacherName", teacherName.substring(0, teacherName.length() - 1));
+            map.put("taskTeacherID", teacherId.substring(0, teacherId.length() - 1));
             map.put("taskAdminName", object1[5]);
             map.put("taskAdminId", object1[6]);
             map.put("taskStatus", object1[7]);
-            map.put("startDate", object1[8].toString().substring(0,10));
-            map.put("endDate", object1[9].toString().substring(0,10));
+            map.put("startDate", object1[8].toString().substring(0, 10));
+            map.put("endDate", object1[9].toString().substring(0, 10));
             list.add(map);
             teacherId = "";
             teacherName = "";
@@ -243,5 +243,31 @@ public class MainUtil {
             list.add(map);
         }
         return list;
+    }
+
+    public static String[] getTemplateToText(String template, String status, String[] teacher_name, String
+            task_title, String task_time1, String task_time2) {
+        String[] text = new String[teacher_name.length];
+        String sta = "";
+        if (status.equals("0")) {
+            sta = "已下发";
+        } else if (sta.equals("1")) {
+            sta = "已开始";
+        } else if (sta.equals("2")) {
+            sta = "已完成";
+        } else if (sta.equals("3")) {
+            sta = "已结束";
+        }
+        for (int i = 0; i < text.length; i++) {
+            String tem = template;
+            tem = tem.replace("[teacher_name]", teacher_name[i]);
+            tem = tem.replace("[work_name]", task_title);
+            tem = tem.replace("[status]", sta);
+            tem = tem.replace("[work_time_start]", task_time1);
+            tem = tem.replace("[work_time_end]", task_time2);
+            System.out.println(tem);
+            text[i] = tem;
+        }
+        return text;
     }
 }
