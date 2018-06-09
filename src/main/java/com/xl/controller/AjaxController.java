@@ -7,9 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /***
@@ -90,4 +93,16 @@ public class AjaxController {
         }
         return code;
     }
+
+    @RequestMapping(value = "getCronTest", produces = "text/html;charset=UTF-8;")
+    @ResponseBody
+    public String getCronTest(HttpSession session) {
+        String code = Config.NO;
+        if (mainService.saveCronInfo() == Config.OK) {
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            System.out.println("监控守护：此次监控任务已完成，时间：" + time);
+        }
+        return code;
+    }
+
 }

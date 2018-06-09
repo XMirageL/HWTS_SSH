@@ -65,8 +65,10 @@ public class SendMail {
             transport.sendMessage(message, message.getAllRecipients());// 发送邮件
         } catch (Exception e) {
             right = false;
-            e.printStackTrace();
-            System.err.println("！！！！！！邮件发送出现异常，club.zslsj.utils包下SendMail类的send方法！！！！！！");
+
+            System.out.println("邮件发送失败，请检查授权码是否配置正确！帐号：" + account);
+//            e.printStackTrace();
+//            System.err.println("！！！！！！邮件发送出现异常，club.zslsj.utils包下SendMail类的send方法！！！！！！");
             return false;
         }
         return true;
@@ -100,8 +102,8 @@ public class SendMail {
             transport.sendMessage(message, message.getAllRecipients());// 发送邮件
         } catch (Exception e) {
             right = false;
-            e.printStackTrace();
-            System.err.println("！！！！！！邮件发送出现异常，club.zslsj.utils包下SendMail类的send方法！！！！！！");
+//            e.printStackTrace();
+//            System.err.println("邮件发送失败，请检查授权码是否配置正确！帐号：");
             return false;
         }
         return right;

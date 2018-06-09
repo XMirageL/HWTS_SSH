@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -119,7 +120,7 @@ public class MainController {
      * 根据用户类型返回相应的界面
      */
     @GetMapping(value = "/taskInfo")
-    public String taskInfo(HttpSession session,HttpServletRequest req) {
+    public String taskInfo(HttpSession session, HttpServletRequest req) {
         String userType = (String) session.getAttribute("userType");
 
         if (userType.equals("0")) {
@@ -174,6 +175,13 @@ public class MainController {
     @GetMapping(value = "notLogin")
     public String notLogin(HttpServletRequest request) {
         return "notLogin";
+    }
+
+
+    @RequestMapping(value = "/testwo")
+    @ResponseBody
+    public String test111(HttpServletRequest request) {
+        return mainService.getCronSend();
     }
 
 

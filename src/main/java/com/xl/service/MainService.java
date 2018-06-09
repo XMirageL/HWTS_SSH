@@ -31,4 +31,19 @@ public interface MainService {
      * @return
      */
     String getAdminInfo(String name);
+
+    /**
+     * 监控操作1 轮训检查是否有符合条件的任务 有则入库
+     * @return
+     */
+    String saveCronInfo();
+
+    String saveCronInfo_fun1(Long task_id, String status);
+
+    /***
+     * 监控操作2
+     * @return
+     */
+    String getCronSend();
+
 }

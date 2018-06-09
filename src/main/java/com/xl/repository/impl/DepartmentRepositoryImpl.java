@@ -52,11 +52,11 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
     @Override
     public void delete(Long id) {
-
+        getSession().delete(getSession().load(THngyDepartment.class, id));
     }
 
     @Override
     public void flush() {
-
+        getSession().flush();
     }
 }

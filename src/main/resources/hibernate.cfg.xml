@@ -41,6 +41,7 @@
         <mapping class="com.xl.entity.THngySAdminInfo"/>
         <mapping class="com.xl.entity.THngyKindsTask"/>
         <mapping class="com.xl.entity.THngyMailInfo"/>
+        <mapping class="com.xl.entity.THngyCronInfo"/>
 
 
     </session-factory>

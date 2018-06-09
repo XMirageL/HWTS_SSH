@@ -102,9 +102,10 @@
             <div class="col-md-12">
                 <div class="info-text">
                     <p>该系统特点：</p>
-                    <p><i class="fa fa-check"></i>&nbsp;1.老师可以登录查看任务</p>
-                    <p><i class="fa fa-check"></i>&nbsp;2.管理员可分配给老师们新任务</p>
+                    <p><i class="fa fa-check"></i>&nbsp;1.每个教师可查看自身的任务</p>
+                    <p><i class="fa fa-check"></i>&nbsp;2.管理员一键分配任务</p>
                     <p><i class="fa fa-check"></i>&nbsp;3.系统合理智能分配任务</p>
+                    <p><i class="fa fa-check"></i>&nbsp;4.邮件定时提醒功能</p>
                 </div>
             </div>
         </div>

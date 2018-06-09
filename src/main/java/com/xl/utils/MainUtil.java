@@ -3,10 +3,9 @@ package com.xl.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.xl.entity.WorkInfo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MainUtil {
     public static List<Map<String, Object>> getWorkInfoUti_main(List<Object[]> listWork, Object[] objects) {
@@ -269,5 +268,18 @@ public class MainUtil {
             text[i] = tem;
         }
         return text;
+    }
+
+    public static int getGapCount(String startDate, String endDate) {
+        Date adddate = null;
+        Date enddate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            adddate = sdf.parse(startDate);
+            enddate = sdf.parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return (int) ((adddate.getTime() - enddate.getTime()) / (1000 * 60 * 60 * 24));
     }
 }
