@@ -16,7 +16,8 @@ public interface MainService {
      * @param httpSession   把查询到用户或管理员信息存到session里，以便拦截某些需要登录的页面
      * @return 返回一个状态码（在utils包里的Config类里都这些状态码）
      */
-    String VerificationLogin(String inputEmail, String inputPassword, String autoLogin, HttpSession httpSession, HttpServletResponse response);
+    String VerificationLogin(String inputEmail, String inputPassword, String autoLogin, HttpSession httpSession,
+                             HttpServletResponse response);
 
     /**
      * 根据id获取用户数据
@@ -27,6 +28,7 @@ public interface MainService {
 
     /**
      * 获取管理员信息
+     *
      * @param name
      * @return
      */
@@ -34,6 +36,7 @@ public interface MainService {
 
     /**
      * 监控操作1 轮训检查是否有符合条件的任务 有则入库
+     *
      * @return
      */
     String saveCronInfo();
@@ -44,6 +47,6 @@ public interface MainService {
      * 监控操作2
      * @return
      */
-    String getCronSend();
+    String updateCronSend();
 
 }

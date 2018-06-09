@@ -40,18 +40,19 @@ public class TimeTask extends TimerTask {
         /**
          * 此处写执行任务代码
          */
-        Date date = new Date();
-        if (date.getHours() == Config.Cron_Send_Time && date.getMinutes() <= 60) {
-            // 发信时间段
-            if (mainService.getCronSend() == Config.OK) {
-                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                System.out.println("======监控守护：此次发信任务已完成，时间：" + time+"======");
-            }
-        } else {
-            // 循环检测时间段
-            if (mainService.saveCronInfo() == Config.OK) {
-                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                System.out.println("======监控守护：此次监控任务已完成，时间：" + time+"======");
+        if (Config.Cron_On == 1) {
+            Date date = new Date();
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            if (date.getHours() == Config.Cron_Send_Time && date.getMinutes() <= 60) {
+                // 发信时间段
+                if (mainService.updateCronSend() == Config.OK) {
+                    System.out.println("======监控守护：此次发信任务已完成，时间：" + time + "======");
+                }
+            } else {
+                // 循环检测时间段
+                if (mainService.saveCronInfo() == Config.OK) {
+                    System.out.println("======监控守护：此次监控任务已完成，时间：" + time + "======");
+                }
             }
         }
 //        context.log("指定任务执行结束");

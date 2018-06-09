@@ -25,6 +25,17 @@ public class SAdminAjaxController {
         return "sadmin";
     }
 
+
+    /***
+     * 进入超管添加系部页面
+     * @return
+     */
+    @GetMapping(value = "/sadmin_dep")
+    public String sadmin_dep() {
+
+        return "sadmin_dep";
+    }
+
     /***
      * 获取当前所有系部
      * @return
@@ -116,6 +127,36 @@ public class SAdminAjaxController {
     public String sadmin_del(String text) {
         String code = Config.Code201;
         code = sAdminService.deleteAdmin(text);
+        return code;
+    }
+
+    /**
+     * 增加系部
+     *
+     * @param dep_name
+     * @return
+     */
+    @RequestMapping(value = "/sadmin_add_dep", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String sadmin_add_dep(String dep_name) {
+        String code = Config.Code201;
+        code = sAdminService.addDepartment(dep_name);
+        return code;
+    }
+
+    @RequestMapping(value = "/sadmin_get_dep", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String sadmin_get_dep() {
+        String code = Config.Code201;
+        code = sAdminService.getAllDepartment();
+        return code;
+    }
+
+    @RequestMapping(value = "/sadmin_update_dep", produces = "text/html;charset=UTF-8;")
+    @ResponseBody//表示直接输出返回内容，不进行jsp或html跳转，本例是为了写接口，这里直接返回json
+    public String sadmin_update_dep(String dep_Id, String dep_name) {
+        String code = Config.Code201;
+        code = sAdminService.updateDepartment(dep_name, dep_Id);
         return code;
     }
 }

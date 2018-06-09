@@ -10,17 +10,18 @@ public class Config
     /***
      * 邮件监控属性配置
      */
+    public static final int Cron_On = 0;      //是否开启邮件监控  1开启 0关闭
     public static final int Cron_day = 3;    //任务结束前几天提醒
-    public static final int Cron_Send_Time = 15;    //每日几点开始发送提醒邮件 往后半个小时都是发送时间段 其他时间为轮训检测
+    public static final int Cron_Send_Time = 16;    //每日几点开始发送提醒邮件 往后半个小时都是发送时间段 其他时间为轮训检测
 
     /***
      * 发件人邮箱
      */
-    public static final String FromMail = "44658735@qq.com";
+    public static final String FromMail = "1776885812@qq.com";
     /***
      * 发件人邮箱授权码
      */
-    public static final String EmailPassWorld = "qzencgbvgftgcbbb";
+    public static final String EmailPassWorld = "wuipxjcynupxebcd";
     /***
      * 登录
      */

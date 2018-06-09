@@ -239,11 +239,11 @@ public class MainServiceImpl implements MainService {
      * @return
      */
     @Override
-    public String getCronSend() {
+    public String updateCronSend() {
         String sql = "SELECT cron.cronId, cron.workTaskId, cron.cronStatus FROM THngyCronInfo as cron WHERE cron" +
                 ".cronStatus != '0'";
         List<Object[]> list = mainRepository.complexQuery(new Object[]{}, sql);
-        for (int i = 0; i < list.size() || i < 5; i++) {
+        for (int i = 0; i < list.size() && i < 5; i++) {
             Object[] objects = list.get(i);
             String status = "";
             if (objects[2].toString() == "1") {
@@ -306,7 +306,7 @@ public class MainServiceImpl implements MainService {
             cronInfo.setWorkTaskId(Long.parseLong(objects[0].toString()));
             cronInfo.setWorkTaskId(Long.parseLong(objects[1].toString()));
             cronInfo.setCronStatus("0");
-            cronInfoRepository.save(cronInfo);
+            mainRepository.update(cronInfo);
         }
         return Config.OK;
     }

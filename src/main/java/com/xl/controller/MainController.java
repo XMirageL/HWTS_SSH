@@ -178,11 +178,11 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = "/testwo")
-    @ResponseBody
-    public String test111(HttpServletRequest request) {
-        return mainService.getCronSend();
-    }
+//    @RequestMapping(value = "/testwo")
+//    @ResponseBody
+//    public String test111(HttpServletRequest request) {
+//        return mainService.getCronSend();
+//    }
 
 
 }

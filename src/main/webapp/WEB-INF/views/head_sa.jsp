@@ -26,7 +26,12 @@
                     <li>
                         <a id="user" href="/sadmin" <% if (url.equals("/WEB-INF/views/sadmin.jsp")){%>class="active" <%}%>><i
                                 class="fa fa-child sidebar-nav-icon"></i><span
-                                class="sidebar-nav-mini-hide">超管中心</span></a>
+                                class="sidebar-nav-mini-hide">添加管理员</span></a>
+                    </li>
+                    <li>
+                        <a id="user1" href="/sadmin_dep" <% if (url.equals("/WEB-INF/views/sadmin_dep.jsp")){%>class="active" <%}%>><i
+                                class="fa fa-clone sidebar-nav-icon"></i><span
+                                class="sidebar-nav-mini-hide">系部管理</span></a>
                     </li>
                     <li>
                         <a id="index" href="/loginOut"><i class="fa fa-power-off sidebar-nav-icon"></i><span

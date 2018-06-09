@@ -40,6 +40,9 @@ public class SendMail {
     public boolean send1(String title, String Text, String[] toEmail, String account, String pwd) {
 //        System.out.println(title + " " + Text + " " + toEmail[0] + " " + account + " " + pwd);
         //返回一个标识，邮件是否发送成功了
+        for (int i = 0; i < toEmail.length; i++) {
+            System.out.println("接受列表：" + toEmail[i]);
+        }
         boolean right = true;
         try {
             InternetAddress[] internetAddresses = getInternetAddresses(toEmail);
@@ -62,6 +65,7 @@ public class SendMail {
             message.setText(Text);
             Transport transport = session.getTransport();
             transport.connect(account, pwd);// 密码为授权码
+            System.out.println("帐号" + account + "授权码" + pwd);
             transport.sendMessage(message, message.getAllRecipients());// 发送邮件
         } catch (Exception e) {
             right = false;

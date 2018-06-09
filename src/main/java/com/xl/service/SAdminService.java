@@ -44,4 +44,17 @@ public interface SAdminService {
      * @return
      */
     String deleteAdmin(String text);
+
+    /**
+     * 增加系部
+     * @param dep_name
+     * @return
+     */
+    String addDepartment(String dep_name);
+
+    String getDepartment();
+
+    String updateDepartment(String dep_name, String dep_id);
+
+
 }

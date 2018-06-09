@@ -10,6 +10,7 @@ import com.xl.repository.impl.MainRepositoryImpl;
 import com.xl.repository.impl.SAdminRepositoryImpl;
 import com.xl.service.SAdminService;
 import com.xl.utils.Config;
+import com.xl.utils.MainUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -158,5 +159,39 @@ public class SAdminServiceImpl implements SAdminService {
         }
 //        System.out.println(ob.toString());
         return Config.Code200;
+    }
+
+    /**
+     * 增加系部
+     *
+     * @param dep_name
+     * @return
+     */
+    @Override
+    public String addDepartment(String dep_name) {
+        THngyDepartment department = new THngyDepartment();
+        department.setDepartmentName(dep_name);
+        departmentRepository.save(department);
+        return Config.OK;
+    }
+
+    @Override
+    public String getDepartment() {
+        String hql = "SELECT dep.departmentId, dep.departmentName FROM THngyDepartment as dep";
+        List<Object[]> list = mainRepository.complexQuery(new Object[]{}, hql);
+        if (list.size() == 0) {
+            return null;
+        }
+        return JSONArray.toJSONString(MainUtil.getWorkInfoUti_main(list, new Object[]{"did", "dname"}));
+    }
+
+    @Override
+    public String updateDepartment(String dep_name, String dep_id) {
+        System.out.println(dep_name + " " + dep_id);
+        THngyDepartment department = new THngyDepartment();
+        department.setDepartmentName(dep_name);
+        department.setDepartmentId(Long.parseLong(dep_id));
+        mainRepository.update(department);
+        return Config.OK;
     }
 }

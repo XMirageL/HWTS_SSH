@@ -73,7 +73,7 @@ public class MainRepositoryImpl implements MainRepository {
     }
 
     public void hqltest() {
-        String hql = "SELECT mail.mailAccount, mail.mailPwd, mail.mailTemplate FROM THngyCronInfo as cron, THngyWorkTask as work, THngyAdminInfo as admin, THngyMailInfo as mail WHERE cron.workTaskId = work.workTaskId and work.qq = admin.adminInfoQq and admin.adminInfoId = mail.adminInfoId and cron.cronId = ?";
+        String hql = "SELECT dep.departmentId, dep.departmentName FROM THngyDepartment as dep";
         Query query = getSession().createQuery(hql);
     }
 
