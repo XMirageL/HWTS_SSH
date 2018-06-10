@@ -248,14 +248,18 @@ public class MainUtil {
             task_title, String task_time1, String task_time2) {
         String[] text = new String[teacher_name.length];
         String sta = "";
+        System.out.println("::::::::::::" + status);
         if (status.equals("0")) {
             sta = "已下发";
-        } else if (sta.equals("1")) {
+        } else if (status.equals("1")) {
             sta = "已开始";
-        } else if (sta.equals("2")) {
+            System.out.println("::::::::::::" + sta);
+        } else if (status.equals("2")) {
             sta = "已完成";
-        } else if (sta.equals("3")) {
+        } else if (status.equals("3")) {
             sta = "已结束";
+        } else if (status.equals("4")) {
+            sta = "离结束还有" + Config.Cron_day + "天";
         }
         for (int i = 0; i < text.length; i++) {
             String tem = template;

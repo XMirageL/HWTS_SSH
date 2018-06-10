@@ -110,7 +110,7 @@
                                         <input type="hidden" name="do" value="add">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <div class="input-group-addon"><strong>时间：</strong></div>
+                                                <div class="input-group-addon"><strong>发布时间：</strong></div>
                                                 <input type="text" id="select_hyear"
                                                        class="form-control input-datepicker"
                                                        data-date-format="yyyy-mm-dd">

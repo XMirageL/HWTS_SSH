@@ -16,6 +16,7 @@ import sun.rmi.runtime.Log;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -158,7 +159,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         //某原因 需要加1才是实际查询日期 后期排查修复
-        date2.setDate(date2.getDate() + 1);
+//        date2.setDate(date2.getDate() + 1);
         //查没有任务的
         String hql = "select teacher.teacherId,teacher.teacherName from THngyTeacherInfo as teacher, THngyStaffRoom  " +
                 "as staff where teacher.staffRoomId = staff.staffRoomId and staff.departmentId = " + dep + " and " +
@@ -268,11 +269,24 @@ public class AdminServiceImpl implements AdminService {
     public String saveTaskTeacherLinkInfo(long did, String workName, String teacher, String kinds, String workText,
                                           String qq, String startDate, String endDate) {
         //获取当前时间,保存任务信息
+        System.out.println(":::::::::" + startDate + " " + endDate);
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date start = null;
+        Date end = null;
+        try {
+            //未知原因导致存储到数据库会减少 一天 暂时做这种弥补措施 后期再排查
+            start = sdf.parse(startDate + " 00:00:00");
+            start.setDate(start.getDate() + 1);
+            end = sdf.parse(endDate + " 00:00:00");
+            end.setDate(end.getDate() + 1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         int M = Integer.parseInt((String) time.subSequence(5, 7));
         THngyWorkTask tHngyWorkTask = new THngyWorkTask();
-        tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(time));
-        tHngyWorkTask.setWorkTaskTime1(java.sql.Timestamp.valueOf(startDate + " 00:00:00"));
+        tHngyWorkTask.setWorkTaskTime(java.sql.Timestamp.valueOf(sdf.format(start)));
+        tHngyWorkTask.setWorkTaskTime1(java.sql.Timestamp.valueOf(sdf.format(end)));
         tHngyWorkTask.setWorkTaskTime2(null);
         tHngyWorkTask.setWorkTaskTime3(java.sql.Timestamp.valueOf(endDate + " 00:00:00"));
         tHngyWorkTask.setWorkTaskName(workName);
@@ -420,14 +434,14 @@ public class AdminServiceImpl implements AdminService {
     public List<Map<String, Object>> taskReportsQuery2(String dep, java.sql.Date date1, java.sql.Date date2, String
             status, String admin) {
         //某原因 需要加1才是实际查询日期 后期排查修复
-        date2.setDate(date2.getDate() + 1);
+//        date2.setDate(date2.getDate() + 1);
 
         System.out.println(status + " " + admin);
         String hql = "";
         if (status.equals("0") && admin.equals("0")) {
             //两个 -
             hql = "select work.workTaskId,work.workTaskTime,work.workTaskName,teacher.teacherName,teacher.teacherId, " +
-                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule from THngyWorkTask as work ," +
+                    "admin.adminInfoName, admin.adminInfoId, work.workTaskSchedule, work.workTaskTime1, work.workTaskTime3 from THngyWorkTask as work ," +
                     "THngyLink " +
                     "as link,THngyTeacherInfo as teacher, THngyAdminInfo as admin where work.departmentId = " + dep +
                     " and link.workTaskId = work" +
@@ -898,10 +912,10 @@ public class AdminServiceImpl implements AdminService {
         for (int i = 0; i < list_teacher.size(); i++) {
             String[] to = new String[1];
             to[0] = teacher_mail[i];
-            if (sendMail.send1("任务分发系统提醒", text[i], to, mail_Account, mail_pwd)){
-                System.out.println(teacher_name[i]+"已成功发送邮件");
+            if (sendMail.send1("任务分发系统提醒", text[i], to, mail_Account, mail_pwd)) {
+                System.out.println(teacher_name[i] + "已成功发送邮件");
             } else {
-                System.out.println(teacher_name[i]+"发送邮件失败");
+                System.out.println(teacher_name[i] + "发送邮件失败");
                 return "202";
             }
         }

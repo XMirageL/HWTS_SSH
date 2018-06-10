@@ -197,10 +197,11 @@ public class MainServiceImpl implements MainService {
                 } else {
                 }
             }
-            if (MainUtil.getGapCount(task_date2, now_date) == Config.Cron_day) {
-                //到了任务结束日前 Cron_day 个日
-                if (saveCronInfo_fun1(workTask.getWorkTaskId(), "2") == Config.OK) {
-                    System.out.println("监控守护：检测到符合条件任务，ID：" + workTask.getWorkTaskId() + "状态：已达任务前【】个日期，已入库");
+            if (MainUtil.getGapCount(task_date2, now_date) == Config.Cron_day + 1) {
+                //到了任务结束日前 Cron_day 个日 (结尾要+1 因为是前天检测 隔天再通知 否则当天将无限循环)
+                if (saveCronInfo_fun1(workTask.getWorkTaskId(), "4") == Config.OK) {
+                    System.out.println("监控守护：检测到符合条件任务，ID：" + workTask.getWorkTaskId() + "状态：已达任务前【" + Config
+                            .Cron_day + "】+1个日期，已入库");
                 } else {
                 }
             }
@@ -235,7 +236,7 @@ public class MainServiceImpl implements MainService {
 
     /***
      * 监控操作2
-     * status : 1 = 已开始 2 = 临近结束第几天 3 = 已结束
+     * status : 1 = 已开始 4 = 临近结束第几天 3 = 已结束
      * @return
      */
     @Override
@@ -244,16 +245,8 @@ public class MainServiceImpl implements MainService {
                 ".cronStatus != '0'";
         List<Object[]> list = mainRepository.complexQuery(new Object[]{}, sql);
         for (int i = 0; i < list.size() && i < 5; i++) {
-            Object[] objects = list.get(i);
-            String status = "";
-            if (objects[2].toString() == "1") {
-                status = "已开始";
-            } else if (objects[2].toString() == "2") {
-                status = "离结束还有" + Config.Cron_day + "天";
-            } else if (objects[2].toString() == "3") {
-                status = "已结束";
-            }
             //每次限5封发送 以免邮箱判断频繁不给发送
+            Object[] objects = list.get(i);
             String hql = "SELECT mail.mailAccount, mail.mailPwd, mail.mailTemplate FROM THngyCronInfo as cron, " +
                     "THngyWorkTask as work, THngyAdminInfo as admin, THngyMailInfo as mail WHERE cron.workTaskId = " +
                     "work.workTaskId and work.qq = admin.adminInfoQq and admin.adminInfoId = mail.adminInfoId and " +
@@ -263,6 +256,8 @@ public class MainServiceImpl implements MainService {
             if (list1.size() == 0) {
                 System.out.println("监控守护：任务ID" + objects[1].toString() + "发送失败，原因：该任务归属的管理员未配置发信信息");
                 continue;
+            } else {
+                System.out.println("该管理员配置了发信信息" + list1.size());
             }
             Object[] objects1 = list1.get(0);
             String mail_Account = objects1[0].toString();
@@ -286,25 +281,28 @@ public class MainServiceImpl implements MainService {
                 teacher_name[j] = object_teacher[1].toString();
                 teacher_mail[j] = object_teacher[5].toString();
                 taskTitle = object_teacher[2].toString();
-                taskTime1 = object_teacher[3].toString().substring(0, object_teacher[2].toString().length() - 2);
-                taskTime2 = object_teacher[4].toString().substring(0, object_teacher[2].toString().length() - 2);
+                taskTime1 = object_teacher[3].toString().substring(0, object_teacher[3].toString().length() - 2);
+                taskTime2 = object_teacher[4].toString().substring(0, object_teacher[4].toString().length() - 2);
             }
-            String[] text = MainUtil.getTemplateToText(mail_Template, status, teacher_name, taskTitle, taskTime1,
+            String[] text = MainUtil.getTemplateToText(mail_Template, objects[2] + "", teacher_name, taskTitle,
+                    taskTime1,
                     taskTime2);   //模板转换后的文本
             SendMail sendMail = new SendMail();
             for (int j = 0; j < list_teacher.size(); j++) {
                 String[] too = new String[1];
                 too[0] = teacher_mail[j];
                 if (!sendMail.send1("任务分发系统提醒", text[j], too, mail_Account, mail_Pwd)) {
-                    System.out.println(teacher_name[i] + "发送邮件失败");
+                    System.out.println(teacher_name[j] + "发送邮件失败");
                     return "202";
                 } else {
-                    System.out.println(teacher_name[i] + "已成功发送邮件");
+                    System.out.println(teacher_name[j] + "已成功发送邮件");
                 }
             }
+            String t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             THngyCronInfo cronInfo = new THngyCronInfo();
-            cronInfo.setWorkTaskId(Long.parseLong(objects[0].toString()));
+            cronInfo.setCronId(Long.parseLong(objects[0].toString()));
             cronInfo.setWorkTaskId(Long.parseLong(objects[1].toString()));
+            cronInfo.setCronAddTime(java.sql.Timestamp.valueOf(t));
             cronInfo.setCronStatus("0");
             mainRepository.update(cronInfo);
         }
