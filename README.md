@@ -9,7 +9,7 @@ HNGYWorkTaskSystem_SSH<br>
 # 说明
 
 
->  开发环境 Windows 10 / Jdk 1.8 / Tomcat 8.5.29 / Spring 4.3.1 / Hibernate 4.3.1 / MySQL 5.5 
+>  开发环境 Windows 10 / Jdk 1.8 / Tomcat 8.5.29 / Spring 4.3.1 / Hibernate 5.2.15 / MySQL 5.5 
 
 >  开发工具 IntelliJ IDEA / Git / phpMyAdmin / Navicat
 
