@@ -43,7 +43,7 @@ public class TimeTask extends TimerTask {
         if (Config.Cron_On == 1) {
             Date date = new Date();
             String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            if (date.getHours() == Config.Cron_Send_Time && date.getMinutes() <= 60) {
+            if (date.getHours() == Config.Cron_Send_Time && date.getMinutes() <= 30) {
                 // 发信时间段
                 if (mainService.updateCronSend() == Config.OK) {
                     System.out.println("======监控守护：此次发信任务已完成，时间：" + time + "======");

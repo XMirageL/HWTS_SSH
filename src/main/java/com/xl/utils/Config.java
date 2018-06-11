@@ -12,7 +12,7 @@ public class Config
      */
     public static final int Cron_On = 1;      //是否开启邮件监控  1开启 0关闭
     public static final int Cron_day = 3;    //任务结束前几天提醒
-    public static final int Cron_Send_Time = 19;    //每日几点开始发送提醒邮件 往后半个小时都是发送时间段 其他时间为轮训检测
+    public static final int Cron_Send_Time = 9;    //每日几点开始发送提醒邮件 往后半个小时都是发送时间段 其他时间为轮训检测
 
     /***
      * 发件人邮箱
